@@ -1,0 +1,16 @@
+---
+export async function getStaticPaths() {
+  return [
+    { params: { game: 'space_shooter' } },
+    { params: { game: 'chess' } },
+    { params: { game: 'trivia' } },
+    { params: { game: 'vampire_survivor' } }
+  ];
+}
+
+const { game } = Astro.params;
+---
+
+<p>This is the current game: {game}<p>
+
+<!-- <iframe src={`/games/${game}/build/web/index.html`} /> -->
