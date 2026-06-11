@@ -8,6 +8,10 @@ const games = ['space_shooter ', 'trivia ', 'chess ', 'vampire_survivor '];
 	<p>This is our homescreen</p>
 
 	{
+		// map is like a for loop that iterates through each item in a list.
+		// games.map is looping through every iteration of game in the the constant variable.
+		// an anchor tag is a link to another page.
+		// the line below loops for every iteration game link in the constant variable know as games then makea an anchor for them all.
 		games.map((game) => (<a href=`/games/${game}` > {game} </a>))
 	}
 </Layout>
