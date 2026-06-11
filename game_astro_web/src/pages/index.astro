@@ -1,17 +1,34 @@
 ---
-import Layout from '../layouts/Layout.astro';
 
-const games = ['space_shooter ', 'trivia ', 'chess ', 'vampire_survivor '];
+// JavaScript Section
+import Layout from '../layouts/Layout.astro';
+import { Carousel } from 'webcoreui/astro'
+
+const games = ['space_shooter', 'trivia', 'chess', 'vampire_survivor'];
 ---
 
+<!-- HTML Section -->
 <Layout>
 	<p>This is our homescreen</p>
+	<Carousel items={3}>
+    	{games.map((game) => (<li><a href=`/games/${game}` >  {game}  </a></li>))}
+	</Carousel>
 
-	{
-		// map is like a for loop that iterates through each item in a list.
-		// games.map is looping through every iteration of game in the the constant variable.
-		// an anchor tag is a link to another page.
-		// the line below loops for every iteration game link in the constant variable know as games then makea an anchor for them all.
-		games.map((game) => (<a href=`/games/${game}` > {game} </a>))
-	}
+	<div class="game-links">
+		{
+			// map is like a for loop that iterates through each item in a list
+			// an anchor tag ( <a> ) is a link to another page
+			
+			// this iterates through games then makes an <a> for each game
+			
+		}
+	</div>
 </Layout>
+
+<!-- CSS Section - allows us to add scoped CSS to our html -->
+<style>
+	.game-links {
+		display: flex;
+		flex-direction: column;
+	}
+</style>

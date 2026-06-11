@@ -13,4 +13,9 @@ const { game } = Astro.params;
 
 <p>This is the current game: {game}<p>
 
-<!-- <iframe src={`/games/${game}/build/web/index.html`} /> -->
+<iframe 
+  src={`/games/${game}/build/web/index.html`} 
+  allow="cross-origin-isolated"
+  width="800"
+  height="600"
+/>
