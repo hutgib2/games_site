@@ -1,0 +1,17 @@
+- which information will go on each page
+- how the information will be organised on each page
+- what webcoreui components or html elements you will use to display each chunk of information
+- what colors, fonts, themes, etc, you want to use across your site
+- a logo icon for the browser tab
+
+link for site to help me: https://webcoreui.dev/
+
+1. the information that will go on each game page is the rules and the 
+name of the game including what it's about while the main menu page will have 
+the list of all my projects.
+2. the information will be organised in bullet points below the play button.
+3. i'm highly considering using drop down navigation, morphing text and a user profile card
+4. the color of the background will be dark-themed. 
+the header text will be in white and in the oswald font but the rest of the text will be normal like arial for example.
+link to font site: https://fonts.google.com/specimen/Oswald
+5. the logo will be frutiger aero style
