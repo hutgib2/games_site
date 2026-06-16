@@ -9,8 +9,11 @@ link for site to help me: https://webcoreui.dev/
 1. the information that will go on each game page is the rules and the 
 name of the game including what it's about while the main menu page will have 
 the list of all my projects.
+
 2. the information will be organised in bullet points below the play button.
+
 3. i'm highly considering using drop down navigation, morphing text and a user profile card
+
 4. the color of the background will be #101214. 
 the header text will be in white and in the oswald font but the rest of the text will be normal like arial for example.
 link to font site: https://fonts.google.com/specimen/Oswald

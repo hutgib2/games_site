@@ -1,10 +1,12 @@
 ---
-
 // JavaScript Section
 import Layout from '../layouts/Layout.astro';
-import { Carousel } from 'webcoreui/astro'
+import { Carousel } from 'webcoreui/astro';
+import Image from 'astro/components/Image.astro';
+import chessImage from '../assets/thumbnails/chess_preview.png';
+import '../styles/global.css';
 
-const games = ['space_shooter', 'trivia', 'chess', 'vampire_survivor'];
+const games = ['trivia', 'chess', 'vampire_survivor', 'space_shooter'];
 ---
 
 <!-- HTML Section -->
@@ -14,21 +16,36 @@ const games = ['space_shooter', 'trivia', 'chess', 'vampire_survivor'];
     	{games.map((game) => (<li><a href=`/games/${game}` >  {game}  </a></li>))}
 	</Carousel>
 
-	<div class="game-links">
-		{
-			// map is like a for loop that iterates through each item in a list
-			// an anchor tag ( <a> ) is a link to another page
-			
-			// this iterates through games then makes an <a> for each game
-			
-		}
+	<div class="game-card">
+		<div class="thumbnail"><Image src={chessImage} alt="chess-img"/></div>
+		<h4>Chess Reboot</h4>
+		<p class="game-description">This is placeholder text for the game description</p>
 	</div>
 </Layout>
 
 <!-- CSS Section - allows us to add scoped CSS to our html -->
 <style>
-	.game-links {
-		display: flex;
-		flex-direction: column;
+	.game-card {
+		width: 256px;
+		height: auto;
+	}
+
+	.thumbnail {
+		width: 100%;
+		height: 100%;
+		
+		img {
+			/* display: block; */
+			width: 100%;
+			height: 100%;
+			border-radius: 1rem;
+			overflow: hidden;
+			object-position: center center;
+			object-fit: cover;
+		}
+	}
+
+	.game-description {
+		color: dimgray;
 	}
 </style>
