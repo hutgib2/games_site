@@ -6,29 +6,11 @@ export default defineConfig({
     integrations: [webcore()],
     fonts: [
 		{
-			provider: fontProviders.local(),
 			name: 'Oswald',
+			provider: fontProviders.google(),
 			cssVariable: '--font-oswald',
-            optimizedFallbacks: false,
-			options: {
-				variants: [
-					{
-						src: ['./src/assets/fonts/Oswald-Light.ttf'],
-						style: 'normal',
-						weight: 300,
-					},
-					{
-						src: ['./src/assets/fonts/Oswald-Regular.ttf'],
-						style: 'normal',
-						weight: 400,
-					},
-					{
-						src: ['./src/assets/fonts/Oswald-Medium.ttf'],
-						style: 'normal',
-						weight: 500,
-					},
-				],
-			},
+            weights: [300, 400, 500, 600],
+			styles: ["normal"],
 		},
 	],
 })
