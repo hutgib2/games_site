@@ -1,6 +1,12 @@
 ---
 import { Font } from 'astro:assets';
+import '../styles/global.css';
 ---
+
+<!-- 
+	Layout is the wrapper for the body content, we wrap every page in a Layout -
+	the page's content is inserted where the <slot> is
+-->
 
 <!doctype html>
 <html lang="en">
@@ -25,6 +31,5 @@ import { Font } from 'astro:assets';
 		height: 100%;
 		background-color: #101214;
 		color: white;
-		
 	}
 </style>
