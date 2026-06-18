@@ -4,9 +4,13 @@ import Layout from '../layouts/Layout.astro';
 import { Carousel } from 'webcoreui/astro';
 import GameCard  from '../components/GameCard.astro';
 import { gameData } from '../data/gameData';
+import DupaLogoText from '../assets/my_logo_text.png'
+import Image from 'astro/components/Image.astro';
+import Header  from '../components/Header.astro';
 
 const games = ['trivia', 'chess', 'vampire_survivor', 'space_shooter'];
 ---
+
 <!-- 
 	each file in the pages/ is a separate page in our domain
 
@@ -17,11 +21,22 @@ const games = ['trivia', 'chess', 'vampire_survivor', 'space_shooter'];
 	https://dupagames.com/games/trivia
 -->
 
+<!-- 
+	Task:
+	create a reusable component for the header bar 
+	add header bar to every page
+-->
+
 <!-- HTML Section -->
 <Layout>
-	<p>This is our homescreen</p>
+	<Header/>
+	
+	<div class="row-1">
+		<Image src={DupaLogoText} alt="Dupa Games Logo" width={200}/>
+	</div>	
+	
 	<Carousel items={games.length}>
-    	{games.map((game) => (
+		{games.map((game) => (
 			<li><a href=`/games/${game}` >
 				<GameCard 
 					title={gameData[game].title}
@@ -30,7 +45,6 @@ const games = ['trivia', 'chess', 'vampire_survivor', 'space_shooter'];
 				/> 
 			</a></li>))}
 	</Carousel>
-
 </Layout>
 
 <!-- 
@@ -39,3 +53,10 @@ const games = ['trivia', 'chess', 'vampire_survivor', 'space_shooter'];
 	2. Import a css file from styles/ - can apply to multiple files or globally
 -->
 <!-- CSS Section - allows us to add scoped CSS to our html -->
+<style>
+	.row-1 {
+		display: flex;
+		justify-content: center;
+	}
+
+</style>

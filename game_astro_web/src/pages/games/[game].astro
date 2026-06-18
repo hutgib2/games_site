@@ -1,4 +1,7 @@
 ---
+import Layout from '../../layouts/Layout.astro';
+import Header  from '../../components/Header.astro';
+
 export async function getStaticPaths() {
   return [
     { params: { game: 'space_shooter' } },
@@ -10,12 +13,13 @@ export async function getStaticPaths() {
 
 const { game } = Astro.params;
 ---
-
-<p>This is the current game: {game}</p>
-
-<iframe 
-  src={`/games/${game}/build/web/index.html`} 
-  allow="autoplay; fullscreen"
-  style="width: 1280px; height: 720px; border: 0;"
+<Layout>
+  <Header/>
+  <p>This is the current game: {game}</p>
+  <iframe 
+    src={`/games/${game}/build/web/index.html`} 
+    allow="autoplay; fullscreen"
+    style="width: 1280px; height: 720px; border: 0;"
   />
-  <!-- allow="cross-origin-isolated" -->
+<!-- allow="cross-origin-isolated" -->
+</Layout>
