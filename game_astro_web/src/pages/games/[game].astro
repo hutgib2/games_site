@@ -1,13 +1,16 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import Header  from '../../components/Header.astro';
+import { gameData } from '../../lib/gameData';
+
+// import the gameData structure and use the href values in it instead.
 
 export async function getStaticPaths() {
   return [
-    { params: { game: 'space_shooter' } },
-    { params: { game: 'chess' } },
-    { params: { game: 'trivia' } },
-    { params: { game: 'vampire_survivor' } }
+    { params: { game: gameData['space_shooter']['hrefSuffix'] } },
+    { params: { game: gameData['chess']['hrefSuffix'] } },
+    { params: { game: gameData['trivia']['hrefSuffix'] } },
+    { params: { game: gameData['vampire_survivor']['hrefSuffix'] } }
   ];
 }
 

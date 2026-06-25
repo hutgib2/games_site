@@ -1,10 +1,47 @@
 ---
-import Image from "astro/components/Image.astro";
-import DupaLogo from '../assets/my_logo.png'
+import DupaLogo from '../assets/my_logo.png';
+import { Menu } from 'webcoreui/astro';
+import { Select } from 'webcoreui/astro';
+import { gameData } from '../lib/gameData';
+
+const menu = [
+	{ name: 'Home', href: '/', active: true },
+    { name: 'About', href: '/about', active: true }
+]
+
+const menuLogo = {
+    url: DupaLogo.src,
+    width: 100
+}
 ---
 
 <header>
-	<a href="/">
-		<Image src={DupaLogo} alt="Dupa Games home button" width={64} />
-	</a>
+	<Menu items={menu} logo={menuLogo} />
+	<Select
+		name="select-id"
+		itemGroups={[{
+			items: 
+				Object.values(gameData).map((game) => ({
+					name: game.title,
+					href: game.href,
+				}))
+		}]}
+		showSearchBar={true}
+		showSearchBarIcon={true}
+		searchBarPlaceholder="Search for games"
+	/>
 </header>
+
+
+<!-- <script>
+    import { listen } from 'webcoreui'
+
+    listen('selectOnChange', (event) => console.log(event))
+    listen('selectOnClose', (event) => console.log(event))
+</script> -->
+
+<style>
+    header {
+        display: flex;
+    }
+</style>

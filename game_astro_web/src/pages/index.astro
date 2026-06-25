@@ -3,7 +3,7 @@
 import Layout from '../layouts/Layout.astro';
 import { Carousel } from 'webcoreui/astro';
 import GameCard  from '../components/GameCard.astro';
-import { gameData } from '../data/gameData';
+import { gameData } from '../lib/gameData';
 import DupaLogoText from '../assets/my_logo_text.png'
 import Image from 'astro/components/Image.astro';
 import Header  from '../components/Header.astro';
@@ -39,9 +39,9 @@ const games = ['trivia', 'chess', 'vampire_survivor', 'space_shooter'];
 		{games.map((game) => (
 			<li><a href=`/games/${game}` >
 				<GameCard 
-					title={gameData[game].title}
-					image={gameData[game].image}
-					description={gameData[game].description}
+					title={gameData[game]['title']}
+					image={gameData[game]['image']}
+					description={gameData[game]['description']}
 				/> 
 			</a></li>))}
 	</Carousel>
