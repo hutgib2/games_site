@@ -1,14 +1,13 @@
 ---
 // JavaScript Section
-import Header  from '../components/Header.astro';
-import Carousel from '../components/Carousel.astro';
-import GameCard  from '../components/GameCard.astro';
-
 import Layout from '../layouts/Layout.astro';
+import { Carousel } from 'webcoreui/astro';
+import GameCard  from '../components/GameCard.astro';
 import { gameData } from '../lib/gameData';
 import DupaLogoText from '../assets/my_logo_text.png';
 import ToadImage from '../assets/secretoftoad.jpg';
 import Image from 'astro/components/Image.astro';
+import Header  from '../components/Header.astro';
 
 const games = ['trivia', 'chess', 'vampire_survivor', 'space_shooter'];
 ---
@@ -21,36 +20,16 @@ const games = ['trivia', 'chess', 'vampire_survivor', 'space_shooter'];
 		<Image src={DupaLogoText} alt="Dupa Games Logo" width={200}/>
 	</div>	
 	
-	<Carousel >
+	<Carousel items={games.length}>
 		{games.map((game) => (
-			<a href=`/games/${game}` >
+			<li><a href=`/games/${game}` >
 				<GameCard 
 					title={gameData[game]['title']}
 					image={gameData[game]['image']}
 					description={gameData[game]['description']}
 				/> 
-			</a>))}
+			</a></li>))}
 	</Carousel>
-
-	<h1>TEST SECTION</h1>
-	<h3>these texts below are paragraphs in the latin language.</h3>
-	<p>Duis auctor ex ac turpis finibus, at faucibus dui vulputate. Etiam nec augue dolor. Morbi sed sapien aliquam, rutrum purus a, molestie magna. Ut in justo rhoncus orci dictum rutrum venenatis nec mi. Maecenas porttitor eget ligula finibus cursus. Nam ut arcu in urna feugiat condimentum. Etiam sit amet neque quam. Donec semper ante eu dui tincidunt suscipit. Morbi tristique tortor nibh, luctus gravida justo pharetra sit amet. In pretium odio id accumsan viverra. Aliquam auctor quam sed lectus porttitor ullamcorper. Nullam in ipsum elit. Suspendisse placerat, neque eget convallis ornare, velit mauris ultrices est, et varius erat felis vel nisi. Phasellus nec vulputate felis, eget dignissim neque. Aenean non turpis ac est mattis aliquam a vitae orci. Ut ex eros, convallis sed luctus sit amet, porta ac augue.</p>
-	<p>Praesent nibh nibh, mattis vitae sagittis eget, rhoncus a nunc. Sed et sem eget velit ullamcorper cursus. Proin at dignissim velit. Praesent tristique pellentesque gravida. Nullam in augue sem. In et quam justo. Cras tempus risus odio, sit amet imperdiet augue lacinia et. In vestibulum at eros vitae cursus. Suspendisse sodales sed dolor ac eleifend. Aliquam massa leo, feugiat eu gravida ac, condimentum nec lectus.</p>
-	<a href="test">link</a>
-	
-	<button onclick="console.log('This is Toads secret.')">
-		<Image src={ToadImage} alt="The Secret of Toad" width={256}/>
-	</button>
-	
-
-	
-	<!-- 
-		Read the list of tags you wrote, I want you to create a small section of a webpage including:
-			- a heading(done)
-			- 2 short paragraphs of random placeholder text, with their own sub headings(done)
-			- a link to another page called "test"(done)
-			- a random image of your choice that when clicked, prints "Hello, world!" in the console (console.log() == print())
-	-->
 </Layout>
 
 <!-- 
