@@ -16,22 +16,23 @@ const menuLogo = {
 ---
 
 <header>
-	<Menu items={menu} logo={menuLogo} />
-	<Select
+	<div><Menu items={menu} logo={menuLogo} /></div>
+	<div>
+		<Select
 		name="select-id"
 		itemGroups={[{
 			items: 
-				Object.values(gameData).map((game) => ({
-					name: game.title,
-					href: game.href,
-				}))
+			Object.values(gameData).map((game) => ({
+				name: game.title,
+				href: game.href,
+			}))
 		}]}
-		showSearchBar={true}
-		showSearchBarIcon={true}
-		searchBarPlaceholder="Search for games"
-	/>
+		showSearchBar={false}
+		showSearchBarIcon={false}
+		placeholder="Games"
+		/>
+	</div>
 </header>
-
 
 <!-- <script>
     import { listen } from 'webcoreui'
@@ -43,5 +44,7 @@ const menuLogo = {
 <style>
     header {
         display: flex;
+		flex-direction: row;
+		align-items: center;
     }
 </style>
