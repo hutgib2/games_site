@@ -1,0 +1,60 @@
+---
+// Carousel.astro
+interface Props {
+	style?: string;
+	shrinkOffView?: boolean;
+}
+
+const { style, shrinkOffView = false } = Astro.props;
+---
+
+<div class:list={['carousel', { 'shrink-off-view': shrinkOffView }]} {style}>
+	<slot />
+</div>
+
+<style>
+	.carousel {
+		display: flex;
+		overflow-x: auto;
+		scroll-snap-type: x mandatory;
+		-webkit-overflow-scrolling: touch;
+		scrollbar-width: none; /* Firefox */
+	}
+
+	.carousel::-webkit-scrollbar {
+		display: none; /* Chrome/Safari */
+	}
+
+	/* stylelint-disable-next-line selector-pseudo-class-no-unknown */
+	.carousel > :global(*) {
+		flex: 0 0 auto;
+		scroll-snap-align: start;
+	}
+
+	/* Controls scaling of items as they slide into and out of view when shrinkOffView=true */
+
+	/* stylelint-disable-next-line selector-pseudo-class-no-unknown */
+	.carousel.shrink-off-view > :global(*) {
+		animation: carousel-scale linear both;
+		animation-timeline: view(inline);
+		transform-origin: top;
+	}
+
+	@keyframes carousel-scale {
+		entry 0% {
+			transform: scale(0.9);
+		}
+
+		entry 100% {
+			transform: scale(1);
+		}
+
+		exit 0% {
+			transform: scale(1);
+		}
+
+		exit 100% {
+			transform: scale(0.9);
+		}
+	}
+</style>
