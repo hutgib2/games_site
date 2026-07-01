@@ -3,6 +3,7 @@
 import Layout from '../layouts/Layout.astro';
 import { Carousel } from 'webcoreui/astro';
 import GameCard  from '../components/GameCard.astro';
+import Swiper from '../components/Swiper.astro';
 import { gameData } from '../lib/gameData';
 import DupaLogoText from '../assets/my_logo_text.png';
 import ToadImage from '../assets/secretoftoad.jpg';
@@ -17,19 +18,43 @@ const games = ['trivia', 'chess', 'vampire_survivor', 'space_shooter'];
 	<Header/>
 	
 	<div class="row-1">
+		<h1 class="welcome">WELCOME TO...</h1>
 		<Image src={DupaLogoText} alt="Dupa Games Logo" width={200}/>
-	</div>	
+	</div>
 	
-	<Carousel items={games.length}>
+	
+	<!-- <Carousel items={games.length}>
 		{games.map((game) => (
-			<li><a href=`/games/${game}` >
+		<li><a href=`/games/${game}` >
+		<GameCard 
+		title={gameData[game]['title']}
+		image={gameData[game]['image']}
+		description={gameData[game]['description']}
+		/> 
+		</a></li>))}
+		</Carousel> -->
+	<div class="carousel">
+		<h1 class="carousel-heading">Browse all games</h1>
+		<Swiper>
+			{games.map((game) => (
+				<a href={`/games/${game}`} class="swiper-slide">
 				<GameCard 
 					title={gameData[game]['title']}
 					image={gameData[game]['image']}
 					description={gameData[game]['description']}
-				/> 
-			</a></li>))}
-	</Carousel>
+					/> 
+			</a>))}
+		</Swiper>
+	</div>
+
+	<!-- 
+		We want to style our webpage better - can you:
+			- add a heading above the carousel to say something e.g. "Browse all games" 
+			- add a welcome heading to the top as well e.g. "Welcome to Dupa Games"
+		
+			- either add padding to the carousel or center it on the screen 
+	-->
+
 </Layout>
 
 <!-- 
@@ -41,7 +66,25 @@ const games = ['trivia', 'chess', 'vampire_survivor', 'space_shooter'];
 <style>
 	.row-1 {
 		display: flex;
-		justify-content: center;
+		flex-direction: column;
+		justify-self: center;
+		gap: 16px;
+	}
+	
+	.welcome {
+		color: #02fcd3;
+	}
+
+	.carousel {
+		display: flex;
+		flex-direction: column;
+		justify-self: center;
+		width: 64vw;
+		gap: 16px;
+	}
+
+	.carousel-heading {
+		color: white;
 	}
 
 </style>
