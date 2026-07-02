@@ -42,18 +42,18 @@ const { title, image, description, href} = Astro.props;
 		display: flex;
 		width: 100%;
 		justify-content: space-between;
-		padding: 16px;
+		padding: var(--gap-5);
 	}
 
 	.game-description {
-		color: dimgray;
+		color: var(--color-text-muted);
 	}
 
 	.triangle {
 		width: 0; height: 0;
 		border-style: solid;
 		border-width: 28px 0px 28px 64px;
-		border-color: transparent transparent transparent #02fcd3;
+		border-color: transparent transparent transparent var(--color-brand);
 		transform: rotate(0deg);
 	}
 </style>

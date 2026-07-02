@@ -1,5 +1,20 @@
 :root {
     --font-sans: var(--font-oswald), system-ui, sans-serif;
 
+    /* SPACING */
+    --gap-1: 0.3125rem; /* 5px */
+	--gap-2: 0.625rem; /* 10px */
+	--gap-3: 0.9375rem; /* 15px */
+	--gap-4: 1.25rem; /* 20px */
+	--gap-5: 1.5625rem; /* 25px */
+	--gap-6: 1.875rem; /* 30px */
+	--gap-7: 2.1875rem; /* 35px */
+	--gap-8: 2.5rem; /* 40px */
+
+    /* COLORS */
+    --color-bg: #101214;
+    --color-text: white;
+    --color-text-muted: dimgray;
+    --color-brand: #02fcd3;
     
 }

@@ -63,11 +63,11 @@ import Header  from '../components/Header.astro';
 		display: flex;
 		flex-direction: column;
 		justify-self: center;
-		gap: 16px;
+		gap: var(--gap-3);
 	}
 	
 	.welcome {
-		color: rgb(2, 252, 211);
+		color: var(--color-brand);
 	}
 
 	.carousel {
@@ -75,11 +75,10 @@ import Header  from '../components/Header.astro';
 		flex-direction: column;
 		justify-self: center;
 		width: 1024px;
-		gap: 32px;
 	}
 
 	.carousel-heading {
-		color: white;
+		color: var(--color-text);
 	}
 
 </style>
