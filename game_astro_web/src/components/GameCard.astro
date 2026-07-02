@@ -1,18 +1,28 @@
 ---
 import Image from "astro/components/Image.astro";
 
-const { title, image, description } = Astro.props;
+const { title, image, description, href} = Astro.props;
 ---
 
 <div class="game-card">
-	<div class="thumbnail"><Image src={image} alt=`${title}-img`/></div>
-	<h4>{title}</h4>
-	<p class="game-description">{description}</p>
+	<div class="thumbnail"><Image src={image} alt=`${title} image`/></div>
+	
+	<div class="game-info">
+		<div>
+			<h2>{title}</h2>
+			<p class="game-description">{description}</p>
+		</div>
+	
+		<a href={href}>
+			<div class="triangle"></div>
+		</a>
+	</div>
 </div>
+
 
 <style>
 	.game-card {
-		/* width: 500px; */
+		/* ... */
 	}
 
 	.thumbnail {
@@ -30,7 +40,22 @@ const { title, image, description } = Astro.props;
 		}
 	}
 
+	.game-info {
+		display: flex;
+		width: 100%;
+		justify-content: space-between;
+		padding: 16px;
+	}
+
 	.game-description {
 		color: dimgray;
+	}
+
+	.triangle {
+		width: 0; height: 0;
+		border-style: solid;
+		border-width: 28px 0px 28px 64px;
+		border-color: transparent transparent transparent #02fcd3;
+		transform: rotate(0deg);
 	}
 </style>

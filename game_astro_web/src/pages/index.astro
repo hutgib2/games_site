@@ -1,16 +1,12 @@
 ---
 // JavaScript Section
 import Layout from '../layouts/Layout.astro';
-import { Carousel } from 'webcoreui/astro';
 import GameCard  from '../components/GameCard.astro';
 import Swiper from '../components/Swiper.astro';
 import { gameData } from '../lib/gameData';
 import DupaLogoText from '../assets/my_logo_text.png';
-import ToadImage from '../assets/secretoftoad.jpg';
 import Image from 'astro/components/Image.astro';
 import Header  from '../components/Header.astro';
-
-const games = ['trivia', 'chess', 'vampire_survivor', 'space_shooter'];
 ---
 
 <!-- HTML Section -->
@@ -23,27 +19,26 @@ const games = ['trivia', 'chess', 'vampire_survivor', 'space_shooter'];
 	</div>
 	
 	
-	<!-- <Carousel items={games.length}>
-		{games.map((game) => (
-		<li><a href=`/games/${game}` >
-		<GameCard 
-		title={gameData[game]['title']}
-		image={gameData[game]['image']}
-		description={gameData[game]['description']}
-		/> 
-		</a></li>))}
-		</Carousel> -->
+<!-- 
+	-	I want you to create a clickable link, text inside should say e.g. "Play", 
+	-	remove clickability of image (what is making it clickable?)
+	
+ 	-	position it on bottom right
+-->
+
 	<div class="carousel">
 		<h1 class="carousel-heading">Browse all games</h1>
 		<Swiper>
-			{games.map((game) => (
-				<a href={`/games/${game}`} class="swiper-slide">
-				<GameCard 
-					title={gameData[game]['title']}
-					image={gameData[game]['image']}
-					description={gameData[game]['description']}
-					/> 
-			</a>))}
+			{Object.values(gameData).map((game) => (
+				<div class="swiper-slide">
+					<GameCard 
+						title={game['title']}
+						image={game['image']}
+						description={game['description']}
+						href={game['href']}
+					/>
+				</div>
+			))}
 		</Swiper>
 	</div>
 
@@ -51,7 +46,6 @@ const games = ['trivia', 'chess', 'vampire_survivor', 'space_shooter'];
 		We want to style our webpage better - can you:
 			- add a heading above the carousel to say something e.g. "Browse all games" 
 			- add a welcome heading to the top as well e.g. "Welcome to Dupa Games"
-		
 			- either add padding to the carousel or center it on the screen 
 	-->
 
@@ -62,6 +56,7 @@ const games = ['trivia', 'chess', 'vampire_survivor', 'space_shooter'];
 	1. Write styles inside page's <style> - only applies to elements in current file
 	2. Import a css file from styles/ - can apply to multiple files or globally
 -->
+	
 <!-- CSS Section - allows us to add scoped CSS to our html -->
 <style>
 	.row-1 {
@@ -72,15 +67,15 @@ const games = ['trivia', 'chess', 'vampire_survivor', 'space_shooter'];
 	}
 	
 	.welcome {
-		color: #02fcd3;
+		color: rgb(2, 252, 211);
 	}
 
 	.carousel {
 		display: flex;
 		flex-direction: column;
 		justify-self: center;
-		width: 64vw;
-		gap: 16px;
+		width: 1024px;
+		gap: 32px;
 	}
 
 	.carousel-heading {
