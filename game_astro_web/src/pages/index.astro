@@ -9,6 +9,13 @@ import Image from 'astro/components/Image.astro';
 import Header  from '../components/Header.astro';
 ---
 
+<!-- 
+	- Create opaque video reel header at top (https://gamedev.amy-portfolio.com/games)
+	- make video section 50% of the view height
+	- grid for games with 2 columns
+	- game previews to be simple: image, title and 1-line description
+-->
+
 <!-- HTML Section -->
 <Layout>
 	<Header/>
@@ -17,29 +24,32 @@ import Header  from '../components/Header.astro';
 		<h1 class="welcome">WELCOME TO...</h1>
 		<Image src={DupaLogoText} alt="Dupa Games Logo" width={200}/>
 	</div>
-	
-	
-<!-- 
-	-	I want you to create a clickable link, text inside should say e.g. "Play", 
-	-	remove clickability of image (what is making it clickable?)
-	
- 	-	position it on bottom right
--->
 
-	<div class="carousel">
-		<h1 class="carousel-heading">Browse all games</h1>
+	<!-- <div class="carousel">
 		<Swiper>
 			{Object.values(gameData).map((game) => (
-				<div class="swiper-slide">
-					<GameCard 
-						title={game['title']}
-						image={game['image']}
-						description={game['description']}
-						href={game['href']}
-					/>
+			<div class="swiper-slide">
+				<GameCard 
+				title={game['title']}
+				image={game['image']}
+				description={game['description']}
+				href={game['href']}
+				/>
 				</div>
-			))}
-		</Swiper>
+				))}
+				</Swiper>
+				</div> -->
+				
+	<h1 class="carousel-heading">Browse all games</h1>
+	<div class="game-grid">
+		{Object.values(gameData).map((game) => (
+			<GameCard 
+				title={game['title']}
+				image={game['image']}
+				description={game['description']}
+				href={game['href']}
+			/>
+		))}
 	</div>
 
 	<!-- 
@@ -64,21 +74,32 @@ import Header  from '../components/Header.astro';
 		flex-direction: column;
 		justify-self: center;
 		gap: var(--gap-3);
+		height: 40vh;
 	}
 	
 	.welcome {
 		color: var(--color-brand);
 	}
 
-	.carousel {
+	.game-grid {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: var(--gap-6);
+		padding: var(--gap-6);
+	}
+
+
+	/* .carousel {
 		display: flex;
 		flex-direction: column;
 		justify-self: center;
 		width: 1024px;
-	}
+	} */
 
 	.carousel-heading {
 		color: var(--color-text);
+		text-align: center;
+		font-size: var(--font-5xl);
 	}
 
 </style>

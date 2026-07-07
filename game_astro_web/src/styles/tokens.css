@@ -16,4 +16,17 @@
     --color-text: white;
     --color-text-muted: dimgray;
     --color-brand: #02fcd3;
+
+    /* FONT SIZES */
+    --font-xs: 0.75rem; /* 12px */
+	--font-s: 0.875rem; /* 14px */
+	--font-base: 1rem; /* 16px — body default */
+	--font-m: 1.125rem; /* 18px */
+	--font-l: 1.25rem; /* 20px */
+	--font-xl: 1.5rem; /* 24px */
+	--font-2xl: 1.875rem; /* 30px */
+	--font-3xl: 2.25rem; /* 36px */
+	--font-4xl: 2.5rem; /* 40px */
+	--font-5xl: 3rem; /* 48px */
+	--font-6xl: 3.75rem; /* 60px */
 }
