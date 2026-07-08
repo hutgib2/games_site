@@ -3,7 +3,10 @@ import Layout from '../../layouts/Layout.astro';
 import Header  from '../../components/Header.astro';
 import { gameData } from '../../lib/gameData';
 
-// import the gameData structure and use the href values in it instead.
+/* 
+  - center the iframe
+  - add a title + description
+*/
 
 export async function getStaticPaths() {
   return [
@@ -19,10 +22,21 @@ const { game } = Astro.params;
 <Layout>
   <Header/>
   <p>This is the current game: {game}</p>
-  <iframe 
-    src={`/games/${game}/build/web/index.html`} 
-    allow="autoplay; fullscreen"
-    style="width: 1280px; height: 720px; border: 0;"
-  />
-<!-- allow="cross-origin-isolated" -->
+  <div class="game-window">
+    <h1>{gameData[game]['title']}</h1>
+    <iframe 
+      src={`/games/${game}/build/web/index.html`} 
+      allow="autoplay; fullscreen"
+      style="width: 1280px; height: 720px; border: 0;"
+      />
+      <!-- allow="cross-origin-isolated" -->
+  </div>
 </Layout>
+
+<style>
+  .game-window {
+    display: flex;
+    justify-self: center;
+    text-align: center;
+  }
+</style>

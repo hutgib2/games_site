@@ -19,10 +19,20 @@ const { title, image, description, href} = Astro.props;
 	</div>
 </div>
 
+<!-- 
+	Make the color of the title change to our brand color on hover
+-->
 
 <style>
-	.game-card {
-		/* ... */
+	.game-card { 
+		transition: 
+			transform 0.3s ease,
+			color 0.3s ease;
+	}
+	
+	.game-card:hover { 
+		color: var(--color-brand);
+		transform: scale(1.01);
 	}
 
 	.thumbnail {
