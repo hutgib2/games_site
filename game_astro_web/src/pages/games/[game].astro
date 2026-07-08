@@ -21,15 +21,16 @@ const { game } = Astro.params;
 ---
 <Layout>
   <Header/>
-  <p>This is the current game: {game}</p>
+  <!-- <p>This is the current game: {game}</p> -->
   <div class="game-window">
-    <h1>{gameData[game]['title']}</h1>
+    <h1 class="title">{gameData[game]['title']}</h1>
     <iframe 
       src={`/games/${game}/build/web/index.html`} 
       allow="autoplay; fullscreen"
       style="width: 1280px; height: 720px; border: 0;"
       />
       <!-- allow="cross-origin-isolated" -->
+      <p class="game-description">{gameData[game]['description']}</p>
   </div>
 </Layout>
 
@@ -37,6 +38,15 @@ const { game } = Astro.params;
   .game-window {
     display: flex;
     justify-self: center;
-    text-align: center;
+    flex-direction: column;
+  }
+
+  .title {
+    font-size: var(--font-5xl);
+  }
+  
+  .game-description {
+    color: var(--color-text-muted);
+    font-size: var(--font-l);
   }
 </style>
