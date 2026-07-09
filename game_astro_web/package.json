@@ -13,6 +13,7 @@
     "preview:static": "astro build && python3 -m http.server 4321 --directory dist"
   },
   "dependencies": {
+    "@lucide/astro": "^1.23.0",
     "astro": "^6.4.6",
     "eslint": "^10.5.0",
     "eslint-plugin-astro": "^1.7.0",

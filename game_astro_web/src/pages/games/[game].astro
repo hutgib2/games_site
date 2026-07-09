@@ -5,6 +5,9 @@ import { gameData } from '../../lib/gameData';
 import DupaLogo from '../../assets/my_logo.png';
 import Image from 'astro/components/Image.astro';
 
+import ControllerIcon from '@lucide/astro/icons/gamepad-2';
+import FullScreenIcon from '@lucide/astro/icons/expand';
+
 /* 
   - center the iframe
   - add a title + description
@@ -45,11 +48,18 @@ const { game } = Astro.params;
     <!-- allow="cross-origin-isolated" -->
     
     <footer>
-      <Image src={DupaLogo} alt="Dupa Games Logo" width={64}/> 
-      <div class="game-info">
-        <h4 class="game-type">Trivia</h4>
-        <h2>Can Ya Nail it?</h2>
+      <div class="left-items">
+        <Image src={DupaLogo} alt="Dupa Games Logo" width={80}/> 
+        <div class="game-info">
+          <h4 class="game-type">Trivia</h4>
+          <h1>Can Ya Nail it?</h1>
+        </div>
       </div> 
+      
+      <div class="icons">
+        <ControllerIcon size={42} />
+        <FullScreenIcon size={42} />
+      </div>
     </footer>
 
 
@@ -79,14 +89,29 @@ const { game } = Astro.params;
 
   footer {
     display: flex;
-    gap: var(--gap-2);
-    padding: var(--gap-3);
     align-items: center;
+    justify-content: space-between;
+    padding: var(--gap-3) var(--gap-5);
+    
     background-color: var(--color-surface);
     border-bottom-left-radius: var(--radius-md);
     border-bottom-right-radius: var(--radius-md);
   }
   
   .game-info {
+    display: flex;
+    flex-direction: column;
+    align-self: center;
   }
+  
+  .icons {
+    display: flex;
+    gap: var(--gap-6);
+  }
+  
+  .left-items {
+    display: flex;
+    gap: var(--gap-2);
+  }
+
 </style>
