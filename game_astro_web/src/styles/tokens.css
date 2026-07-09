@@ -16,6 +16,7 @@
     --color-text: white;
     --color-text-muted: dimgray;
     --color-brand: #02fcd3;
+	--color-surface: rgb(64, 64, 64);
 
     /* FONT SIZES */
     --font-xs: 0.75rem; /* 12px */
@@ -29,4 +30,13 @@
 	--font-4xl: 2.5rem; /* 40px */
 	--font-5xl: 3rem; /* 48px */
 	--font-6xl: 3.75rem; /* 60px */
+
+	--radius-xxs: 0.125rem; /*  2px  */
+	--radius-xs: 0.25rem; /*  4px  */
+	--radius-sm: 0.5rem; /*  8px  */
+	--radius-md: 1rem; /*  16px  */
+	--radius-lg: 2rem; /* 32px  */
+	--radius-xl: 3rem; /* 48px  */
+	--radius-xxl: 4rem; /* 64px */
+	--radius-circle: 9999px; /* circle */
 }

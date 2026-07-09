@@ -2,6 +2,8 @@
 import Layout from '../../layouts/Layout.astro';
 import Header  from '../../components/Header.astro';
 import { gameData } from '../../lib/gameData';
+import DupaLogo from '../../assets/my_logo.png';
+import Image from 'astro/components/Image.astro';
 
 /* 
   - center the iframe
@@ -19,18 +21,39 @@ export async function getStaticPaths() {
 
 const { game } = Astro.params;
 ---
+
+<!-- 
+ We want to add a footer bar to our game window:
+  - it will be styled off the one on coolmathsgames 
+  - title, game type, full screen icon and a controls icon
+
+  <footer> will wrap all the elements under the <iframe>
+-->
+
+
 <Layout>
   <Header/>
   <!-- <p>This is the current game: {game}</p> -->
   <div class="game-window">
     <h1 class="title">{gameData[game]['title']}</h1>
-    <iframe 
+    
+    <iframe
       src={`/games/${game}/build/web/index.html`} 
       allow="autoplay; fullscreen"
       style="width: 1280px; height: 720px; border: 0;"
-      />
-      <!-- allow="cross-origin-isolated" -->
-      <p class="game-description">{gameData[game]['description']}</p>
+    />
+    <!-- allow="cross-origin-isolated" -->
+    
+    <footer>
+      <Image src={DupaLogo} alt="Dupa Games Logo" width={64}/> 
+      <div class="game-info">
+        <h4 class="game-type">Trivia</h4>
+        <h2>Can Ya Nail it?</h2>
+      </div> 
+    </footer>
+
+
+    <!-- <p class="game-description">{gameData[game]['description']}</p> -->
   </div>
 </Layout>
 
@@ -48,5 +71,22 @@ const { game } = Astro.params;
   .game-description {
     color: var(--color-text-muted);
     font-size: var(--font-l);
+  }
+
+  .game-type {
+    color: var(--color-brand)
+  }
+
+  footer {
+    display: flex;
+    gap: var(--gap-2);
+    padding: var(--gap-3);
+    align-items: center;
+    background-color: var(--color-surface);
+    border-bottom-left-radius: var(--radius-md);
+    border-bottom-right-radius: var(--radius-md);
+  }
+  
+  .game-info {
   }
 </style>
