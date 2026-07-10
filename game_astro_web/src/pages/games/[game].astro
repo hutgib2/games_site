@@ -4,9 +4,10 @@ import Header  from '../../components/Header.astro';
 import { gameData } from '../../lib/gameData';
 import DupaLogo from '../../assets/my_logo.png';
 import Image from 'astro/components/Image.astro';
+import Button from '../../components/Button.astro';
 
-import ControllerIcon from '@lucide/astro/icons/gamepad-2';
 import FullScreenIcon from '@lucide/astro/icons/expand';
+import ControlsPopover from '../../components/ControlsPopover.astro';
 
 /* 
   - center the iframe
@@ -26,11 +27,8 @@ const { game } = Astro.params;
 ---
 
 <!-- 
- We want to add a footer bar to our game window:
-  - it will be styled off the one on coolmathsgames 
-  - title, game type, full screen icon and a controls icon
-
-  <footer> will wrap all the elements under the <iframe>
+ - I want you to make the FullScreenIcon a clickable button
+ - it wont do anything yet, just make it visually clickable
 -->
 
 
@@ -57,11 +55,10 @@ const { game } = Astro.params;
       </div> 
       
       <div class="icons">
-        <ControllerIcon size={42} />
-        <FullScreenIcon size={42} />
+        <ControlsPopover />
+        <Button><FullScreenIcon size={44} /></Button>
       </div>
     </footer>
-
 
     <!-- <p class="game-description">{gameData[game]['description']}</p> -->
   </div>
@@ -107,11 +104,12 @@ const { game } = Astro.params;
   .icons {
     display: flex;
     gap: var(--gap-6);
+    align-items: center;
   }
   
   .left-items {
     display: flex;
-    gap: var(--gap-2);
+    gap: var(--gap-4);
   }
 
 </style>
