@@ -1,12 +1,12 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import Header  from '../../components/Header.astro';
-import { gameData } from '../../lib/gameData';
-import DupaLogo from '../../assets/my_logo.png';
 import Image from 'astro/components/Image.astro';
+import DupaLogo from '../../assets/my_logo.png';
+import Header from '../../components/Header.astro';
+import Layout from '../../layouts/Layout.astro';
+import { gameData } from '../../lib/gameData';
 
-import ControllerIcon from '@lucide/astro/icons/gamepad-2';
 import FullScreenIcon from '@lucide/astro/icons/expand';
+import ControllerIcon from '@lucide/astro/icons/gamepad-2';
 
 /* 
   - center the iframe
@@ -14,12 +14,12 @@ import FullScreenIcon from '@lucide/astro/icons/expand';
 */
 
 export async function getStaticPaths() {
-  return [
-    { params: { game: gameData['space_shooter']['hrefSuffix'] } },
-    { params: { game: gameData['chess']['hrefSuffix'] } },
-    { params: { game: gameData['trivia']['hrefSuffix'] } },
-    { params: { game: gameData['vampire_survivor']['hrefSuffix'] } }
-  ];
+	return [
+		{ params: { game: gameData['space_shooter']['hrefSuffix'] } },
+		{ params: { game: gameData['chess']['hrefSuffix'] } },
+		{ params: { game: gameData['trivia']['hrefSuffix'] } },
+		{ params: { game: gameData['vampire_survivor']['hrefSuffix'] } },
+	];
 }
 
 const { game } = Astro.params;
@@ -32,86 +32,81 @@ const { game } = Astro.params;
 
   <footer> will wrap all the elements under the <iframe>
 -->
-
-
 <Layout>
-  <Header/>
-  <!-- <p>This is the current game: {game}</p> -->
-  <div class="game-window">
-    <h1 class="title">{gameData[game]['title']}</h1>
-    
-    <iframe
-      src={`/games/${game}/build/web/index.html`} 
-      allow="autoplay; fullscreen"
-      style="width: 1280px; height: 720px; border: 0;"
-    />
-    <!-- allow="cross-origin-isolated" -->
-    
-    <footer>
-      <div class="left-items">
-        <Image src={DupaLogo} alt="Dupa Games Logo" width={80}/> 
-        <div class="game-info">
-          <h4 class="game-type">Trivia</h4>
-          <h1>Can Ya Nail it?</h1>
-        </div>
-      </div> 
-      
-      <div class="icons">
-        <ControllerIcon size={42} />
-        <FullScreenIcon size={42} />
-      </div>
-    </footer>
+	<Header />
+	<!-- <p>This is the current game: {game}</p> -->
+	<div class="game-window">
+		<h1 class="title">{gameData[game]['title']}</h1>
 
+		<iframe
+			src={`/games/${game}/build/web/index.html`}
+			allow="autoplay; fullscreen"
+			style="width: 1280px; height: 720px; border: 0;"></iframe>
+		<!-- allow="cross-origin-isolated" -->
 
-    <!-- <p class="game-description">{gameData[game]['description']}</p> -->
-  </div>
+		<footer>
+			<div class="left-items">
+				<Image src={DupaLogo} alt="Dupa Games Logo" width={80} />
+				<div class="game-info">
+					<h4 class="game-type">Trivia</h4>
+					<h1>Can Ya Nail it?</h1>
+				</div>
+			</div>
+
+			<div class="icons">
+				<ControllerIcon size={42} />
+				<FullScreenIcon size={42} />
+			</div>
+		</footer>
+
+		<!-- <p class="game-description">{gameData[game]['description']}</p> -->
+	</div>
 </Layout>
 
 <style>
-  .game-window {
-    display: flex;
-    justify-self: center;
-    flex-direction: column;
-  }
+	.game-window {
+		display: flex;
+		justify-self: center;
+		flex-direction: column;
+	}
 
-  .title {
-    font-size: var(--font-5xl);
-  }
-  
-  .game-description {
-    color: var(--color-text-muted);
-    font-size: var(--font-l);
-  }
+	.title {
+		font-size: var(--font-5xl);
+	}
 
-  .game-type {
-    color: var(--color-brand)
-  }
+	.game-description {
+		color: var(--color-text-muted);
+		font-size: var(--font-l);
+	}
 
-  footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: var(--gap-3) var(--gap-5);
-    
-    background-color: var(--color-surface);
-    border-bottom-left-radius: var(--radius-md);
-    border-bottom-right-radius: var(--radius-md);
-  }
-  
-  .game-info {
-    display: flex;
-    flex-direction: column;
-    align-self: center;
-  }
-  
-  .icons {
-    display: flex;
-    gap: var(--gap-6);
-  }
-  
-  .left-items {
-    display: flex;
-    gap: var(--gap-2);
-  }
+	.game-type {
+		color: var(--color-brand);
+	}
 
+	footer {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: var(--gap-3) var(--gap-5);
+
+		background-color: var(--color-surface);
+		border-bottom-left-radius: var(--radius-md);
+		border-bottom-right-radius: var(--radius-md);
+	}
+
+	.game-info {
+		display: flex;
+		flex-direction: column;
+		align-self: center;
+	}
+
+	.icons {
+		display: flex;
+		gap: var(--gap-6);
+	}
+
+	.left-items {
+		display: flex;
+		gap: var(--gap-2);
+	}
 </style>

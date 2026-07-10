@@ -1,11 +1,11 @@
 ---
 // JavaScript Section
-import Layout from '../layouts/Layout.astro';
-import GameCard  from '../components/GameCard.astro';
-import { gameData } from '../lib/gameData';
-import DupaLogoText from '../assets/my_logo_text.png';
 import Image from 'astro/components/Image.astro';
-import Header  from '../components/Header.astro';
+import DupaLogoText from '../assets/my_logo_text.png';
+import GameCard from '../components/GameCard.astro';
+import Header from '../components/Header.astro';
+import Layout from '../layouts/Layout.astro';
+import { gameData } from '../lib/gameData';
 ---
 
 <!-- 
@@ -13,16 +13,14 @@ import Header  from '../components/Header.astro';
 	- make video section 50% of the view height
 	- grid for games with 2 columns
 	- game previews to be simple: image, title and 1-line description
--->
-
-<!-- HTML Section -->
+--><!-- HTML Section -->
 <Layout>
-	<Header/>
-	
+	<Header />
+
 	<div class="welcome">
-		<video src="vampire-survivor-preview.mp4" autoplay muted loop ></video>
+		<video src="vampire-survivor-preview.mp4" autoplay muted loop></video>
 		<h1>WELCOME TO...</h1>
-		<Image src={DupaLogoText} alt="Dupa Games Logo" width={200}/>
+		<Image src={DupaLogoText} alt="Dupa Games Logo" width={200} />
 	</div>
 
 	<!-- <div class="carousel">
@@ -39,17 +37,19 @@ import Header  from '../components/Header.astro';
 			))}
 		</Swiper>
 	</div> -->
-				
+
 	<h1 class="game-heading">Browse all games</h1>
 	<div class="game-grid">
-		{Object.values(gameData).map((game) => (
-			<GameCard 
-				title={game['title']}
-				image={game['image']}
-				description={game['description']}
-				href={game['href']}
-			/>
-		))}
+		{
+			Object.values(gameData).map((game) => (
+				<GameCard
+					title={game['title']}
+					image={game['image']}
+					description={game['description']}
+					href={game['href']}
+				/>
+			))
+		}
 	</div>
 
 	<!-- 
@@ -58,7 +58,6 @@ import Header  from '../components/Header.astro';
 			- add a welcome heading to the top as well e.g. "Welcome to Dupa Games"
 			- either add padding to the carousel or center it on the screen 
 	-->
-
 </Layout>
 
 <!-- 
@@ -66,7 +65,7 @@ import Header  from '../components/Header.astro';
 	1. Write styles inside page's <style> - only applies to elements in current file
 	2. Import a css file from styles/ - can apply to multiple files or globally
 -->
-	
+
 <!-- CSS Section - allows us to add scoped CSS to our html -->
 <style>
 	.welcome {
@@ -79,7 +78,7 @@ import Header  from '../components/Header.astro';
 		width: 100%;
 		height: 50vh;
 		gap: var(--gap-3);
-		
+
 		color: var(--color-brand);
 		z-index: 1;
 	}
@@ -89,11 +88,11 @@ import Header  from '../components/Header.astro';
 		width: 100%;
 		height: 100%;
 		z-index: -1;
-		
+
 		overflow: hidden;
 		object-position: center center;
 		object-fit: cover;
-		opacity: 20%;
+		opacity: 0.2;
 	}
 
 	.game-grid {
@@ -102,7 +101,6 @@ import Header  from '../components/Header.astro';
 		gap: var(--gap-4);
 		padding: var(--gap-4);
 	}
-
 
 	/* .carousel {
 		display: flex;
@@ -117,5 +115,4 @@ import Header  from '../components/Header.astro';
 		font-size: var(--font-5xl);
 		padding: var(--gap-4);
 	}
-
 </style>

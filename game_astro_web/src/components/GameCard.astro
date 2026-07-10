@@ -1,21 +1,19 @@
 ---
-import Image from "astro/components/Image.astro";
+import Image from 'astro/components/Image.astro';
 
-const { title, image, description, href} = Astro.props;
+const { title, image, description, href } = Astro.props;
 ---
 
 <div class="game-card">
-	<div class="thumbnail"><Image src={image} alt=`${title} image`/></div>
-	
+	<div class="thumbnail"><Image src={image} alt=`${title} image` /></div>
+
 	<div class="game-info">
 		<div>
 			<h2>{title}</h2>
 			<p class="game-description">{description}</p>
 		</div>
-	
-		<a href={href} class="triangle">
-			Play
-		</a>
+
+		<a href={href} class="triangle"> Play </a>
 	</div>
 </div>
 
@@ -24,13 +22,13 @@ const { title, image, description, href} = Astro.props;
 -->
 
 <style>
-	.game-card { 
-		transition: 
+	.game-card {
+		transition:
 			transform 0.3s ease,
 			color 0.3s ease;
 	}
-	
-	.game-card:hover { 
+
+	.game-card:hover {
 		color: var(--color-brand);
 		transform: scale(1.01);
 	}
@@ -38,7 +36,7 @@ const { title, image, description, href} = Astro.props;
 	.thumbnail {
 		width: 100%;
 		aspect-ratio: 1.6;
-		
+
 		img {
 			/* display: block; */
 			width: 100%;
@@ -65,7 +63,7 @@ const { title, image, description, href} = Astro.props;
 		display: flex;
 		align-items: center;
 		justify-content: left;
-		
+
 		width: 64px;
 		height: 56px;
 		padding: 8px;
@@ -75,7 +73,7 @@ const { title, image, description, href} = Astro.props;
 		color: var(--color-bg);
 		font-weight: bold;
 	}
-	
+
 	.play {
 		/* position: relative; */
 		/* justify-self: left; */

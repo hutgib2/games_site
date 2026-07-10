@@ -7,16 +7,19 @@
 		"source.fixAll.stylelint": "always",
 		"source.organizeImports": "always",
 	},
+	
 	// Stylelint
 	"stylelint.validate": [
 		"css",
 		"astro",
 	],
 	"css.validate": false, // disabled in favour of stylelint
+
 	// Astro files — use the official Astro extension as formatter
 	"[astro]": {
 		"editor.defaultFormatter": "astro-build.astro-vscode",
 	},
+
 	// Prettier
 	"[javascript]": {
 		"editor.defaultFormatter": "esbenp.prettier-vscode"
@@ -30,9 +33,11 @@
 	"[css]": {
 		"editor.defaultFormatter": "esbenp.prettier-vscode"
 	},
+
 	// TypeScript
 	"js/ts.tsdk.path": "node_modules/typescript/lib",
 	"js/ts.tsdk.promptToUseWorkspaceVersion": true,
+
 	// Files
 	"files.exclude": {
 		"**/node_modules": true,
