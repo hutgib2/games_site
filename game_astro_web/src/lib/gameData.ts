@@ -1,7 +1,7 @@
-import ChessImage from '../assets/thumbnails/chess_preview.png';
-import ShooterImage from '../assets/thumbnails/shooter_preview.png';
-import SurvivorImage from '../assets/thumbnails/survivor_preview.png';
-import TriviaImage from '../assets/thumbnails/trivia_preview.png';
+import ChessImage from '@/assets/thumbnails/chess_preview.png';
+import ShooterImage from '@/assets/thumbnails/shooter_preview.png';
+import SurvivorImage from '@/assets/thumbnails/survivor_preview.png';
+import TriviaImage from '@/assets/thumbnails/trivia_preview.png';
 
 export const gameData = {
 	chess: {	

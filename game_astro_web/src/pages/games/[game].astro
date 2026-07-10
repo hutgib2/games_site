@@ -1,13 +1,13 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import Header  from '../../components/Header.astro';
-import { gameData } from '../../lib/gameData';
-import DupaLogo from '../../assets/my_logo.png';
+import Layout from '@/layouts/Layout.astro';
+import Header  from '@/components/Header.astro';
+import { gameData } from '@/lib/gameData';
+import DupaLogo from '@/assets/my_logo.png';
 import Image from 'astro/components/Image.astro';
-import Button from '../../components/Button.astro';
+import Button from '@/components/Button.astro';
 
 import FullScreenIcon from '@lucide/astro/icons/expand';
-import ControlsPopover from '../../components/ControlsPopover.astro';
+import ControlsPopover from '@/components/ControlsPopover.astro';
 
 /* 
   - center the iframe
@@ -36,7 +36,7 @@ const { game } = Astro.params;
   <Header/>
   <!-- <p>This is the current game: {game}</p> -->
   <div class="game-window">
-    <h1 class="title">{gameData[game]['title']}</h1>
+    <!-- <h1 class="title">{gameData[game]['title']}</h1> -->
     
     <iframe
       src={`/games/${game}/build/web/index.html`} 
