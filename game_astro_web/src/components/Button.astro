@@ -1,0 +1,33 @@
+---
+const { className }: {className?: string} = Astro.props;
+---
+
+<button type="button" class={className}>
+	<slot />
+</button>
+
+
+<style>
+	button {
+		/* background-color: transparent; */
+
+		transition:
+			background-color 200ms ease,
+			color 200ms ease,
+			transform 200ms ease,
+			filter 200ms ease;
+		
+		cursor: pointer;
+
+		/* When mouse hovers over button */
+		&:hover {
+			filter: brightness(1.15);
+		}
+
+		/* When button is pressed */
+		&:active {
+			filter: brightness(1.15);
+			transform: scale(0.95);
+		}
+	}
+</style>
