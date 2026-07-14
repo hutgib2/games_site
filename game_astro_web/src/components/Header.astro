@@ -1,7 +1,7 @@
 ---
 import { Menu, Select } from 'webcoreui/astro';
 import DupaLogo from '../assets/my_logo.png';
-import { gameData } from '../lib/gameData';
+// import { gameData } from '../lib/gameData';
 
 const menu = [
 	{ name: 'Home', href: '/', active: true },
@@ -17,7 +17,7 @@ const menuLogo = {
 <header>
 	<div><Menu items={menu} logo={menuLogo} /></div>
 	<div>
-		<Select
+		<!-- <Select
 		name="select-id"
 		itemGroups={[{
 			items: 
@@ -29,7 +29,7 @@ const menuLogo = {
 		showSearchBar={false}
 		showSearchBarIcon={false}
 		placeholder="Games"
-		/>
+		/> -->
 	</div>
 </header>
 

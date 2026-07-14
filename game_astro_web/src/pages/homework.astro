@@ -1,0 +1,27 @@
+<!-- This pages/ folder is special, so this file will now be an endpoint on our url, meaning it can accessed at localhost:4321/homework.
+
+To build the UI component i will need to use the elements <div> <p> <h> <Image>, and then style them using css to match the image. I don't need to make anything interactive, this is just an exercise for me to practise writing HTML and CSS.
+
+Tips:
+- Remember to use flex box for layouts
+- Start with the larger parts first and work inward, i.e. the card, then the header, then the rows, then the content of each row
+- You can choose any images you want, and just copy the text in the screenshot and hardcode it in the elements.
+- I would recommend trying to create reusable components for the repeating sections, i.e. each row with the game image and info. To do this you need to pass the variable data as props. If this is too challenging for you, then just repeat the code for the 4 rows and we will discuss it in person -->
+<div class="classy">
+	<h1>Header</h1>
+	<p>thomas the tank engine</p>
+	<p>this is my homework page</p>
+	<p>blursed</p>
+	<p>paragraph</p>
+</div>
+<div class="pic">
+	<img src="/ideas/Thomas.jpg" />
+</div>
+
+<style>
+	.classy {
+		display: flex;
+		flex-direction: column;
+		color: rgb(255, 0, 0);
+	}
+</style>

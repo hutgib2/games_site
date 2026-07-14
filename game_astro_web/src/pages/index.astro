@@ -2,18 +2,20 @@
 // JavaScript Section
 import Layout from '@/layouts/Layout.astro';
 import GameCard  from '@/components/GameCard.astro';
-import { gameData } from '@/lib/gameData';
 import DupaLogoText from '@/assets/my_logo_text.png';
 import Image from 'astro/components/Image.astro';
 import Header  from '@/components/Header.astro';
----
+import { getCollection, type CollectionEntry } from 'astro:content';
 
+const games = await getCollection('games');
+---
 <!-- 
-	- Create opaque video reel header at top (https://gamedev.amy-portfolio.com/games)
-	- make video section 50% of the view height
-	- grid for games with 2 columns
-	- game previews to be simple: image, title and 1-line description
+	We want to replace the use of gameData with the collection object - e.g. game.data.title
+
+	1. Look at how we loaded the collection into game.astro and do the same here
+	2. replace gameData with the game.data in the map()  
 -->
+
 
 <!-- HTML Section -->
 <Layout>
@@ -22,42 +24,20 @@ import Header  from '@/components/Header.astro';
 	<div class="welcome">
 		<video src="vampire-survivor-preview.mp4" autoplay muted loop ></video>
 		<h1>WELCOME TO...</h1>
-		<Image src={DupaLogoText} alt="Dupa Games Logo" width={200}/>
+		<Image src={DupaLogoText} alt="Dupa Games Logo" width={200} />
 	</div>
-
-	<!-- <div class="carousel">
-		<Swiper>
-			{Object.values(gameData).map((game) => (
-				<div class="swiper-slide">
-					<GameCard 
-					title={game['title']}
-					image={game['image']}
-					description={game['description']}
-					href={game['href']}
-					/>
-				</div>
-			))}
-		</Swiper>
-	</div> -->
 				
 	<h1 class="game-heading">Browse all games</h1>
 	<div class="game-grid">
-		{Object.values(gameData).map((game) => (
+		{games.map((game: CollectionEntry<'games'>) => (
 			<GameCard 
-				title={game['title']}
-				image={game['image']}
-				description={game['description']}
-				href={game['href']}
+				title={game.data.title}
+				description={game.data.description}
+				image={game.data.image}
+				href={`games/${game.id}`}
 			/>
 		))}
 	</div>
-
-	<!-- 
-		We want to style our webpage better - can you:
-			- add a heading above the carousel to say something e.g. "Browse all games" 
-			- add a welcome heading to the top as well e.g. "Welcome to Dupa Games"
-			- either add padding to the carousel or center it on the screen 
-	-->
 
 </Layout>
 
