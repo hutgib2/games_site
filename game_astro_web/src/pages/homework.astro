@@ -1,97 +1,65 @@
+---
+import Layout from '@/layouts/Layout.astro';
+// src/pages/index.astro
+---
+
 <!-- This pages/ folder is special, so this file will now be an endpoint on our url, meaning it can accessed at localhost:4321/homework.
 
 To build the UI component i will need to use the elements <div> <p> <h> <Image>, and then style them using css to match the image. I don't need to make anything interactive, this is just an exercise for me to practise writing HTML and CSS.
 
 Tips:
+- use divs to group tags together
+- add padding to parent elements where possible, using padding and gap
+- use the token vars in tokens.css (DONT hardcode pixel values)
+
 - Remember to use flex box for layouts
 - Start with the larger parts first and work inward, i.e. the card, then the header, then the rows, then the content of each row
 - You can choose any images you want, and just copy the text in the screenshot and hardcode it in the elements.
-- I would recommend trying to create reusable components for the repeating sections, i.e. each row with the game image and info. To do this you need to pass the variable data as props. If this is too challenging for you, then just repeat the code for the 4 rows and we will discuss it in person -->
----
-// src/pages/index.astro
----
 
-<html>
-  <head>
-    <title>My Astro Site</title>
-  </head>
-  <body>
-  </body>
-</html>
 
-<style is:global>
-  html, body {
-    background-color: #1a202c; /* Replace with your desired color */
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100%;
-  }
-</style>
+-->
 
-<div class="pic">
-	<img src="/ideas/dd-2k-shoot.png"/>
-	<img src="/ideas/2048-remastered.jpg"/>
-	<img src="/ideas/dropstack.png"/>
-	<img src="/ideas/become-the-flame.png"/>
-</div>
 
-<div class="for-headers">
-	<h1>DD 2K Shoot</h1>
-</div>
-
-<div class="for-paragraphs">
-	<p>Pop and match the bubbles!</p>
-</div>
-
-<div class="for-headers">
-	<h1>2048 Remastered</h1>
-</div>
-
-<div class="for-paragraphs">
-	<p>2048 is back and bigger than ever!</p>
-</div>
-
-<div class="for-headers">
-	<h1>Dropstack</h1>
-</div>
-
-<div class="for-paragraphs">
-	<p>Wake up for the daily block puzzle!</p>
-</div>
-
-<div class="for-headers">
-	<h1>Become the Flame</h1>
-</div>
-
-<div class="for-paragraphs">
-	<p>Combine your light to burn bright!</p>
-</div>
-
+<Layout>
+	<div class="card">
+		<div class="game-row">
+			<img src="/ideas/dd-2k-shoot.png" />
+			<div>
+				<h1>DD 2K Shoot</h1>
+				<p>Pop and match the bubbles!</p>
+			</div>
+		</div>
+		
+		<!-- <img src="/ideas/2048-remastered.jpg"/> -->
+		<!-- <img src="/ideas/dropstack.png"/> -->
+		<!-- <img src="/ideas/become-the-flame.png"/> -->
+		<!-- 
+			<h1>2048 Remastered</h1>
+			<p>2048 is back and bigger than ever!</p>
+			<h1>Dropstack</h1>
+			<p>Wake up for the daily block puzzle!</p>
+			<h1>Become the Flame</h1>
+			<p>Combine your light to burn bright!</p> 
+		-->
+	</div>
+</Layout>
 
 <style>
-	.for-headers {
-		display: flex;
-		flex-direction: column;
-		color: rgb(255, 255, 255);
-		text-align: right;
-		padding-right: 420px;
+	.card {
+		border-radius: var(--radius-lg);
+		background-color: #1a202c;
+		padding: var(--gap-8);
+	}
 
-	}
-	.for-paragraphs {
+	img {
+		border-radius: var(--radius-lg);
 		display: flex;
-		flex-direction: column;
-		color: #B3C3D4;
-		text-align: right;
-		padding-right: 420px;
-	}
-	.pic :global(img) {
-		display: flex;
-		margin-left: auto;
-  		margin-right: auto;
-		border-radius: 50px;
-		padding: 16px;
 		width: 20%;
 	}
-</style>
 
+	.game-row {
+		display: flex;
+		flex-direction: row;
+		gap: var(--gap-8);
+	}
+</style>
