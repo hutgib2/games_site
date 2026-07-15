@@ -1,35 +1,42 @@
 ---
 // JavaScript Section
-import Layout from '@/layouts/Layout.astro';
-import GameCard  from '@/components/GameCard.astro';
 import DupaLogoText from '@/assets/my_logo_text.png';
 import GameCard from '@/components/GameCard.astro';
+import Header from '@/components/Header.astro';
+import Layout from '@/layouts/Layout.astro';
 import Image from 'astro/components/Image.astro';
-import Header  from '@/components/Header.astro';
 import { getCollection, type CollectionEntry } from 'astro:content';
 
 const games = await getCollection('games');
+
+// We need to pass the games var to the <Header /> as a prop
+
+// 1. Look at how we define props in GameCard
+// 2. Copy that code into header, and pass the games var as a prop to <Header />
+// 3. Inside Header.astro, replace the use of gameData with games
 ---
 
 <Layout>
-	<Header />
+	<Header games={games} />
 
 	<div class="welcome">
 		<video src="vampire-survivor-preview.mp4" autoplay muted loop></video>
 		<h1>WELCOME TO...</h1>
 		<Image src={DupaLogoText} alt="Dupa Games Logo" width={200} />
 	</div>
-				
+
 	<h1 class="game-heading">Browse all games</h1>
 	<div class="game-grid">
-		{games.map((game: CollectionEntry<'games'>) => (
-			<GameCard 
-				title={game.data.title}
-				description={game.data.description}
-				image={game.data.image}
-				href={`games/${game.id}`}
-			/>
-		))}
+		{
+			games.map((game: CollectionEntry<'games'>) => (
+				<GameCard
+					title={game.data.title}
+					description={game.data.description}
+					image={game.data.image}
+					href={`games/${game.id}`}
+				/>
+			))
+		}
 	</div>
 </Layout>
 

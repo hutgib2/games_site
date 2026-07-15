@@ -1,6 +1,8 @@
 ---
+import { type CollectionEntry } from 'astro:content';
 import { Menu, Select } from 'webcoreui/astro';
 import DupaLogo from '../assets/my_logo.png';
+
 // import { gameData } from '../lib/gameData';
 
 const menu = [
@@ -12,25 +14,31 @@ const menuLogo = {
 	url: DupaLogo.src,
 	width: 64,
 };
+
+// Define the props that Header takes
+const { games } = Astro.props;
 ---
 
 <header>
-	<div><Menu items={menu} logo={menuLogo} /></div>
 	<div>
-		<!-- <Select
-		name="select-id"
-		itemGroups={[{
-			items: 
-			Object.values(gameData).map((game) => ({
-				name: game.title,
-				href: game.href,
-			}))
-		}]}
-		showSearchBar={false}
-		showSearchBarIcon={false}
-		placeholder="Games"
-		/> -->
-</div>
+		<Menu items={menu} logo={menuLogo} />
+	</div>
+	<div>
+		<Select
+			name="select-id"
+			itemGroups={[
+				{
+					items: games.map((game: CollectionEntry<'games'>) => ({
+						name: game.data.title,
+						href: `games/${game.id}`,
+					})),
+				},
+			]}
+			showSearchBar={false}
+			showSearchBarIcon={false}
+			placeholder="Games"
+		/>
+	</div>
 </header>
 
 <!-- <script>

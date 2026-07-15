@@ -18,6 +18,8 @@ export async function getStaticPaths() {
 	}));
 }
 
+const games = await getCollection('games');
+
 // Here is how we access the data for each page from its .md file in content/
 type Props = { game: CollectionEntry<'games'> };
 
@@ -28,9 +30,8 @@ const { Content } = await render(game); // This converts the content from .md sy
 <!-- 
   We currently only have 2 games on our site, can you add the last two
 -->
-
 <Layout>
-	<Header />
+	<Header games={games} />
 	<article class="content">
 		<div class="game-window">
 			<iframe
