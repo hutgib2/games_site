@@ -1,15 +1,27 @@
 ---
 // JavaScript Section
+<<<<<<< HEAD
 import Layout from '@/layouts/Layout.astro';
 import GameCard  from '@/components/GameCard.astro';
+=======
+>>>>>>> 42743a58ab8446f1e09820eedfa5d0c9c2043413
 import DupaLogoText from '@/assets/my_logo_text.png';
+import GameCard from '@/components/GameCard.astro';
+import Header from '@/components/Header.astro';
+import Layout from '@/layouts/Layout.astro';
+import { gameData } from '@/lib/gameData';
 import Image from 'astro/components/Image.astro';
+<<<<<<< HEAD
 import Header  from '@/components/Header.astro';
 import { getCollection, type CollectionEntry } from 'astro:content';
+=======
+---
+>>>>>>> 42743a58ab8446f1e09820eedfa5d0c9c2043413
 
 const games = await getCollection('games');
 ---
 <!-- 
+<<<<<<< HEAD
 	We want to replace the use of gameData with the collection object - e.g. game.data.title
 
 	1. Look at how we loaded the collection into game.astro and do the same here
@@ -18,14 +30,22 @@ const games = await getCollection('games');
 
 
 <!-- HTML Section -->
+=======
+	- Create opaque video reel header at top (https://gamedev.amy-portfolio.com/games)
+	- make video section 50% of the view height
+	- grid for games with 2 columns
+	- game previews to be simple: image, title and 1-line description
+--><!-- HTML Section -->
+>>>>>>> 42743a58ab8446f1e09820eedfa5d0c9c2043413
 <Layout>
-	<Header/>
-	
+	<Header />
+
 	<div class="welcome">
-		<video src="vampire-survivor-preview.mp4" autoplay muted loop ></video>
+		<video src="vampire-survivor-preview.mp4" autoplay muted loop></video>
 		<h1>WELCOME TO...</h1>
 		<Image src={DupaLogoText} alt="Dupa Games Logo" width={200} />
 	</div>
+<<<<<<< HEAD
 				
 	<h1 class="game-heading">Browse all games</h1>
 	<div class="game-grid">
@@ -39,6 +59,44 @@ const games = await getCollection('games');
 		))}
 	</div>
 
+=======
+
+	<!-- <div class="carousel">
+		<Swiper>
+			{Object.values(gameData).map((game) => (
+				<div class="swiper-slide">
+					<GameCard 
+					title={game['title']}
+					image={game['image']}
+					description={game['description']}
+					href={game['href']}
+					/>
+				</div>
+			))}
+		</Swiper>
+	</div> -->
+
+	<h1 class="game-heading">Browse all games</h1>
+	<div class="game-grid">
+		{
+			Object.values(gameData).map((game) => (
+				<GameCard
+					title={game['title']}
+					image={game['image']}
+					description={game['description']}
+					href={game['href']}
+				/>
+			))
+		}
+	</div>
+
+	<!-- 
+		We want to style our webpage better - can you:
+			- add a heading above the carousel to say something e.g. "Browse all games" 
+			- add a welcome heading to the top as well e.g. "Welcome to Dupa Games"
+			- either add padding to the carousel or center it on the screen 
+	-->
+>>>>>>> 42743a58ab8446f1e09820eedfa5d0c9c2043413
 </Layout>
 
 <!-- 
@@ -46,7 +104,7 @@ const games = await getCollection('games');
 	1. Write styles inside page's <style> - only applies to elements in current file
 	2. Import a css file from styles/ - can apply to multiple files or globally
 -->
-	
+
 <!-- CSS Section - allows us to add scoped CSS to our html -->
 <style>
 	.welcome {
@@ -59,7 +117,7 @@ const games = await getCollection('games');
 		width: 100%;
 		height: 50vh;
 		gap: var(--gap-3);
-		
+
 		color: var(--color-brand);
 		z-index: 1;
 	}
@@ -69,11 +127,11 @@ const games = await getCollection('games');
 		width: 100%;
 		height: 100%;
 		z-index: -1;
-		
+
 		overflow: hidden;
 		object-position: center center;
 		object-fit: cover;
-		opacity: 20%;
+		opacity: 0.2;
 	}
 
 	.game-grid {
@@ -82,7 +140,6 @@ const games = await getCollection('games');
 		gap: var(--gap-4);
 		padding: var(--gap-4);
 	}
-
 
 	/* .carousel {
 		display: flex;
@@ -97,5 +154,4 @@ const games = await getCollection('games');
 		font-size: var(--font-5xl);
 		padding: var(--gap-4);
 	}
-
 </style>
