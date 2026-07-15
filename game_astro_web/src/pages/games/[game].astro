@@ -9,21 +9,25 @@ import ControlsPopover from '@/components/ControlsPopover.astro';
 import FullScreenIcon from '@lucide/astro/icons/expand';
 import { getCollection, render, type CollectionEntry } from 'astro:content';
 
-// 1. Generate a new page for every file inside the content/
+// Generate a new page for every file inside the content/
 export async function getStaticPaths() {
 	const games = await getCollection('games');
-	return games.map((entry: any) => ({
+	return games.map((entry: CollectionEntry<'games'>) => ({
 		params: { game: entry.id },
 		props: { game: entry },
 	}));
 }
 
-// Here is how we access the data for each page from its file in content/
+// Here is how we access the data for each page from its .md file in content/
 type Props = { game: CollectionEntry<'games'> };
 
 const { game }: Props = Astro.props; // This stores the frontmatter data
 const { Content } = await render(game); // This converts the content from .md syntax to html + css
 ---
+
+<!-- 
+  We currently only have 2 games on our site, can you add the last two
+-->
 
 <Layout>
 	<Header />

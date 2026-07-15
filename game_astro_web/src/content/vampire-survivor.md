@@ -1,19 +1,17 @@
 ---
 # This is where we write the variables for our game
-title: 'Can Ya Nail it?'
+title: 'Vampire Survivor.'
 description: 'This is some placeholder text.'
-image: './thumbnails/trivia_preview.png'
-type: 'Trivia'
+image: './thumbnails/survivor_preview.png'
+type: 'Roguelike'
 ---
 
 <!-- This is where we write the long-form content in .md syntax -->
 
 Chess Instructions
-
 Use your mouse to move your Chess pieces across the board. Your objective in Chess is to get a checkmate. To land a checkmate, you’ll need to get your opponent’s King into a position where it can be captured, and cannot be freed by the opponent’s next move.
 
 Chess Pieces
-
 Each piece on the board moves differently. When your piece moves into a square that is currently occupied by an opponent's piece, you will capture that piece. Here is how each piece moves:
 
 Pawns
