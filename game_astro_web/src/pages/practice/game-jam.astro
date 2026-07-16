@@ -1,0 +1,34 @@
+---
+import Layout from '@/layouts/Layout.astro';
+---
+
+<!-- 
+	TOP TIP:
+		- go section by section NOT element by element
+		- you are trying to do images first, then text, etc
+		- you should do first item in top row, then second, then bottom row
+-->
+
+<Layout>
+    <div class="bg">
+        <img src="/practice-pics/blursed-mugen.jpg" />
+        <h1>carnage king of action street death ultra fighters 3 & knuckles featuring dante from devil may cry</h1>
+		
+        <!-- <img src="/practice-pics/left-4-dead-3.jpg" />
+        <img src="/practice-pics/pig-astronaut.jpg" /> -->
+    </div>
+</Layout>
+
+<style>
+.bg {
+    border-radius: var(--radius-lg);
+	background-color: #131b29;
+	padding: var(--gap-8);
+	width: 800px;
+}
+img {
+		display: flex;
+		border-radius: var(--radius-lg);
+		padding: var(--gap-2);
+	}
+</style>

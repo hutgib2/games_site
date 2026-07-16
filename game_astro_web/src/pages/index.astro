@@ -5,7 +5,7 @@ import GameCard from '@/components/GameCard.astro';
 import Header from '@/components/Header.astro';
 import Layout from '@/layouts/Layout.astro';
 import Image from 'astro/components/Image.astro';
-import { getCollection, type CollectionEntry } from 'astro:content';
+import { getCollection } from 'astro:content';
 
 const games = await getCollection('games');
 ---
@@ -20,18 +20,20 @@ const games = await getCollection('games');
 	</div>
 
 	<h1 class="game-heading">Browse all games</h1>
-	<div class="game-grid">
+	<ul class="game-grid">
 		{
 			games.map((game: any) => (
-				<GameCard
-					title={game.data.title}
-					description={game.data.description}
-					image={game.data.image}
-					href={`games/${game.id}`}
-				/>
+				<li>
+					<GameCard
+						title={game.data.title}
+						description={game.data.description}
+						image={game.data.image}
+						href={`games/${game.id}`}
+					/>
+				</li>
 			))
 		}
-	</div>
+	</ul>
 </Layout>
 
 <!-- 
