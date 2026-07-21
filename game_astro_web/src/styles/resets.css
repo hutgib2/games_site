@@ -94,3 +94,39 @@ button {
 	color: inherit;
 	cursor: pointer;
 }
+
+/* 
+	Breaks out of resets - use in .md files to restore expected md styling 
+	** Wrap with .prose to apply **
+*/
+
+/* Vertical rhythm — space between block elements */
+.prose > * + * {
+	margin-top: 1rem;
+}
+
+/* Headings */
+.prose h1 { font-size: 2rem;    margin-top: 2rem;   margin-bottom: 0.5rem; }
+.prose h2 { font-size: 1.5rem;  margin-top: 1.75rem; margin-bottom: 0.5rem; }
+.prose h3 { font-size: 1.25rem; margin-top: 1.5rem;  margin-bottom: 0.5rem; }
+.prose h4 { font-size: 1.1rem;  margin-top: 1.25rem; margin-bottom: 0.5rem; }
+.prose h5, .prose h6 { font-weight: 600; margin-top: 1rem; }
+
+/* First heading shouldn't have a big top margin */
+.prose > :first-child { margin-top: 0; }
+
+/* Lists */
+.prose ul, .prose ol {
+	list-style: revert;
+	padding-left: 1.5rem;
+}
+
+.prose li + li { margin-top: 0.25rem; }
+.prose li > ul, .prose li > ol { margin-top: 0.25rem; }
+
+/* Links */
+.prose a {
+	color: var(--color-link, #0066cc);
+	text-decoration: underline;
+}
+.prose a:hover { text-decoration: none; }
