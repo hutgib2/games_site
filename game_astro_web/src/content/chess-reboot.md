@@ -1,7 +1,7 @@
 ---
 # This is where we write the variables for our game
 title: 'Chess Reboot'
-description: 'A fun, interactive variation classic Chess!'
+description: 'A fun, interactive variation of classic Chess!'
 image: './thumbnails/chess_preview.png'
 type: 'Strategy'
 ---
@@ -11,7 +11,8 @@ type: 'Strategy'
 ## Description
 This is my unique varation of Chess, I've replaced all the pieces with new ones to make the game more fun! ***(add a little more here)***
 
-## Instructions
+## How to Play
+<!-- explain how to win, etc -->
 
 
 ## Pieces
