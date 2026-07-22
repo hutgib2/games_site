@@ -5,7 +5,9 @@ const { title, image, description, href } = Astro.props;
 ---
 
 <div class="game-card">
-	<div class="thumbnail"><Image src={image} alt=`${title} image` /></div>
+	<div class="thumbnail">
+		<Image src={image} alt=`${title} image` />
+	</div>
 
 	<div class="game-info">
 		<div>

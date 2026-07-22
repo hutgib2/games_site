@@ -25,6 +25,9 @@ type Props = { game: CollectionEntry<'games'> };
 
 const { game }: Props = Astro.props; // This stores the frontmatter data
 const { Content } = await render(game); // This converts the content from .md syntax to html + css
+
+console.log("File path:", game.filePath);
+console.log("game id:", game.id);
 ---
 
 <!-- 
@@ -35,7 +38,7 @@ const { Content } = await render(game); // This converts the content from .md sy
 	<article class="content">
 		<div class="game-window">
 			<iframe
-				src={`/games/${game}/build/web/index.html`}
+				src={`/games/${game.id}/build/web/index.html`}
 				allow="autoplay; fullscreen"
 				style="width: 1280px; height: 720px; border: 0;" 
 			/>
