@@ -12,7 +12,7 @@ type: 'Strategy'
 This is my unique varation of Chess, I've replaced all the pieces with new ones to make the game more fun! ***(add a little more here)***
 
 ## How to Play
-<!-- explain how to win, etc -->
+The way to win is the same as regular chess but you have to put the emperor into checkmate instead as the king doesn't exist in this version of the game
 
 
 ## Pieces
