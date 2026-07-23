@@ -10,7 +10,9 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "preview:static": "astro build && python3 -m http.server 4321 --directory dist"
+    "preview:static": "astro build && python3 -m http.server 4321 --directory dist",
+    "rebuild": "bash ../scripts/update.sh",
+    "rebuild:all": "bash ../scripts/update-all.sh"
   },
   "dependencies": {
     "@lucide/astro": "^1.23.0",
