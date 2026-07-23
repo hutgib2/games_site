@@ -1,0 +1,59 @@
+// .vscode/settings.json
+{
+	// Format & lint on save
+	"editor.formatOnSave": true,
+	"editor.codeActionsOnSave": {
+		"source.fixAll.eslint": "always",
+		"source.fixAll.stylelint": "always",
+		"source.organizeImports": "always",
+	},
+	
+	// Stylelint
+	"stylelint.validate": [
+		"css",
+		"astro",
+	],
+	"css.validate": false, // disabled in favour of stylelint
+
+	// Astro files — use the official Astro extension as formatter
+	"[astro]": {
+		"editor.defaultFormatter": "astro-build.astro-vscode",
+	},
+
+	// Prettier
+	"[javascript]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[typescript]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[json]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[css]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+
+	// TypeScript
+	"js/ts.tsdk.path": "node_modules/typescript/lib",
+	"js/ts.tsdk.promptToUseWorkspaceVersion": true,
+
+	// Files
+	"files.exclude": {
+		"**/node_modules": true,
+		"**/.astro": true,
+		"**/dist": true,
+		"**/.output": true
+	},
+	"files.watcherExclude": {
+		"**/node_modules/**": true,
+		"**/.astro/**": true,
+		"**/dist/**": true,
+		"**/.output/**": true
+	},
+	"search.exclude": {
+		"**/node_modules": true,
+		"**/dist": true,
+		"**/.astro/**": true,
+	}
+}

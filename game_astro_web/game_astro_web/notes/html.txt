@@ -1,0 +1,16 @@
+HTML:
+
+a html element has an opening tag and a closing tag:
+	e.g.  <div> </div>
+
+This type of tag can have other tags or text inside:
+	e.g. <div><p>Some text</p></div>
+
+
+If a tag has no content, it can self-close:
+	e.g. <div />
+
+This type of tag cannot have any text or html tags inside.
+
+A self-closing tag can still take attributes, these are NOT content.
+	e.g. <div class="example" />

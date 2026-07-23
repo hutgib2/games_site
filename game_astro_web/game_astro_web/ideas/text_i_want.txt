@@ -1,0 +1,6 @@
+About: describes what the website is supposed to be.
+the website is supposed to a game collection showcase.
+
+Credits: will contain where i got my text styles, sfx and images from.
+
+There will be a header bar for each important section.

@@ -1,0 +1,35 @@
+---
+import { Font } from 'astro:assets';
+import '../styles/global.css';
+---
+
+<!-- 
+	Layout is the wrapper for the body content, we wrap every page in a Layout -
+	the page's content is inserted where the <slot> is
+-->
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/png" href="/my_logo.png" />
+		<meta name="generator" content={Astro.generator} />
+		<Font cssVariable="--font-oswald" preload />
+		<title>Dupa Games</title>
+	</head>
+	<body>
+		<slot />
+	</body>
+</html>
+
+<style>
+	html,
+	body {
+		margin: 0;
+		width: 100%;
+		height: 100%;
+		background-color: var(--color-bg);
+		color: var(--color-text);
+	}
+</style>

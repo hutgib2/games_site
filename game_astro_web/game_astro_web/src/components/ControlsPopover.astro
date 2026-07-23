@@ -1,0 +1,34 @@
+---
+import { Popover } from 'webcoreui/astro'
+import ControllerIcon from '@lucide/astro/icons/gamepad-2';
+import Button from './Button.astro'
+---
+
+<!-- 
+	change the Button from the webcoreui import to the component we just made
+-->
+<Button className="popover-trigger"><ControllerIcon size={56} /></Button>
+
+<Popover className="popover">
+    <h2>Controls<h2/>
+    <p>Click to shoot</p>
+    <p>WASD to move</p>
+    <p>Space to jump</p>
+</Popover>
+
+<script>
+    import { popover } from 'webcoreui'
+
+    popover({
+        trigger: '.popover-trigger',
+        popover: '.popover',
+        position: 'top-end'
+    })
+</script>
+
+<style>
+    .popover {
+		background-color: var(--color-surface);
+		padding: var(--gap-3) var(--gap-5);
+    }
+</style>
