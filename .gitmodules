@@ -1,0 +1,3 @@
+[submodule "games/chess-reboot"]
+	path = games/chess-reboot
+	url = git@github.com:hutgib2/chess-reboot.git
