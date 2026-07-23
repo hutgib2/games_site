@@ -1,3 +1,12 @@
 [submodule "games/chess-reboot"]
 	path = games/chess-reboot
 	url = git@github.com:hutgib2/chess-reboot.git
+[submodule "games/meteor-blaster"]
+	path = games/meteor-blaster
+	url = git@github.com:hutgib2/meteor-blaster.git
+[submodule "games/can-ya-nail-it"]
+	path = games/can-ya-nail-it
+	url = git@github.com:hutgib2/can-ya-nail-it.git
+[submodule "games/the-surviving-vampire"]
+	path = games/the-surviving-vampire
+	url = git@github.com:hutgib2/the-surviving-vampire.git
