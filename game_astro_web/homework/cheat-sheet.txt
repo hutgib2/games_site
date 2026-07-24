@@ -1,0 +1,57 @@
+
+# ---------------------------------------------------------------------------- #
+#                            Tips for building a UI                            #
+# ---------------------------------------------------------------------------- #
+
+
+
+# ---------------------------------- General --------------------------------- #
+- add a HTML element before writing the CSS to style it
+- don't hardcode css values, use tokens (for hw you may hardcode colors + fonts)
+- order the CSS selectors in the order they appear in the HTML
+
+- in general it is better to style with classes rather than tag name
+	e.g. 
+			.text {			is better than			p {
+				... 									...
+			}  										}
+
+- i will never ask you to do something that we haven't covered in class so
+  if you are having trouble - LOOK BACK AT UI's WE BUILT TOGETHER !
+
+
+
+# ----------------------------------- Steps ---------------------------------- #
+
+1. Sections
+- divide the UI into larger sections first
+- think which html element is most suited to each section, <header> <footer> 
+  <section> etc... use <div> when nothing else fits semantically
+
+- use CSS flex to arrange the sections in relation to each other
+- add the color, shapes, padding etc for each section
+
+	i.e. 
+		if the UI contains several cards, create the card <section>'s first and 
+		arrange them before	adding content to the cards
+
+
+2. Content 
+- once the arrangement of each section is correct, start working on the content 
+  section by section
+- start by styling the section first
+
+	e.g. 	
+		if all content is within a card, give the card's <section> shape, color, 
+		padding, etc before adding the children inside
+
+- then add the children and style them
+- often CSS flex is also needed to arrange the children within a section
+
+
+3. Final touch up 
+- once all the content is added, check that the overall UI still looks correct
+- adjust padding, gaps, etc, where needed
+- if any elements sit on visually on top of others, add them at the end and use
+  "position: relative" -> on the parent 
+  "positon: absolute" -> on the element

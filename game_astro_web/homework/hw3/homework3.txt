@@ -1,0 +1,13 @@
+I want you to build the two UIs attached in the images
+
+Notice there are some subtle differences between them, this is a 
+useful exercise to help understand how to use HTML and CSS very 
+carefully and for you to practise your precision as a developer
+
+If you want to add the banners on top, remember to use:
+	position: relative -> on the parent 
+	positon: absolute -> on the element
+
+Otherwise it will never work.
+
+Please use the cheat-sheet to help you.
