@@ -1,0 +1,88 @@
+---
+import Layout from '@/layouts/Layout.astro';
+// src/pages/index.astro
+---
+
+<Layout>
+	<!-- write html here -->
+	 <div class="bg">
+		<div class="game-grid">
+			<div>
+				<!-- <h4 class="nu-update">NEW UPDATE!</h4> -->
+				<div class="img-wrapper">
+					<img src="/homework/hw3/Run3.jpg" class="run-game" />
+					<h2 class="number">1</h2>
+				</div>
+				<h3 class="game-name-text">Run 3</h3>
+				<p class="description-text">Run, skate and jump through a brand new galaxy!</p>
+			</div>
+			<div class="game-card">
+				<!-- <h4 class="ten-top">TOP 10</h4> -->
+				<img src="/homework/hw3/drift-boss.png" class="car-game"/>
+				<div class="game-info">
+					<h3>Drift Boss</h3>
+					<p class="description-text">Drift into new modes to play... something</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</Layout>
+
+<style>
+	.bg {
+		border-radius: var(--radius-lg);
+		background-color: black;
+		padding: var(--gap-8);
+		width: 800px;
+		display: flex;
+	}
+	
+	.game-grid {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: var(--gap-4);
+	}
+
+	img {
+		overflow: hidden;
+		object-position: center center;
+		object-fit: cover;
+	}
+
+	.game-card {
+		border-radius: var(--radius-md);
+		overflow: hidden;
+	}
+
+	.run-game {
+		border-radius: var(--radius-md);
+	}
+	
+	.game-info {
+		background-color: navy;
+		padding: var(--gap-2);
+	}
+	
+	.description-text {
+		color: grey;
+		font-size: large;
+	}
+	
+	.game-name-text {
+		padding-top: var(--gap-2);
+	}
+	
+	.img-wrapper {
+		position: relative;
+	}
+
+	.number {
+		position: absolute;
+		left: 8px;
+		bottom: 4px;
+		
+		padding-inline: var(--gap-3);
+		background-color: black;
+		border-radius: var(--radius-md);
+	}
+</style>

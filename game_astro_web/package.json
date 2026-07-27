@@ -11,12 +11,12 @@
     "preview": "astro preview",
     "astro": "astro",
     "preview:static": "astro build && python3 -m http.server 4321 --directory dist",
-    "rebuild": "bash ../scripts/update.sh",
-    "rebuild:all": "bash ../scripts/update-all.sh"
+    "build-game": "bun run scripts/update-game.js"
   },
   "dependencies": {
     "@lucide/astro": "^1.23.0",
     "astro": "^6.4.6",
+    "bun": "^1.3.14",
     "sass": "^1.101.0",
     "swiper": "^14.0.1",
     "webcoreui": "^1.5.0"

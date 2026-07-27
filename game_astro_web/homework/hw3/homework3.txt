@@ -10,4 +10,4 @@ If you want to add the banners on top, remember to use:
 
 Otherwise it will never work.
 
-Please use the cheat-sheet to help you.
+Please use the cheat-sheet to help you or email me!
