@@ -11,7 +11,7 @@
     "preview": "astro preview",
     "astro": "astro",
     "preview:static": "astro build && python3 -m http.server 4321 --directory dist",
-    "build-game": "bun run scripts/update-game.js"
+    "build:game": "bun run scripts/build-game.js"
   },
   "dependencies": {
     "@lucide/astro": "^1.23.0",

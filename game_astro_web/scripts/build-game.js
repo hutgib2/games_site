@@ -8,7 +8,7 @@ const NC = '\x1b[0m';
 const color = (c, s) => Bun.enableANSIColors ? `${c}${s}${NC}` : s;
 
 const GAMES_DIR = '../games';
-const PUBLIC_DIR = '../../game_astro_web/public/games';
+const TARGET_DIR = './public/games';
 
 const name = Bun.argv[2];
 if (!name) {
@@ -17,7 +17,11 @@ if (!name) {
 }
 const gameDir = `${GAMES_DIR}/${name}`;
 const srcBuild = `${gameDir}/src/build`;
-const destDir = `${PUBLIC_DIR}/${name}`;
+const targetDir = `${TARGET_DIR}/${name}`;
+
+// console.log("game dir", gameDir);
+// console.log("Target dir", targetDir);
+// console.log("src dir", srcBuild);
 
 try {
 	if (!statSync(gameDir).isDirectory()) throw new Error();
@@ -29,7 +33,6 @@ try {
 console.log(color(BLUE, `Building ${name}..`));
 try {
 	rmSync(srcBuild, { recursive: true, force: true });
-
 	try {
 		await $`python -m pygbag --build --ume_block=0 ${gameDir}/src`.quiet();
 	} catch {
@@ -37,9 +40,9 @@ try {
 		process.exit(1);
 	}
 
-	rmSync(`${destDir}/build`, { recursive: true, force: true });
-	mkdirSync(destDir, { recursive: true });
-	cpSync(srcBuild, `${destDir}/build`, { recursive: true });
+	rmSync(`${targetDir}/build`, { recursive: true, force: true });
+	// mkdirSync(targetDir, { recursive: true });
+	cpSync(srcBuild, `${targetDir}/build`, { recursive: true });
 	rmSync(srcBuild, { recursive: true, force: true });
 
 	console.log(color(BLUE, `Built ${name}`));

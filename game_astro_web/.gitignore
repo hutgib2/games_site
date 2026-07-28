@@ -1,5 +1,6 @@
 # build output
 dist/
+public/games/*/build/
 
 # generated types
 .astro/
