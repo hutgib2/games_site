@@ -1,0 +1,111 @@
+---
+import Layout from '@/layouts/Layout.astro';
+// src/pages/index.astro
+---
+
+<Layout>
+	<!-- write html here -->
+	<div class="bg">
+		<div class="game-flex">
+			<div>
+				<div class="img-wrapper">
+					<img src="/homework/hw3/Run3.jpg" class="run-game" />
+					<h2 class="number">1</h2>
+				</div>
+				<h3 class="game-name-text">Run 3</h3>
+				<p class="description-text">Run, skate and jump through a</p>
+				<p class="description-text">brand new galaxy!</p>
+			</div>
+			<div>
+				<div class="img-wrapper">
+					<img
+						src="/homework/hw4/PapasFreezeria_OG-logo.jpg"
+						class="run-game"
+					/>
+					<h2 class="number">2</h2>
+				</div>
+				<h3 class="game-name-text">Papa's Freezeria</h3>
+				<p class="description-text">Mix up a frozen concoction!</p>
+			</div>
+			<div>
+				<div class="img-wrapper">
+					<img src="/homework/hw4/Chess_OG-logo.jpg" class="run-game" />
+					<h2 class="number">3</h2>
+				</div>
+				<h3 class="game-name-text">Chess</h3>
+				<p class="description-text">Play Chess against the computer</p>
+				<p class="description-text">or your friends!</p>
+			</div>
+			<div>
+				<div class="img-wrapper">
+					<img src="/homework/hw4/TinyFishing_OG-logo.jpg" class="run-game" />
+					<h2 class="number">4</h2>
+				</div>
+				<h3 class="game-name-text">Tiny Fishing</h3>
+				<p class="description-text">
+					Cast your line and reel in a legendary fish.
+				</p>
+				<p class="description-text">legendary fish.</p>
+			</div>
+		</div>
+	</div>
+</Layout>
+
+<style>
+	.bg {
+		border-radius: var(--radius-lg);
+		background-color: #070d19;
+		padding: var(--gap-8);
+		width: 1400px;
+		display: flex;
+	}
+
+	.game-flex {
+		display: flex;
+		flex-direction: row;
+		gap: var(--gap-4);
+	}
+
+	img {
+		overflow: hidden;
+		object-position: center center;
+		object-fit: cover;
+		max-width: 320px;
+	}
+
+	.game-card {
+		border-radius: var(--radius-md);
+		overflow: hidden;
+	}
+
+	.run-game {
+		border-radius: var(--radius-md);
+	}
+
+	.game-info {
+		padding: var(--gap-2);
+	}
+
+	.description-text {
+		color: #b3c4d5;
+		font-size: large;
+	}
+
+	.game-name-text {
+		padding-top: var(--gap-2);
+	}
+
+	.img-wrapper {
+		position: relative;
+	}
+
+	.number {
+		position: absolute;
+		left: 8px;
+		bottom: 4px;
+
+		padding-inline: var(--gap-3);
+		background-color: #0f333e;
+		border-radius: var(--radius-md);
+	}
+</style>

@@ -1,0 +1,119 @@
+---
+import Layout from '@/layouts/Layout.astro';
+// src/pages/index.astro
+---
+
+<Layout>
+	<!-- write html here -->
+	<div class="game-grid">
+		<div class="row">
+			<div class="game-card">
+				<img src="/homework/hw3/drift-boss.png" />
+				<div class="game-info">
+					<h3>Drift Boss</h3>
+					<p class="description-text">
+						Drift into new modes to play... something
+					</p>
+				</div>
+			</div>
+			<div class="game-card">
+				<div class="img-wrapper">
+					<img src="/homework/hw3/Run3.jpg" />
+					<h2 class="number">TOP 10</h2>
+				</div>
+				<div class="game-info">
+					<p class="description-text">Continue Playing</p>
+					<h3>Run 3</h3>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="game-card">
+				<div class="img-wrapper">
+					<img src="/homework/hw4/cookie-clicker.jpg" />
+					<h2 class="number">TOP 10</h2>
+				</div>
+				<div class="game-info">
+					<h3>Cookie Clicker</h3>
+					<p class="description-text">Today's a great day to make cookies!</p>
+				</div>
+			</div>
+			<div class="game-card">
+				<div class="img-wrapper">
+					<img src="/homework/hw4/slice-master.webp" />
+					<h2 class="number">TOP 10</h2>
+				</div>
+				<div class="game-info">
+					<h3>Slice Master</h3>
+					<p class="description-text">It's choppin' time! Slice and Dice!</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</Layout>
+
+<style>
+	.game-grid {
+		display: flex;
+		flex-direction: column;
+		gap: var(--gap-4);
+
+		border-radius: var(--radius-lg);
+		background-color: black;
+		padding: var(--gap-4);
+		width: fit-content;
+	}
+
+	.row {
+		display: flex;
+		gap: var(--gap-4);
+	}
+	
+	img {
+		overflow: hidden;
+		object-position: center center;
+		object-fit: cover;
+		max-width: 320px;
+	}
+
+	.game-card {
+		border-radius: var(--radius-md);
+		overflow: hidden;
+	}
+
+	.run-game {
+		border-radius: var(--radius-md);
+	}
+
+	.game-info {
+		background-color: #1b283c;
+		padding: var(--gap-2);
+	}
+
+	.description-text {
+		color: #b3c4d5;
+		font-size: large;
+	}
+
+	.game-name-text {
+		padding-top: var(--gap-2);
+	}
+
+	.img-wrapper {
+		position: relative;
+	}
+
+	.number {
+		position: absolute;
+		left: 8px;
+		top: 8px;
+		text-align: center;
+		padding-top: var(--gap-2);
+		padding-inline: var(--gap-3);
+		background-color: #DD2A35;
+		width: 69px;
+		line-height: 32px;
+		height: 80px;
+		border-radius: var(--radius-md);
+	}
+</style>

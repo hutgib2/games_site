@@ -1,0 +1,10 @@
+In this folder are 2 images, look at them closely -
+each is a different arrangement of the cards we build last week.
+
+So you should use last weeks hw as a base for each item
+i.e. just repeat and swap the images and text.
+
+The task is to work out how to use css flex to arrange the cards as shown in each image
+One is a 4x4 grid, the other is a single row with 4 items side by side.
+
+Try to do it using css flex, NOT css grid !

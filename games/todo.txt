@@ -2,10 +2,12 @@ Chess-reboot:
 - add saved games to browser storage
 
 Trivia:
-- stop full screen
-- fix esc breaking window
-- go back to homescreen after game lose
+- 
 
 Meteor-blaster:
 - not working at all
 
+Vampire Survivor:
+- fix audio
+- add a proper menu
+- add map selection ??
