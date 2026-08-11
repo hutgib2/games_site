@@ -9,7 +9,7 @@ type: 'Shooter'
 <!-- This is where we write the long-form content in .md syntax -->
 
 ## Description
-Meteor Blaster is where you game where you have to last as long as possible while shooting or dodging meteors at the same time!
+Meteor Blaster is where you game where you have to last as long as possible while shooting or dodging meteors at the same time! Every second the meteors rain down slightly faster, and each meteor you shoot gives you +5 points but comes with a hidden cost!
 
 <br>
 
