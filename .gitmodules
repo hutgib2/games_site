@@ -13,3 +13,4 @@
 [submodule "games/the-surviving-vampire"]
 	path = games/the-surviving-vampire
 	url = git@github.com:hutgib2/the-surviving-vampire.git
+	branch = browser

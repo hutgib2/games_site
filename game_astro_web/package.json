@@ -10,8 +10,12 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
+    "init": "npm install && npm run update-submodule:all && npm run build:all",
     "preview:static": "astro build && python3 -m http.server 4321 --directory dist",
-    "build:game": "bun run scripts/build-game.js"
+    "build:game": "bun run scripts/build-game.js",
+    "build:all": "for dir in ../games/*/; do bun run build:game \"$dir\" || exit 1; done",
+    "update:submodule": "bun run scripts/update-submodule.js",
+    "update-submodule:all": "for dir in ../games/*/; do bun run update:submodule \"$dir\"; done"
   },
   "dependencies": {
     "@lucide/astro": "^1.23.0",
