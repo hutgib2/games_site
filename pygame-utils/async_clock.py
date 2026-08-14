@@ -1,4 +1,5 @@
-from settings import *
+import pygame
+import asyncio
 
 
 class AsyncClock:

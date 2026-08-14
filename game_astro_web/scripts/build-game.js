@@ -40,16 +40,11 @@ try {
 	cpSync(SHARED_UTILS_DIR, targetUtilsDir, { recursive: true });
 
 	try {
-		await $`pygbag --build --ume_block=0 ${gameDir}/src`.quiet();
-	}
-	catch {
-		try {
-			await $`python -m pygbag --build --ume_block=0 ${gameDir}/src`.quiet();
-		}
-		catch {
-			console.log(color(RED, `pygbag build failed for ${name}`));
-			process.exit(1);
-		}
+		rmSync(srcBuild, { recursive: true, force: true });
+		await $`pygbag --build --ume_block=0 ${gameDir}/src || python -m pygbag --build --ume_block=0 ${gameDir}/src`.quiet();
+	} catch {
+		console.log(color(RED, `pygbag build failed for ${name}`));
+		process.exit(1);
 	}	
 
 	rmSync(`${targetBuildDir}/build`, { recursive: true, force: true });
