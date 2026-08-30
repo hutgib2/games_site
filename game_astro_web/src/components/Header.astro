@@ -10,7 +10,7 @@ const menu = [
 
 const menuLogo = {
 	url: DupaLogo.src,
-	width: 64,
+	width: 48,
 };
 
 // Define the props that Header takes
@@ -21,7 +21,7 @@ const { games } = Astro.props;
 	<div>
 		<Menu items={menu} logo={menuLogo} />
 	</div>
-	<div>
+	<div class="select-wrapper">
 		<Select
 			name="select-id"
 			itemGroups={[
@@ -51,5 +51,14 @@ const { games } = Astro.props;
 		display: flex;
 		flex-direction: row;
 		align-items: center;
+
+		font-family: var(--font-oswald);
+		font-size: var(--font-l);
+		font-weight: bold;
 	}
+	
+	.select-wrapper {
+
+	}
+
 </style>

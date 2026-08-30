@@ -12,11 +12,15 @@
 	--gap-8: 2.5rem; /* 40px */
 
     /* COLORS */
-    --color-bg: #101214;
-    --color-text: white;
-    --color-text-muted: dimgray;
+    /* --color-bg: #101214; */
+    /* --color-text: white; */
+    /* --color-text-muted: dimgray; */
+	/* --color-surface: rgb(64, 64, 64); */
     --color-brand: #02fcd3;
-	--color-surface: rgb(64, 64, 64);
+    --color-bg: #000F0B;
+    --color-text: #9EFAE1;
+    --color-text-muted: #F8FFFD;
+	--color-surface: #3a506b;
 
     /* FONT SIZES */
     --font-xs: 0.75rem; /* 12px */
