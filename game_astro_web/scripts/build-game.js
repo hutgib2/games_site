@@ -16,6 +16,7 @@ if (!name) {
 	console.log(color(RED, "npm run build:game <game-directory>"));
 	process.exit(1);
 }
+
 const gameDir = `${GAMES_DIR}/${name}`;
 
 const srcBuild = `${gameDir}/src/build`;

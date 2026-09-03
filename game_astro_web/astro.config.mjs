@@ -1,8 +1,10 @@
 // @ts-check
-import { defineConfig, fontProviders } from 'astro/config';
+import cloudflare from '@astrojs/cloudflare';
 import { webcore } from 'webcoreui/integration'
+import { defineConfig, fontProviders } from 'astro/config';
 
 export default defineConfig({
+	adapter: cloudflare(),
     integrations: [webcore()],
     fonts: [
 		{
