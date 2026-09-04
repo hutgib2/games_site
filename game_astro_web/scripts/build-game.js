@@ -1,3 +1,4 @@
+import { build } from "astro";
 import { $ } from "bun";
 import { statSync, rmSync, cpSync, existsSync } from "node:fs";
 
@@ -42,7 +43,8 @@ try {
 
 	try {
 		rmSync(srcBuild, { recursive: true, force: true });
-		await $`pygbag --build --ume_block=0 ${gameDir}/src || python -m pygbag --build --ume_block=0 ${gameDir}/src`.quiet();
+				await $`pygbag --build --ume_block=0 --port 8000 ${gameDir}/src || \
+		python -m pygbag --build --ume_block=0 --port 8000 ${gameDir}/src`;
 	} catch {
 		console.log(color(RED, `pygbag build failed for ${name}`));
 		process.exit(1);
@@ -61,3 +63,5 @@ try {
 	console.log(color(RED, `Failed to build ${name}`));
 	console.log(err.stderr?.toString() ?? err.message);
 }
+
+// https://pygame-web.github.io/cdn/cp312/pygame_ce-2.5.7-cp312-cp312-wasm32_bi_emscripten.whl
