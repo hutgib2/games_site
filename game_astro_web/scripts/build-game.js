@@ -38,7 +38,7 @@ try {
 console.log(color(BLUE, `Building ${name}..`));
 try {
 	rmSync(srcBuild, { recursive: true, force: true });
-	cpSync(SHARED_UTILS_DIR, targetUtilsDir, { recursive: true });
+	// cpSync(SHARED_UTILS_DIR, targetUtilsDir, { recursive: true });
 
 	try {
 		rmSync(srcBuild, { recursive: true, force: true });

@@ -1,0 +1,22 @@
+We still need a lot more assets for our vampire survivor game
+
+PLAYER
+- find a sprite sheet for a new player (doesnt need to be a vampire)
+- make it fit with the theme of the game
+
+- crop the images
+- organise into left, right, up, down folders
+- label them from 0.png upwards
+- replace the ones in the player folder
+
+GUN
+- we need a new image for the base gun
+- some type of basic pistol
+- and a new image for the bullet
+
+MAP
+- at the very least find and download a tile set for our game theme
+- think of something that fits with our theme 
+	e.g. hell, volcano, underworld
+
+- make a new map with this theme (OPTIONAL IF YOU HAVE TIME)
