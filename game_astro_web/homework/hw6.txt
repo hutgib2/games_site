@@ -1,0 +1,10 @@
+- Find animations for flame gun and laser gun
+- cut and crops them 
+- Add them to the game and test it works (don't just import files)
+	- to test, you can change the players default gun
+
+- Crop the vampire images to prevent blocking when walking
+
+- Create a new map and load it into the game to test it out
+	- include hitboxes for obstacles
+	- include spawn position for player and enemies
