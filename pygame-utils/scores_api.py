@@ -46,21 +46,12 @@ async def fetch_scores(game):
     url = f"{BASE_URL}/api/scores/{game}"
     try:
         if WEB:
-<<<<<<< HEAD:pygame-utils/scores_api.py
             resp = await platform.window.fetch(url)
             data = await resp.json()
             data = data.to_py()
-=======
-            async with platform.fopen(url, "r") as f:
-                data = json.loads(f.read())
->>>>>>> 75ac5a881190bf443997ddeef3fa26cb21576d3c:pygame-utils/scores-api.py
         else:
             data = await asyncio.to_thread(_fetch_sync, url)
     except Exception as e:
         print(f"{game}: Failed to fetch high scores: {e}")
         return []
-<<<<<<< HEAD:pygame-utils/scores_api.py
     return data
-=======
-    return data
->>>>>>> 75ac5a881190bf443997ddeef3fa26cb21576d3c:pygame-utils/scores-api.py
