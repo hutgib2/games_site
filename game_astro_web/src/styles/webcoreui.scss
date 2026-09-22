@@ -1,0 +1,9 @@
+@use 'webcoreui/styles' as *;
+
+@include setup((
+  include-resets: false
+));
+
+[class*="w-"] {
+  font-family: var(--font-roboto);
+}
