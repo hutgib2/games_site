@@ -18,9 +18,14 @@ const { games } = Astro.props;
 ---
 
 <header>
-	<Menu items={menu} logo={menuLogo} />
-	<div class="select-wrapper">
-		<Select
+	<div class="mobile-header">
+
+	</div>
+
+	<div class="desktop-header">
+		<Menu items={menu} logo={menuLogo} />
+		<div class="select-wrapper">
+			<Select
 			name="select-id"
 			itemGroups={[
 				{
@@ -33,7 +38,8 @@ const { games } = Astro.props;
 			showSearchBar={false}
 			showSearchBarIcon={false}
 			placeholder="Games"
-		/>
+			/>
+		</div>
 	</div>
 </header>
 
@@ -45,19 +51,33 @@ const { games } = Astro.props;
 </script> -->
 
 <style>
-	header {
-		display: flex;
-		/* align-items: center; */
-		/* justify-content: center; */
+	/* Show dropdown bar */
+	.mobile-header {
 
-		font-family: var(--font-oswald);
-		font-size: var(--font-l);
-		font-weight: bold;
-	}
-	
-	.select-wrapper {
-		display: flex;
-		align-self: center;
 	}
 
+	.desktop-header {
+		display: none;
+	}
+
+	/* Show full header bar */
+	@media (min-width: 768px) {
+		.mobile-header {
+			display: none;
+		}
+		
+		.desktop-header {
+			display: flex;
+			align-items: center;
+
+			font-family: var(--font-oswald);
+			font-size: var(--font-l);
+			font-weight: bold;
+			
+			.select-wrapper {
+				/* to align with rest of header items */
+				transform: translateY(3) translateX(-24);
+			}
+		}
+	}
 </style>
