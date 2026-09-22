@@ -36,12 +36,7 @@ const { title, image, description, href } = Astro.props;
 		width: 100%;
 		aspect-ratio: 1.6;
 		overflow: hidden;
-		
-		border-radius: var(--radius-md);
-
-		@media (min-width: 768px) {
-			border-radius: var(--radius-lg);
-		}
+		border-radius: var(--radius-lg);
 
 		img {
 			display: block;
@@ -55,7 +50,7 @@ const { title, image, description, href } = Astro.props;
 	.game-info {
 		display: flex;
 		flex-direction: column;
-		padding: var(--gap-2) var(--gap-2);
+		padding-inline: var(--gap-2);
 	}
 
 	.game-title {
