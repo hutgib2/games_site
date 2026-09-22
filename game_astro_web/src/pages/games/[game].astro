@@ -26,30 +26,29 @@ type Props = { game: CollectionEntry<'games'> };
 const { game }: Props = Astro.props; // This stores the frontmatter data
 const { Content } = await render(game); // This converts the content from .md syntax to html + css
 
-console.log("File path:", game.filePath);
-console.log("game id:", game.id);
+// console.log("File path:", game.filePath);
+// console.log("game id:", game.id);
 ---
 
-<!-- 
-  We currently only have 2 games on our site, can you add the last two
--->
 <Layout>
 	<Header games={games} />
-	<article class="content">
+	<article class="body">
 		<div class="game-window">
-			<iframe
-				src={`/games/${game.id}/build/web/index.html`}
-				allow="autoplay; fullscreen"
-				style="width: 1280px; height: 720px; border: 0;" 
-			/>
-			<!-- allow="cross-origin-isolated" -->
+			<div class="iframe-wrapper">
+				<iframe
+					src={`/games/${game.id}/build/web/index.html`}
+					allow="autoplay; fullscreen"
+					allow="cross-origin-isolated"
+					/>
+					<!-- style="width: 1280px; height: 720px; border: 0;"  -->
+			</div>
 
 			<footer>
 				<div class="left-items">
 					<Image src={DupaLogo} alt="Dupa Games Logo" width={80} />
 					<div class="game-info">
 						<h4 class="game-type">{game.data.type}</h4>
-						<h1>{game.data.title}</h1>
+						<h1 class="game-title">{game.data.title}</h1>
 					</div>
 				</div>
 
@@ -65,13 +64,22 @@ console.log("game id:", game.id);
 		</div>
 	</article>
 </Layout>
+
 <style>
-	.content {
+	.body {
 		display: flex;
-		gap: var(--gap-4);
-		width: 1280px;
 		flex-direction: column;
 		justify-self: center;
+		gap: var(--gap-4);
+		padding-inline: var(--gap-4);
+
+		@media (min-width: 1024px) {
+			padding-inline: var(--gap-6);
+		}
+
+		@media (min-width: 1440px) {
+			padding-inline: var(--gap-8);
+		}
 	}
 
 	.game-window {
@@ -79,10 +87,31 @@ console.log("game id:", game.id);
 		justify-self: center;
 		flex-direction: column;
 	}
+	
+	.iframe-wrapper {
+		width: 100%;
+		aspect-ratio: 16 / 9;
+		position: relative;
+	}
+
+	/* TODO: center game for responsive screen size */
+	.iframe-wrapper iframe {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		border: 0;
+		display: block;
+		object-position: center center;
+		object-fit: cover;
+	}
 
 	.game-description {
 		color: var(--color-text);
-		font-size: var(--font-l);
+		font-size: var(--font-lg);
+		@media (min-width: 1024px) {
+			padding-inline: var(--gap-6);
+		}
 		background-color: var(--color-surface);
 		border-radius: var(--radius-md);
 		padding: var(--gap-5);
@@ -105,6 +134,15 @@ console.log("game id:", game.id);
 		align-self: center;
 	}
 
+	/* TODO: this is WIP */
+	.game-title {
+		font-size: var(--font-md);
+
+		@media (min-width: 1024px) {
+			font-size: var(--font-lg);
+		}
+	}
+
 	.icons {
 		display: flex;
 		gap: var(--gap-6);
@@ -115,4 +153,5 @@ console.log("game id:", game.id);
 		display: flex;
 		gap: var(--gap-4);
 	}
+
 </style>
