@@ -18,9 +18,7 @@ const { games } = Astro.props;
 ---
 
 <header>
-	<div>
-		<Menu items={menu} logo={menuLogo} />
-	</div>
+	<Menu items={menu} logo={menuLogo} />
 	<div class="select-wrapper">
 		<Select
 			name="select-id"
@@ -28,7 +26,7 @@ const { games } = Astro.props;
 				{
 					items: games.map((game: CollectionEntry<'games'>) => ({
 						name: game.data.title,
-						href: `games/${game.id}`,
+						href: `/games/${game.id}`,
 					})),
 				},
 			]}
@@ -49,8 +47,8 @@ const { games } = Astro.props;
 <style>
 	header {
 		display: flex;
-		flex-direction: row;
-		align-items: center;
+		/* align-items: center; */
+		/* justify-content: center; */
 
 		font-family: var(--font-oswald);
 		font-size: var(--font-l);
@@ -58,7 +56,8 @@ const { games } = Astro.props;
 	}
 	
 	.select-wrapper {
-
+		display: flex;
+		align-self: center;
 	}
 
 </style>
