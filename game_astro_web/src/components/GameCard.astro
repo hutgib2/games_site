@@ -9,19 +9,15 @@ const { title, image, description, href } = Astro.props;
 		<div class="thumbnail">
 			<Image src={image} alt=`${title} image` />
 		</div>
-		
 		<div class="game-info">
-			<div>
-				<h2>{title}</h2>
-				<p class="game-description">{description}</p>
-			</div>
-			<!-- <a href={href} class="triangle"> Play </a> -->
+			<h2 class="game-title">{title}</h2>
+			<p class="game-description">{description}</p>
 		</div>
 	</a>
 </div>
 
 <!-- 
-	Make the color of the title change to our brand color on hover
+	Increase the size of the title and description text for screen size above 768
 -->
 
 <style>
@@ -39,13 +35,18 @@ const { title, image, description, href } = Astro.props;
 	.thumbnail {
 		width: 100%;
 		aspect-ratio: 1.6;
+		overflow: hidden;
+		
+		border-radius: var(--radius-md);
+
+		@media (min-width: 768px) {
+			border-radius: var(--radius-lg);
+		}
 
 		img {
-			/* display: block; */
+			display: block;
 			width: 100%;
 			height: 100%;
-			border-radius: var(--radius-lg);
-			overflow: hidden;
 			object-position: center center;
 			object-fit: cover;
 		}
@@ -53,32 +54,24 @@ const { title, image, description, href } = Astro.props;
 
 	.game-info {
 		display: flex;
-		width: 100%;
-		justify-content: space-between;
+		flex-direction: column;
 		padding: var(--gap-2) var(--gap-2);
+	}
+
+	.game-title {
+		font-size: var(--font-2xl);
+		
+		@media (min-width: 768px) {
+			font-size: var(--font-3xl);
+		}
 	}
 
 	.game-description {
 		color: var(--color-text-muted);
-	}
-
-	.triangle {
-		display: flex;
-		align-items: center;
-		justify-content: left;
-
-		width: 64px;
-		height: 56px;
-		padding: 8px;
-		clip-path: polygon(0 0, 100% 50%, 0 100%);
-
-		background: var(--color-brand);
-		color: var(--color-bg);
-		font-weight: bold;
-	}
-
-	.play {
-		/* position: relative; */
-		/* justify-self: left; */
+		font-size: var(--font-base);
+		
+		@media (min-width: 768px) {
+			font-size: var(--font-lg);
+		}
 	}
 </style>

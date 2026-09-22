@@ -5,7 +5,7 @@ export const prerender = false;
 
 type ScoreEntry = { username: string; score: number };
 
-const ALLOWED_ORIGINS = ["http://localhost:4321", "http://localhost:8787"]; // add your prod domain here once deployed
+const ALLOWED_ORIGINS = ["http://127.0.0.1:8000", "http://localhost:8787", "http://localhost:4321"]; // add your prod domain here once deployed
 
 function corsHeaders(request: Request): Record<string, string> {
   const origin = request.headers.get("Origin") ?? "";
