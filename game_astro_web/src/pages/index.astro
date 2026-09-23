@@ -7,12 +7,12 @@ import Layout from '@/layouts/Layout.astro';
 import Image from 'astro/components/Image.astro';
 import { getCollection } from 'astro:content';
 
-const games = await getCollection('games');
+const gamesCollection = await getCollection('games');
 ---
 
 <Layout>
 	<div class="header">
-		<Header games={games} />
+		<Header games={gamesCollection} />
 	</div>
 	<section class="body">
 		<div class="welcome-video">
@@ -22,7 +22,7 @@ const games = await getCollection('games');
 		<h1 class="game-heading">Browse all games</h1>
 		<ul class="game-grid">
 			{
-				games.map((game: any) => (
+				gamesCollection.map((game: any) => (
 					<li>
 						<GameCard
 							title={game.data.title}

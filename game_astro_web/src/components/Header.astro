@@ -1,7 +1,9 @@
 ---
 import { type CollectionEntry } from 'astro:content';
-import { Menu, Select } from 'webcoreui/astro';
+import { Menu, Button, Sheet, Select } from 'webcoreui/astro';
 import DupaLogo from '../assets/my_logo.png';
+
+import MenuIcon from '@lucide/astro/icons/menu';
 
 const menu = [
 	{ name: 'Home', href: '/', active: true },
@@ -14,46 +16,76 @@ const menuLogo = {
 };
 
 // Define the props that Header takes
-const { games } = Astro.props;
+const { gamesCollection } = Astro.props;
+
+// Task: create a sidebar sheet when the menu icon is clicked
+
+// Step 1: find a menu icon that you like on lucide 
+// Step 2: copy the code from the webcoreui sheet into this file
+// Step 3: add the menu content to the sheet, e.g. list of games, link to home
+	// 	- use <a> to create "Home" and "About" links
+
+// Step 4: adjust any of the code to fit the style you want
+	// - move the menu icon to the top right
+	// - make the sheet slide from the left of the screen (look at webcoreui page)
+	// - give the sheet a bg color
+	// - style the text 
+	// - write a Games header above the list of games
+	// - add padding and indentation inside the sheet
+	// - add interactivity to the button when its clicked (I will help with this)
+
+const GAMES = gamesCollection.map((game: CollectionEntry<'games'>) => ({
+	name: game.data.title,
+	href: `/games/${game.id}`,
+}))
 ---
+
+<script>
+	import { modal } from 'webcoreui';
+
+	modal({
+		trigger: '.button',
+		modal: '.sheet'
+	})
+</script>
 
 <header>
 	<div class="mobile-header">
-
+		<Button className="button"><MenuIcon /></Button>
+		<Sheet className="sheet">
+			<a href="/">Home</a>
+			<a href="/about">About</a>
+			{
+				GAMES.map((game) => (
+					<a href={game.href}>
+						{game.name}
+					</a>
+				))
+			}
+		</Sheet>
 	</div>
 
 	<div class="desktop-header">
 		<Menu items={menu} logo={menuLogo} />
 		<div class="select-wrapper">
 			<Select
-			name="select-id"
-			itemGroups={[
-				{
-					items: games.map((game: CollectionEntry<'games'>) => ({
-						name: game.data.title,
-						href: `/games/${game.id}`,
-					})),
-				},
-			]}
-			showSearchBar={false}
-			showSearchBarIcon={false}
-			placeholder="Games"
+				name="select-id"
+				itemGroups={[{ items: GAMES }]}
+				showSearchBar={false}
+				showSearchBarIcon={false}
+				placeholder="Games"
 			/>
 		</div>
 	</div>
 </header>
 
-<!-- <script>
-    import { listen } from 'webcoreui'
-
-    listen('selectOnChange', (event) => console.log(event))
-    listen('selectOnClose', (event) => console.log(event))
-</script> -->
-
 <style>
 	/* Show dropdown bar */
 	.mobile-header {
-
+		:global(.sheet) {
+			display: flex;
+			flex-direction: column;
+		}
 	}
 
 	.desktop-header {
@@ -61,7 +93,7 @@ const { games } = Astro.props;
 	}
 
 	/* Show full header bar */
-	@media (min-width: 768px) {
+	@media (min-width: 1024px) {
 		.mobile-header {
 			display: none;
 		}
@@ -85,4 +117,6 @@ const { games } = Astro.props;
 			} */
 		}
 	}
+
+	
 </style>
