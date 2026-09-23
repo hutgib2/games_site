@@ -52,6 +52,7 @@ const GAMES = gamesCollection.map((game: CollectionEntry<'games'>) => ({
 		<Sheet className="sheet" position="left" showCloseIcon={false}>
 			<a href="/">Home</a>
 			<a href="/about">About</a>
+			<h3>Games</h3>
 			{
 				GAMES.map((game) => (
 					<a href={game.href}>
@@ -86,6 +87,10 @@ const GAMES = gamesCollection.map((game: CollectionEntry<'games'>) => ({
 			display: flex;
 			flex-direction: column;
 			background-color: var(--color-bg);
+			font-family: var(--font-oswald);
+			font-size: var(--font-xl);
+			font-weight: bold;
+			padding: var(--gap-4);
 		}
 	}
 
@@ -104,7 +109,7 @@ const GAMES = gamesCollection.map((game: CollectionEntry<'games'>) => ({
 			align-items: center;
 
 			font-family: var(--font-oswald);
-			font-size: var(--font-l);
+			font-size: var(--font-lg);
 			font-weight: bold;
 			
 			.select-wrapper {
