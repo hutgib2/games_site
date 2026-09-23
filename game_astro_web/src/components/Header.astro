@@ -2,7 +2,6 @@
 import { type CollectionEntry } from 'astro:content';
 import { Menu, Button, Sheet, Select } from 'webcoreui/astro';
 import DupaLogo from '../assets/my_logo.png';
-
 import MenuIcon from '@lucide/astro/icons/menu';
 
 const menu = [
@@ -26,8 +25,6 @@ const { gamesCollection } = Astro.props;
 	// 	- use <a> to create "Home" and "About" links
 
 // Step 4: adjust any of the code to fit the style you want
-	// - move the menu icon to the top right
-	// - make the sheet slide from the left of the screen (look at webcoreui page)
 	// - give the sheet a bg color
 	// - style the text 
 	// - write a Games header above the list of games
@@ -52,7 +49,7 @@ const GAMES = gamesCollection.map((game: CollectionEntry<'games'>) => ({
 <header>
 	<div class="mobile-header">
 		<Button className="button"><MenuIcon /></Button>
-		<Sheet className="sheet">
+		<Sheet className="sheet" position="left" showCloseIcon={false}>
 			<a href="/">Home</a>
 			<a href="/about">About</a>
 			{
@@ -82,9 +79,13 @@ const GAMES = gamesCollection.map((game: CollectionEntry<'games'>) => ({
 <style>
 	/* Show dropdown bar */
 	.mobile-header {
+		display: flex;
+		justify-content: flex-end;
+		
 		:global(.sheet) {
 			display: flex;
 			flex-direction: column;
+			background-color: var(--color-bg);
 		}
 	}
 
