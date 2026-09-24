@@ -1,0 +1,10 @@
+
+- finalise the content text desctiptions of each game
+- new video for main screen (should use snippets of all games)
+- new thumbnail images for game cards
+- add credits to site
+- add about page 
+- touch up the design system a little
+- for games that are playable on mobile, we need game screen size to be responsive
+
+- CHESS: fix dragon fire oversized issue 
