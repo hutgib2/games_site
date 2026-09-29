@@ -2,12 +2,17 @@
 // JavaScript Section
 import DupaLogoText from '@/assets/my_logo_text.png';
 import GameCard from '@/components/GameCard.astro';
+// import GamePreviewReel from '@/components/GamePreviewReel.astro';
 import Header from '@/components/Header.astro';
 import Layout from '@/layouts/Layout.astro';
 import Image from 'astro/components/Image.astro';
 import { getCollection } from 'astro:content';
 
 const gamesCollection = await getCollection('games');
+
+// TASK:
+// - make a new component called GamePreviewReel; this will loop each game preview on repeat
+// - we need to use the component we just made in this file
 ---
 
 <Layout>
@@ -17,6 +22,7 @@ const gamesCollection = await getCollection('games');
 	<section class="body">
 		<div class="welcome-video">
 			<video src="the-surviving-vampire-preview.mp4" autoplay muted loop></video>
+			<!-- <GamePreviewReel /> -->
 			<Image src={DupaLogoText} alt="Dupa Games Logo" width={240} />
 		</div>
 		<h1 class="game-heading">Browse all games</h1>
@@ -28,6 +34,7 @@ const gamesCollection = await getCollection('games');
 							title={game.data.title}
 							description={game.data.description}
 							image={game.data.image}
+							video={game.data.video}
 							href={`games/${game.id}`}
 						/>
 					</li>

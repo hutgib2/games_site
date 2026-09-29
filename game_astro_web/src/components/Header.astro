@@ -15,26 +15,7 @@ const menuLogo = {
 	width: 48,
 };
 
-// Define the props that Header takes
 const { gamesCollection } = Astro.props;
-
-// Task: create a sidebar sheet when the menu icon is clicked
-
-// Step 1: find a menu icon that you like on lucide 
-// Step 2: copy the code from the webcoreui sheet into this file
-// Step 3: add the menu content to the sheet, e.g. list of games, link to home
-	// 	- use <a> to create "Home" and "About" links
-
-// Step 4: adjust any of the code to fit the style you want
-	// - give the sheet a bg color
-	// - style the text 
-	// - write a Games header above the list of games
-	// - add padding and indentation inside the sheet
-	// - add interactivity to the button when its clicked (I will help with this)
-
-
-	// Can you add vertical space between Games and About
-	
 
 const GAMES = gamesCollection.map((game: CollectionEntry<'games'>) => ({
 	name: game.data.title,

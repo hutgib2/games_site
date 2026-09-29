@@ -1,0 +1,20 @@
+---
+---
+
+<video id="current" autoplay muted playsinline></video>
+
+<script>
+	// Loops through each game preview, and play them one after the other
+  const videos = ["chess_reboot_preview.mp4", "meteor_blaster_preview.mp4", "surviving_vampire_preview.mp4", "trivia_preview.mp4"];
+  let i = 0;
+  const current = document.getElementById("current");
+
+  function playNext() {
+    current.src = `/previews/${videos[i]}`;
+    current.play();
+    i = (i + 1) % videos.length; // wraps back to 0 after the last one
+  }
+
+  current.addEventListener("ended", playNext);
+  playNext();
+</script>
