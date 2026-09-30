@@ -1,5 +1,3 @@
-- new video for main screen (done)
-
 - add credits to site
 - add about page 
 - touch up the design system a little
