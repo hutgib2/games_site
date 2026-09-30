@@ -10,15 +10,6 @@ import { getCollection } from 'astro:content';
 
 const gamesCollection = await getCollection('games');
 
-// TASK: We want to style the top half of the screen with our new design
-
-// STEP 1: clean up the old code - remove anything we no longer need
-// STEP 2: move the welcome h1 to site above the rest of the text
-
-// STEP 3: make the welcome bold and big, and the text not bold and smaller
-// STEP 4: center the text and add spacing if needed
-// STEP 5: match the text color to the logo text color
-
 ---
 
 <Layout>
@@ -27,7 +18,9 @@ const gamesCollection = await getCollection('games');
 	</div>
 	<section class="body">
 		<div class="welcome-section">
-			<Image src={DupaLogoText} alt="Dupa Games Logo" width={240} />
+			<div class="img-wrapper">
+				<Image src={DupaLogoText} alt="Dupa Games Logo" width={240} />
+			</div>
 			<div class="welcome">
 				<h1>Welcome to Dupa Games!</h1>
 				<h2>A site where I've shared all my <br /> personal games for you to enjoy... <br/> but this is mainly a portfolio in a way</h2>
@@ -85,8 +78,19 @@ const gamesCollection = await getCollection('games');
 		background-color: var(--color-bg-alt4);
 		height: 50dvh;
 		gap: 100px;
-	}
 
+		.img-wrapper {
+			/* Mobile */
+			display: none;
+
+			/* Tablet */
+			@media (min-width: 768px) {
+				display: block;
+			}
+			/* Desktop */
+		}
+	}
+	
 	.welcome {
 		text-align: center;
 		
@@ -96,11 +100,13 @@ const gamesCollection = await getCollection('games');
 			padding-bottom: var(--gap-2);
 			color: var(--color-brand);
 		}
-
+		
 		h2 {
 			font-weight: 400;
 			font-size: var(--font-xl);
 		}
+		
+		
 	}
 
 	.game-heading {
