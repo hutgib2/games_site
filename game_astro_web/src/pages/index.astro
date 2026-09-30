@@ -10,9 +10,15 @@ import { getCollection } from 'astro:content';
 
 const gamesCollection = await getCollection('games');
 
-// TASK:
-// - make a new component called GamePreviewReel; this will loop each game preview on repeat
-// - we need to use the component we just made in this file
+// TASK: We want to style the top half of the screen with our new design
+
+// STEP 1: clean up the old code - remove anything we no longer need
+// STEP 2: move the welcome h1 to site above the rest of the text
+
+// STEP 3: make the welcome bold and big, and the text not bold and smaller
+// STEP 4: center the text and add spacing if needed
+// STEP 5: match the text color to the logo text color
+
 ---
 
 <Layout>
@@ -20,10 +26,12 @@ const gamesCollection = await getCollection('games');
 		<Header {gamesCollection} />
 	</div>
 	<section class="body">
-		<div class="welcome-video">
-			<video src="the-surviving-vampire-preview.mp4" autoplay muted loop></video>
-			<!-- <GamePreviewReel /> -->
+		<div class="welcome-section">
 			<Image src={DupaLogoText} alt="Dupa Games Logo" width={240} />
+			<div class="welcome">
+				<h1>Welcome to Dupa Games!</h1>
+				<h2>A site where I've shared all my <br /> personal games for you to enjoy... <br/> but this is mainly a portfolio in a way</h2>
+			</div>
 		</div>
 		<h1 class="game-heading">Browse all games</h1>
 		<ul class="game-grid">
@@ -70,28 +78,28 @@ const gamesCollection = await getCollection('games');
 		}
 	}
 
-	.welcome-video {
-		position: relative;
+	.welcome-section {
 		display: flex;
-		flex-direction: column;
 		justify-content: center;
 		align-items: center;
-
-		width: 100%;
+		background-color: var(--color-bg-alt4);
 		height: 50dvh;
-		overflow: hidden;
-		z-index: 0;
+		gap: 100px;
+	}
+
+	.welcome {
+		text-align: center;
 		
-		video {
-			position: absolute;
-			inset: 0;
-			width: 100%;
-			height: 100%;
-			
-			object-position: center center;
-			object-fit: cover;
-			opacity: 0.2;
-			z-index: -1;
+		h1 {
+			font-weight: 700;
+			font-size: var(--font-4xl);
+			padding-bottom: var(--gap-2);
+			color: var(--color-brand);
+		}
+
+		h2 {
+			font-weight: 400;
+			font-size: var(--font-xl);
 		}
 	}
 
