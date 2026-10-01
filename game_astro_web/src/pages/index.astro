@@ -9,7 +9,6 @@ import Image from 'astro/components/Image.astro';
 import { getCollection } from 'astro:content';
 
 const gamesCollection = await getCollection('games');
-
 ---
 
 <Layout>
@@ -77,17 +76,24 @@ const gamesCollection = await getCollection('games');
 		align-items: center;
 		background-color: var(--color-bg-alt4);
 		height: 50dvh;
-		gap: 100px;
-
+		
+		/* Mobile */
 		.img-wrapper {
-			/* Mobile */
 			display: none;
+		}
 
-			/* Tablet */
-			@media (min-width: 768px) {
+		/* Tablet */
+		@media (min-width: 768px) {
+			gap: 32px;
+			
+			.img-wrapper {
 				display: block;
 			}
-			/* Desktop */
+		}
+
+		/* Desktop */
+		@media (min-width: 1024px) {
+			gap: 100px;
 		}
 	}
 	
@@ -96,14 +102,16 @@ const gamesCollection = await getCollection('games');
 		
 		h1 {
 			font-weight: 700;
-			font-size: var(--font-4xl);
+			font-size: var(--font-5xl);
 			padding-bottom: var(--gap-2);
+			padding-inline: var(--gap-4);
 			color: var(--color-brand);
+			
 		}
 		
 		h2 {
 			font-weight: 400;
-			font-size: var(--font-xl);
+			font-size: var(--font-2xl);
 		}
 		
 		
@@ -123,9 +131,10 @@ const gamesCollection = await getCollection('games');
 
 	.game-grid {
 		display: grid;
+		width: 100%;
 		position: relative;
 		align-self: center;
-		gap: var(--gap-4);
+		gap: var(--gap-8);
 		z-index: 10;
 
 		/* Mobile default */
