@@ -18,7 +18,7 @@ const gamesCollection = await getCollection('games');
 	<section class="body">
 		<div class="welcome-section">
 			<div class="img-wrapper">
-				<Image src={DupaLogoText} alt="Dupa Games Logo" width={240} />
+				<Image src={DupaLogoText} alt="Dupa Games Logo" />
 			</div>
 			<div class="welcome">
 				<h1>Welcome to Dupa Games!</h1>
@@ -77,23 +77,25 @@ const gamesCollection = await getCollection('games');
 		background-color: var(--color-bg-alt4);
 		height: 50dvh;
 		
-		/* Mobile */
+		/* Mobile & Tablet*/
 		.img-wrapper {
 			display: none;
-		}
+			width: 240px;
+			aspect-ratio: 1;
 
-		/* Tablet */
-		@media (min-width: 768px) {
-			gap: 32px;
-			
-			.img-wrapper {
-				display: block;
+			img {
+				width: 100%;
+				height: 100%;
 			}
 		}
 
 		/* Desktop */
 		@media (min-width: 1024px) {
-			gap: 100px;
+			gap: 6dvw;
+			
+			.img-wrapper {
+				display: block;
+			}
 		}
 	}
 	
