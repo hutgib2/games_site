@@ -37,8 +37,7 @@ const { Content } = await render(game); // This converts the content from .md sy
 			<div class="iframe-wrapper">
 				<iframe
 					src={`/games/${game.id}/build/web/index.html`}
-					allow="autoplay; fullscreen"
-					allow="cross-origin-isolated"
+					allow="autoplay; fullscreen; cross-origin-isolated"
 					/>
 			</div>
 

@@ -2,8 +2,8 @@
 - add about page 
 - touch up the design system a little
 
-- for games that are playable on mobile, we need game screen size to be responsive
-- see how to flip to landscape on mobile 
+- for games that are playable on mobile, we need game screen size to be responsive (done)
+- see how to flip to landscape on mobile (done)
 
 Chess-reboot:
 - add saved games to browser storage
