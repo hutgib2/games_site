@@ -33,7 +33,7 @@ h4 {
 }
 
 *:focus-visible {
-	outline: var(--border-thick) solid var(--color-brand);
+	outline: var(--border-thin) solid var(--color-brand);
 	outline-offset: var(--gap-1);
 }
 
