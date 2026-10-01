@@ -29,22 +29,30 @@ const { title, image, video, description, href } = Astro.props;
 	</a>
 </div>
 
-<!-- 
-	Increase the size of the title and description text for screen size above 768
+<!--
+	Type sizes are fluid tokens (--text-*), so no breakpoint is needed here.
+	All values come from tokens.css.
 -->
-
 <style>
 	.game-card {
 		width: 100%;
 		height: 100%;
 	}
 
+	.game-card a {
+		display: flex;
+		flex-direction: column;
+		gap: var(--gap-3);
+		height: 100%;
+	}
+
 	.thumbnail {
 		position: relative;
 		width: 100%;
-		aspect-ratio: 1.6;
+		aspect-ratio: var(--card-thumb-ratio);
 		overflow: hidden;
-		border-radius: var(--radius-lg);
+		background-color: var(--color-bg-alt3); /* shows while the image loads */
+		border-radius: var(--radius-md);
 	}
 
 	.thumbnail img,
@@ -59,7 +67,7 @@ const { title, image, video, description, href } = Astro.props;
 
 	.thumbnail video {
 		opacity: 0;
-		transition: opacity 0.2s ease;
+		transition: opacity var(--duration-fast) ease;
 	}
 
 	.game-card:hover .thumbnail video {
@@ -69,23 +77,31 @@ const { title, image, video, description, href } = Astro.props;
 	.game-info {
 		display: flex;
 		flex-direction: column;
+		gap: var(--gap-1);
 		padding-inline: var(--gap-2);
 	}
 
 	.game-title {
-		font-size: var(--font-2xl);
-		
-		@media (min-width: 768px) {
-			font-size: var(--font-3xl);
-		}
+		font-size: var(--text-title);
+		font-weight: var(--weight-bold);
+		line-height: var(--leading-snug);
+		color: var(--color-text-strong);
+		transition: color var(--duration-fast) ease;
+	}
+
+	.game-card a:hover .game-title {
+		color: var(--color-brand);
 	}
 
 	.game-description {
-		color: var(--color-text-muted);
-		font-size: var(--font-base);
-		
-		@media (min-width: 768px) {
-			font-size: var(--font-lg);
-		}
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: var(--card-description-lines);
+		line-clamp: var(--card-description-lines);
+		overflow: hidden;
+		font-size: var(--text-body);
+		line-height: var(--leading-snug);
+		color: var(--color-text-subtle);
+		text-wrap: pretty;
 	}
 </style>

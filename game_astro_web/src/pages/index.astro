@@ -9,155 +9,185 @@ import Image from 'astro/components/Image.astro';
 import { getCollection } from 'astro:content';
 
 const gamesCollection = await getCollection('games');
+const gameCount = gamesCollection.length;
 ---
 
 <Layout>
 	<div class="header">
 		<Header {gamesCollection} />
 	</div>
-	<section class="body">
-		<div class="welcome-section">
-			<div class="img-wrapper">
-				<Image src={DupaLogoText} alt="Dupa Games Logo" />
+
+	<div class="page">
+		<section class="hero">
+			<div class="hero-inner">
+				<div class="hero-logo">
+					<Image src={DupaLogoText} alt="Dupa Games Logo" />
+				</div>
+				<div class="hero-copy">
+					<h1>Welcome to Dupa Games</h1>
+					<p>
+						Every game I've made, playable right here in your browser. This site
+						doubles as my portfolio.
+					</p>
+				</div>
 			</div>
-			<div class="welcome">
-				<h1>Welcome to Dupa Games!</h1>
-				<h2>A site where I've shared all my <br /> personal games for you to enjoy... <br/> but this is mainly a portfolio in a way</h2>
+		</section>
+
+		<section class="games" aria-labelledby="games-heading">
+			<div class="section-head">
+				<h2 id="games-heading">All games</h2>
+				<p class="count">{gameCount} {gameCount === 1 ? 'game' : 'games'}</p>
 			</div>
-		</div>
-		<h1 class="game-heading">Browse all games</h1>
-		<ul class="game-grid">
-			{
-				gamesCollection.map((game: any) => (
-					<li>
-						<GameCard
-							title={game.data.title}
-							description={game.data.description}
-							image={game.data.image}
-							video={game.data.video}
-							href={`games/${game.id}`}
-						/>
-					</li>
-				))
-			}
-		</ul>
-	</section>
+			<ul class="game-grid">
+				{
+					gamesCollection.map((game: any) => (
+						<li>
+							<GameCard
+								title={game.data.title}
+								description={game.data.description}
+								image={game.data.image}
+								video={game.data.video}
+								href={`games/${game.id}`}
+							/>
+						</li>
+					))
+				}
+			</ul>
+		</section>
+	</div>
 </Layout>
 
-<!-- 
-	There are two ways to write CSS in an astro file
-	1. Write styles inside page's <style> - only applies to elements in current file
-	2. Import a css file from styles/ - can apply to multiple files or globally
+<!--
+	Styling rules for this file:
+	- Colors, spacing, type sizes, radii and layout widths all come from tokens.css.
+	- Need a new value? Add a token there instead of typing it here.
+	- Breakpoints are the one exception (CSS can't put variables in @media). Only 1024px is used.
 -->
-
-<!-- CSS Section - allows us to add scoped CSS to our html -->
 <style>
 	.header {
 		position: absolute;
 		inset: 0;
-		z-index: 50;
+		z-index: var(--z-header);
 		height: fit-content;
 	}
 
-	.body {
-		position: relative;
+	.page {
 		display: flex;
 		flex-direction: column;
-		gap: var(--gap-4);
-
-		@media (min-width: 1024px) {
-			gap: var(--gap-8);
-		}
+		gap: var(--section-gap);
+		padding-bottom: var(--section-gap);
 	}
 
-	.welcome-section {
+	/* ---------- HERO ---------- */
+	.hero {
 		display: flex;
-		justify-content: center;
 		align-items: center;
-		background-color: var(--color-bg-alt4);
-		height: 50dvh;
-		
-		/* Mobile & Tablet*/
-		.img-wrapper {
-			display: none;
-			width: 240px;
-			aspect-ratio: 1;
+		justify-content: center;
+		min-height: var(--hero-min-height);
+		/* top padding clears the absolutely-positioned header */
+		padding: calc(var(--header-height) + var(--gap-4)) var(--gutter) var(--gap-8);
+		background-color: var(--color-bg-alt3);
+		border-bottom: var(--border-thin) solid var(--color-border);
+	}
 
-			img {
-				width: 100%;
-				height: 100%;
-			}
-		}
+	.hero-inner {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: var(--gap-6);
+		text-align: center;
 
-		/* Desktop */
 		@media (min-width: 1024px) {
-			gap: 6dvw;
-			
-			.img-wrapper {
-				display: block;
-			}
+			flex-direction: row;
+			gap: var(--gap-12);
+			text-align: left;
 		}
-	}
-	
-	.welcome {
-		text-align: center;
-		
-		h1 {
-			font-weight: 700;
-			font-size: var(--font-5xl);
-			padding-bottom: var(--gap-2);
-			padding-inline: var(--gap-4);
-			color: var(--color-brand);
-			
-		}
-		
-		h2 {
-			font-weight: 400;
-			font-size: var(--font-2xl);
-		}
-		
-		
 	}
 
-	.game-heading {
+	.hero-logo {
+		flex-shrink: 0;
+		width: var(--size-logo-hero);
+		aspect-ratio: 1;
+	}
+
+	.hero-logo img {
+		width: 100%;
+		height: 100%;
+		object-fit: contain;
+	}
+
+	.hero-copy {
+		display: flex;
+		flex-direction: column;
+		gap: var(--gap-3);
+		max-width: var(--measure);
+	}
+
+	.hero-copy h1 {
+		font-size: var(--text-display);
+		font-weight: var(--weight-bold);
+		line-height: var(--leading-tight);
+		color: var(--color-brand);
+	}
+
+	.hero-copy p {
+		font-size: var(--text-lead);
+		font-weight: var(--weight-regular);
+		line-height: var(--leading-snug);
 		color: var(--color-text);
-		text-align: center;
-		font-size: var(--font-4xl);
-		margin-top: var(--gap-2);
-
-		@media (min-width: 768px) {
-			font-size: var(--font-5xl);
-			margin-top: var(--gap-4);
-		}
+		text-wrap: pretty;
 	}
 
+	/* ---------- GAME LIST ---------- */
+	.games {
+		display: flex;
+		flex-direction: column;
+		gap: var(--gap-6);
+		width: 100%;
+		max-width: var(--content-max-width);
+		margin-inline: auto;
+		padding-inline: var(--gutter);
+	}
+
+	.section-head {
+		display: flex;
+		align-items: baseline;
+		justify-content: space-between;
+		gap: var(--gap-4);
+		padding-bottom: var(--gap-3);
+		border-bottom: var(--border-thin) solid var(--color-border);
+	}
+
+	.section-head h2 {
+		display: flex;
+		align-items: center;
+		gap: var(--gap-3);
+		font-size: var(--text-heading);
+		font-weight: var(--weight-bold);
+		line-height: var(--leading-tight);
+		color: var(--color-text);
+	}
+
+	/* Headband stripe: a nod to the mascot */
+	.section-head h2::before {
+		content: '';
+		flex-shrink: 0;
+		width: var(--gap-8);
+		height: var(--gap-1);
+		border-radius: var(--radius-circle);
+		background-color: var(--color-accent);
+	}
+
+	.count {
+		font-size: var(--text-caption);
+		letter-spacing: var(--tracking-wide);
+		color: var(--color-text-subtle);
+	}
+
+	/* One column on phones; adds a column whenever another card fits */
 	.game-grid {
 		display: grid;
-		width: 100%;
-		position: relative;
-		align-self: center;
-		gap: var(--gap-8);
-		z-index: 10;
-
-		/* Mobile default */
-		grid-template-columns: 1fr;
-		padding-inline: var(--gap-4);
-		
-		/* Tablet */
-		@media (min-width: 1024px) {
-			grid-template-columns: 1fr 1fr;
-			padding-inline: var(--gap-6);
-		}
-
-		/* Desktop */
-		@media (min-width: 1440px) {
-			grid-template-columns: 1fr 1fr 1fr;
-			padding-inline: var(--gap-8);
-		}
-		
-		/* Large Desktop */
-		@media (min-width: 1920px) {
-			max-width: 1920px;
-		}
+		grid-template-columns: repeat(auto-fill, minmax(min(100%, var(--card-min-width)), 1fr));
+		gap: var(--grid-gap);
 	}
 </style>

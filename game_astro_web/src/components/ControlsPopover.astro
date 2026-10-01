@@ -7,7 +7,7 @@ import Button from './Button.astro'
 <!-- 
 	change the Button from the webcoreui import to the component we just made
 -->
-<Button className="popover-trigger"><ControllerIcon size={56} /></Button>
+<Button className="popover-trigger"><ControllerIcon class="controls-icon" /></Button>
 
 <Popover className="popover">
     <h2>Controls</h2>
@@ -27,8 +27,26 @@ import Button from './Button.astro'
 </script>
 
 <style>
-    .popover {
-		background-color: var(--color-surface);
+	.controls-icon {
+		width: var(--size-icon-lg);
+		height: var(--size-icon-lg);
+	}
+
+	.popover {
 		padding: var(--gap-3) var(--gap-5);
-    }
+		background-color: var(--color-bg-alt3);
+		border: var(--border-thin) solid var(--color-border);
+		border-radius: var(--radius-md);
+		font-family: var(--font-sans);
+		font-size: var(--text-body);
+		line-height: var(--leading-snug);
+		color: var(--color-text);
+	}
+
+	.popover h2 {
+		margin-bottom: var(--gap-2);
+		font-size: var(--text-title);
+		font-weight: var(--weight-bold);
+		color: var(--color-brand);
+	}
 </style>

@@ -73,57 +73,70 @@ const GAMES = gamesCollection.map((game: CollectionEntry<'games'>) => ({
 
 <style>
 	.mobile-header {
-		/* Show dropdown bar */
 		display: flex;
 		justify-content: flex-end;
-		
+		width: 100%;
+ 
 		.button {
 			padding: var(--gap-4);
+			transition: transform var(--duration-fast) ease;
 		}
-		
+ 
 		.button:hover {
 			color: var(--color-brand);
-			transform: scale(1.02);
+			transform: scale(var(--scale-hover));
 		}
-		
+ 
+		.menu-icon {
+			width: var(--size-icon-md);
+			height: var(--size-icon-md);
+		}
+ 
 		& a {
 			width: fit-content;
+			padding-block: var(--gap-1);
 		}
-		
+ 
 		a:hover {
 			color: var(--color-brand);
-			transform: scale(1.02);
-			transition: transform 200ms ease;
+			transform: scale(var(--scale-hover));
+			transition: transform var(--duration-fast) ease;
 		}
-
+ 
 		.sheet {
 			display: flex;
 			flex-direction: column;
-			background-color: var(--color-bg);
-			font-family: var(--font-oswald);
-			font-size: var(--font-xl);
-			font-weight: bold;
+			width: var(--sheet-width);
 			padding: var(--gap-6);
-			width: 80dvw;
-			
+			background-color: var(--color-bg);
+			border-right: var(--border-thin) solid var(--color-border);
+			font-family: var(--font-sans);
+			font-size: var(--text-title);
+			font-weight: var(--weight-bold);
+ 
 			a.img-wrapper {
 				padding-bottom: var(--gap-6);
 				transform: none;
 			}
 		}
-
+ 
+		.sheet-logo {
+			width: var(--size-logo-sm);
+			height: auto;
+		}
+ 
 		.games-list {
 			display: flex;
 			flex-direction: column;
 			padding-inline: var(--gap-6);
 		}
-
+ 
 		.games-heading {
 			padding-top: var(--gap-6);
-			color: white;
-			font-weight: 400;
+			font-size: var(--text-title);
+			font-weight: var(--weight-regular);
+			color: var(--color-text-subtle);
 		}
-
 	}
 
 	.desktop-header {

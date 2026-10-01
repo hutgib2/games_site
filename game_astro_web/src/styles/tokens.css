@@ -1,8 +1,17 @@
-:root {
-    --font-sans: var(--font-oswald), system-ui, sans-serif;
+/*
+	DESIGN TOKENS
+	Layers: primitives (gap, font, radius, palette) -> semantic (text-*, layout, colors by role).
+	Pages should use semantic tokens wherever one exists.
 
-    /* SPACING */
-    --gap-1: 0.3125rem; /* 5px */
+	Breakpoints can't be variables inside @media, so keep these consistent by hand:
+	768px (tablet) / 1024px (desktop) / 1440px (wide) / 1920px (max)
+	Most layout is fluid (clamp / auto-fill), so pages only need the 1024px one.
+*/
+:root {
+	--font-sans: var(--font-oswald), system-ui, sans-serif;
+
+	/* ---------- SPACING (5px steps) ---------- */
+	--gap-1: 0.3125rem; /* 5px */
 	--gap-2: 0.625rem; /* 10px */
 	--gap-3: 0.9375rem; /* 15px */
 	--gap-4: 1.25rem; /* 20px */
@@ -10,28 +19,34 @@
 	--gap-6: 1.875rem; /* 30px */
 	--gap-7: 2.1875rem; /* 35px */
 	--gap-8: 2.5rem; /* 40px */
+	--gap-10: 3.125rem; /* 50px */
+	--gap-12: 3.75rem; /* 60px */
+	--gap-16: 5rem; /* 80px */
 
-
-	--color-bg-alt: #015143; 
+	/* ---------- COLORS: palette ---------- */
+	--color-bg: #101214;
+	--color-bg-alt: #015143;
 	--color-bg-alt2: #013D33;
-	--color-bg-alt3: #036355;
-	--color-bg-alt4: #003747;
-	
-    /* COLORS */
-    --color-bg: #101214;
-    /* --color-text: white; */
-    /* --color-text-muted: dimgray; */
-	/* --color-surface: rgb(64, 64, 64); */
-    --color-brand: #02fcd3;
-    /* --color-bg: #000F0B; */
-    --color-text: #9EFAE1;
-    --color-text-muted: #F8FFFD;
+	--color-bg-alt3: #003747;
+
+	--color-brand: #02fcd3;
+	--color-text: #9EFAE1;
+	--color-text-strong: #F8FFFD; /* brightest text: card titles, emphasis */
+	--color-text-muted: var(--color-text-strong); /* legacy alias (brighter than --color-text despite the name); prefer --color-text-strong */
 	--color-surface: #3a506b;
 
-    /* FONT SIZES */
-    --font-xs: 0.75rem; /* 12px */
+	/* Mascot headband red: use sparingly as the one warm accent */
+	--color-accent: #FF2E3B;
+
+	/* ---------- COLORS: roles ---------- */
+	--color-text-subtle: color-mix(in srgb, var(--color-text) 70%, var(--color-bg));
+	--color-border: color-mix(in srgb, var(--color-brand) 25%, transparent);
+	--color-link: var(--color-brand); /* picked up by .prose a in resets.css */
+
+	/* ---------- FONT SIZES: scale ---------- */
+	--font-xs: 0.75rem; /* 12px */
 	--font-s: 0.875rem; /* 14px */
-	--font-base: 1rem; /* 16px — body default */
+	--font-base: 1rem; /* 16px, body default */
 	--font-m: 1.125rem; /* 18px */
 	--font-lg: 1.25rem; /* 20px */
 	--font-xl: 1.5rem; /* 24px */
@@ -41,12 +56,66 @@
 	--font-5xl: 3rem; /* 48px */
 	--font-6xl: 3.75rem; /* 60px */
 
-	--radius-xxs: 0.125rem; /*  2px  */
-	--radius-xs: 0.25rem; /*  4px  */
-	--radius-sm: 0.5rem; /*  8px  */
-	--radius-md: 1rem; /*  16px  */
-	--radius-lg: 2rem; /* 32px  */
-	--radius-xl: 3rem; /* 48px  */
+	/* ---------- TYPE: roles (fluid, no media queries needed) ---------- */
+	--text-display: clamp(var(--font-4xl), 2rem + 3vw, var(--font-6xl)); /* hero heading */
+	--text-heading: clamp(var(--font-2xl), 1.25rem + 1.5vw, var(--font-4xl)); /* section headings */
+	--text-lead: clamp(var(--font-m), 1rem + 0.5vw, var(--font-xl)); /* intro paragraphs */
+	--text-title: clamp(var(--font-lg), 1rem + 0.5vw, var(--font-xl)); /* card / bar titles */
+	--text-body: var(--font-m);
+	--text-caption: var(--font-s);
+
+	--leading-tight: 1.1;
+	--leading-snug: 1.3;
+	--leading-normal: 1.6;
+
+	--weight-regular: 400;
+	--weight-medium: 500;
+	--weight-bold: 700;
+
+	--tracking-wide: 0.04em;
+
+	/* ---------- SHAPE ---------- */
+	--radius-xxs: 0.125rem; /* 2px */
+	--radius-xs: 0.25rem; /* 4px */
+	--radius-sm: 0.5rem; /* 8px */
+	--radius-md: 1rem; /* 16px */
+	--radius-lg: 2rem; /* 32px */
+	--radius-xl: 3rem; /* 48px */
 	--radius-xxl: 4rem; /* 64px */
-	--radius-circle: 9999px; /* circle */
+	--radius-circle: 9999px;
+
+	--border-thin: 0.0625rem; /* 1px */
+	--border-thick: 0.1875rem; /* 3px, focus rings */
+
+	/* ---------- LAYOUT ---------- */
+	--content-max-width: 120rem; /* 1920px */
+	--measure: 65ch; /* comfortable line length for reading text */
+	--gutter: clamp(var(--gap-4), 4vw, var(--gap-8)); /* page side padding */
+	--section-gap: clamp(var(--gap-6), 5vw, var(--gap-12)); /* space between page sections */
+	--grid-gap: clamp(var(--gap-4), 2.5vw, var(--gap-8)); /* space between cards */
+	--card-min-width: 22rem; /* grid adds columns whenever another card fits */
+
+	--header-height: 5rem; /* Header.astro's minimum height; the hero uses it to clear the overlay */
+	--hero-min-height: 50dvh;
+	--size-logo-hero: clamp(10rem, 22vw, 18rem);
+	--size-logo-sm: clamp(3rem, 8vw, 5rem);
+
+	/* Game player */
+	--game-max-height: 80dvh; /* player never grows taller than this on desktop */
+	--game-ratio-w: 16;
+	--game-ratio-h: 9;
+
+	--sheet-width: 80dvw; /* mobile menu drawer */
+	--size-icon-md: 2.375rem; /* 38px, menu button */
+	--size-icon-lg: 3.5rem; /* 56px, controls button */
+
+	/* Game cards */
+	--card-thumb-ratio: 1.6;
+	--card-description-lines: 3; /* keeps cards in a row the same height */
+
+	/* ---------- MOTION ---------- */
+	--duration-fast: 200ms;
+	--scale-hover: 1.02;
+
+	--z-header: 50;
 }

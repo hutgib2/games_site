@@ -2,12 +2,26 @@
 - add about page 
 - touch up the design system a little
 
-- for games that are playable on mobile, we need game screen size to be responsive (done)
-- see how to flip to landscape on mobile (done)
-
 Chess-reboot:
 - add saved games to browser storage
 
-- finalise the content text descriptions of each game (done)
-- new thumbnail images for game cards (done)
-- Credits: create a list of url for the websites we took images and animations from
+Credits: 
+- create a list of url for the websites we took images and animations from ??
+
+	Can ya nail it:
+		- change home screen
+
+	Chess Reboot:
+		- boulder
+		- arrow
+		- fire
+		- splat
+		- smoke
+
+	meteor blaster:
+		- check all
+
+	vampire survivor:
+		- check all
+
+
