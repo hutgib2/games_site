@@ -71,17 +71,23 @@ const gameCount = gamesCollection.length;
 
 	/* ---------- HERO ---------- */
 	.hero {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		gap: var(--gap-8);
-		min-height: var(--hero-min-height);
-		
-		/* top padding clears the absolutely-positioned header */
-		/* padding: calc(var(--header-height) + var(--gap-4)) var(--gutter) var(--gap-8); */
-		background-color: var(--color-bg-alt3);
-		border-bottom: var(--border-thin) solid var(--color-border);
+	display: flex;
+	flex-direction: column; /* mobile: logo stacked above text */
+	align-items: center;
+	justify-content: center;
+	gap: var(--gap-8);
+	padding: var(--gap-6);
+	min-height: var(--hero-min-height);
+	text-align: center;
+
+	background-color: var(--color-bg-alt3);
+	border-bottom: var(--border-thin) solid var(--color-border);
+
+	@media (min-width: 768px) {
+		flex-direction: row; /* tablet: logo beside text */
+		text-align: left;
 	}
+}
 
 	.hero-logo {
 		flex-shrink: 0;
