@@ -96,7 +96,7 @@
 	--card-min-width: 22rem; /* grid adds columns whenever another card fits */
 
 	--header-height: 5rem; /* Header.astro's minimum height; the hero uses it to clear the overlay */
-	--hero-min-height: 65dvh;
+	--hero-min-height: 60dvh;
 	--size-logo-hero: clamp(10rem, 22vw, 16rem);
 	--size-logo-sm: clamp(3rem, 8vw, 5rem);
 

@@ -19,16 +19,14 @@ const gameCount = gamesCollection.length;
 
 	<div class="page">
 		<section class="hero">
-			<div class="hero-inner">
-				<div class="hero-logo">
-					<Image src={DupaLogoText} alt="Dupa Games Logo" />
-				</div>
-				<div class="hero-copy">
-					<h1>Welcome to Dupa Games</h1>
-					<p>
-						A site where I've shared all my personal games for you to enjoy... but this is mainly a portfolio in a way
-					</p>
-				</div>
+			<div class="hero-logo">
+				<Image src={DupaLogoText} alt="Dupa Games Logo" />
+			</div>
+			<div class="hero-text">
+				<h1>Welcome to Dupa Games</h1>
+				<p>
+					A site where I've shared all my personal games for you to enjoy... but this is mainly a portfolio in a way
+				</p>
 			</div>
 		</section>
 
@@ -56,19 +54,13 @@ const gameCount = gamesCollection.length;
 	</div>
 </Layout>
 
-<!--
-	Styling rules for this file:
-	- Colors, spacing, type sizes, radii and layout widths all come from tokens.css.
-	- Need a new value? Add a token there instead of typing it here.
-	- Breakpoints are the one exception (CSS can't put variables in @media). Only 1024px is used.
--->
 <style>
-	.header {
-		position: absolute;
-		inset: 0;
-		z-index: var(--z-header);
-		height: fit-content;
-	}
+	/* .header { */
+		/* position: absolute; */
+		/* inset: 0; */
+		/* z-index: var(--z-header); */
+		/* height: fit-content; */
+	/* } */
 
 	.page {
 		display: flex;
@@ -82,59 +74,47 @@ const gameCount = gamesCollection.length;
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		gap: var(--gap-8);
 		min-height: var(--hero-min-height);
+		
 		/* top padding clears the absolutely-positioned header */
-		padding: calc(var(--header-height) + var(--gap-4)) var(--gutter) var(--gap-8);
+		/* padding: calc(var(--header-height) + var(--gap-4)) var(--gutter) var(--gap-8); */
 		background-color: var(--color-bg-alt3);
 		border-bottom: var(--border-thin) solid var(--color-border);
-	}
-
-	.hero-inner {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		gap: var(--gap-8);
-		text-align: center;
-
-		@media (min-width: 1024px) {
-			flex-direction: row;
-			gap: var(--gap-12);
-			text-align: left;
-		}
 	}
 
 	.hero-logo {
 		flex-shrink: 0;
 		width: var(--size-logo-hero);
 		aspect-ratio: 1;
+		
+		img {
+			width: 100%;
+			height: 100%;
+			object-fit: contain;
+		}
 	}
 
-	.hero-logo img {
-		width: 100%;
-		height: 100%;
-		object-fit: contain;
-	}
-
-	.hero-copy {
+	.hero-text {
 		display: flex;
 		flex-direction: column;
 		gap: var(--gap-3);
 		max-width: var(--measure);
-	}
-
-	.hero-copy h1 {
-		font-size: var(--text-display);
-		font-weight: var(--weight-bold);
-		line-height: var(--leading-tight);
-		color: var(--color-brand);
-	}
-
-	.hero-copy p {
-		font-size: var(--text-lead);
-		font-weight: var(--weight-regular);
-		line-height: var(--leading-snug);
-		color: var(--color-text);
-		text-wrap: pretty;
+		
+		h1 {
+			font-size: var(--text-display);
+			font-weight: var(--weight-bold);
+			line-height: var(--leading-tight);
+			color: var(--color-brand);
+		}
+		
+		p {
+			font-size: var(--text-lead);
+			font-weight: var(--weight-regular);
+			line-height: var(--leading-snug);
+			color: var(--color-text);
+			text-wrap: pretty;
+		}
 	}
 
 	/* ---------- GAME LIST ---------- */
@@ -155,26 +135,26 @@ const gameCount = gamesCollection.length;
 		gap: var(--gap-4);
 		padding-bottom: var(--gap-3);
 		border-bottom: var(--border-thin) solid var(--color-border);
-	}
-
-	.section-head h2 {
-		display: flex;
-		align-items: center;
-		gap: var(--gap-3);
-		font-size: var(--text-heading);
-		font-weight: var(--weight-bold);
-		line-height: var(--leading-tight);
-		color: var(--color-text);
-	}
-
-	/* Headband stripe: a nod to the mascot */
-	.section-head h2::before {
-		content: '';
-		flex-shrink: 0;
-		width: var(--gap-8);
-		height: var(--gap-1);
-		border-radius: var(--radius-circle);
-		background-color: var(--color-accent);
+		
+		h2 {
+			display: flex;
+			align-items: center;
+			gap: var(--gap-3);
+			font-size: var(--text-heading);
+			font-weight: var(--weight-bold);
+			line-height: var(--leading-tight);
+			color: var(--color-text);
+		}
+		
+		/* Headband stripe: a nod to the mascot */
+		h2::before {
+			content: '';
+			flex-shrink: 0;
+			width: var(--gap-6);
+			height: var(--gap-1);
+			border-radius: var(--radius-circle);
+			background-color: var(--color-accent);
+		}
 	}
 
 	.count {
