@@ -19,7 +19,6 @@ const { title, image, video, description, href } = Astro.props;
 <div class="game-card">
 	<a {href}>
 		<div class="thumbnail">
-			<!-- <video src={video} autoplay muted loop></video> -->
 			<Image src={image} alt=`${title} image` />
 			<video src={video} muted loop playsinline preload="auto"></video>
 		</div>

@@ -3,7 +3,7 @@
 title: 'The Surviving Vampire'
 description: 'An endless battle for vampire survival!'
 image: './thumbnails/vamp_preview.png'
-video: './previews/surviving_vampire_preview.mp4'
+video: '/previews/surviving_vampire_preview.mp4'
 type: 'Run N Gun'
 ---
 

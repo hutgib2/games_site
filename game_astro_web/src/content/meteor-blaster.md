@@ -3,7 +3,7 @@
 title: 'Meteor Blaster'
 description: 'Shoot and avoid the falling meteors for as long as possible!'
 image: './thumbnails/meteor_preview.png'
-video: './previews/meteor_blaster_preview.mp4'
+video: '/previews/meteor_blaster_preview.mp4'
 type: 'Shooter'
 ---
 

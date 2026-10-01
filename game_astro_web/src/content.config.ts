@@ -10,6 +10,7 @@ const games = defineCollection({
     title: z.string(),
     description: z.string(),
     image: image(),
+    video: z.string(),
     type: z.string(),
   }),
 });

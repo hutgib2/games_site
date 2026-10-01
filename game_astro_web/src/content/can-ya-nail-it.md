@@ -3,7 +3,7 @@
 title: 'Can Ya Nail it?'
 description: 'A suprisingly unique trivia game!'
 image: './thumbnails/trivia_preview.png'
-video: './previews/trivia_preview.mp4'
+video: '/previews/trivia_preview.mp4'
 type: 'Trivia'
 ---
 

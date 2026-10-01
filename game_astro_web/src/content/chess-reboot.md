@@ -3,7 +3,7 @@
 title: 'Chess Reboot'
 description: 'A fun, interactive variation of classic Chess!'
 image: './thumbnails/chess_preview.png'
-video: './previews/chess_reboot_preview.mp4'
+video: '/previews/chess_reboot_preview.mp4'
 type: 'Strategy'
 ---
 <!-- This is where we write the long-form content in .md syntax -->
