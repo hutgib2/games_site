@@ -1,6 +1,7 @@
 ---
 // JavaScript Section
 import DupaLogoText from '@/assets/my_logo_text.png';
+import DupaLogo from '@/assets/my_logo.png';
 import GameCard from '@/components/GameCard.astro';
 // import GamePreviewReel from '@/components/GamePreviewReel.astro';
 import Header from '@/components/Header.astro';
@@ -20,7 +21,7 @@ const gameCount = gamesCollection.length;
 	<div class="page">
 		<section class="hero">
 			<div class="hero-logo">
-				<Image src={DupaLogoText} alt="Dupa Games Logo" />
+				<Image src={DupaLogo} alt="Dupa Games Logo" />
 			</div>
 			<div class="hero-text">
 				<h1>Welcome to Dupa Games</h1>
@@ -71,28 +72,33 @@ const gameCount = gamesCollection.length;
 
 	/* ---------- HERO ---------- */
 	.hero {
-	display: flex;
-	flex-direction: column; /* mobile: logo stacked above text */
-	align-items: center;
-	justify-content: center;
-	gap: var(--gap-8);
-	padding: var(--gap-6);
-	min-height: var(--hero-min-height);
-	text-align: center;
+		display: flex;
+		flex-direction: column; /* mobile: logo stacked above text */
+		align-items: center;
+		justify-content: center;
+		gap: var(--gap-4);
+		padding: var(--gap-6);
+		min-height: var(--hero-min-height);
+		text-align: center;
 
-	background-color: var(--color-bg-alt3);
-	border-bottom: var(--border-thin) solid var(--color-border);
+		background-color: var(--color-bg-alt3);
+		border-bottom: var(--border-thin) solid var(--color-border);
 
-	@media (min-width: 768px) {
-		flex-direction: row; /* tablet: logo beside text */
-		text-align: left;
+		@media (min-width: 800px) {
+			flex-direction: row; /* tablet: logo beside text */
+			text-align: left;
+			padding: 0;
+		}	
 	}
-}
 
 	.hero-logo {
 		flex-shrink: 0;
-		width: var(--size-logo-hero);
 		aspect-ratio: 1;
+		width: var(--size-logo-hero-mobile);
+		
+		@media (min-width: 768px) {
+			width: var(--size-logo-hero-desktop);
+		}
 		
 		img {
 			width: 100%;
@@ -104,8 +110,8 @@ const gameCount = gamesCollection.length;
 	.hero-text {
 		display: flex;
 		flex-direction: column;
-		gap: var(--gap-3);
-		max-width: var(--measure);
+		gap: var(--gap-2);
+		/* max-width: var(--measure); */
 		
 		h1 {
 			font-size: var(--text-display);
@@ -120,6 +126,7 @@ const gameCount = gamesCollection.length;
 			line-height: var(--leading-snug);
 			color: var(--color-text);
 			text-wrap: pretty;
+			max-width: var(--measure);
 		}
 	}
 

@@ -89,15 +89,16 @@
 
 	/* ---------- LAYOUT ---------- */
 	--content-max-width: 120rem; /* 1920px */
-	--measure: 65ch; /* comfortable line length for reading text */
+	--measure: 60ch; /* comfortable line length for reading text */
 	--gutter: clamp(var(--gap-4), 4vw, var(--gap-8)); /* page side padding */
 	--section-gap: clamp(var(--gap-6), 5vw, var(--gap-12)); /* space between page sections */
 	--grid-gap: clamp(var(--gap-4), 2.5vw, var(--gap-8)); /* space between cards */
 	--card-min-width: 22rem; /* grid adds columns whenever another card fits */
 
 	--header-height: 5rem; /* Header.astro's minimum height; the hero uses it to clear the overlay */
-	--hero-min-height: 60dvh;
-	--size-logo-hero: clamp(10rem, 22vw, 16rem);
+	--hero-min-height: 50dvh;
+	--size-logo-hero-desktop: clamp(12rem, 22vw, 16rem);
+	--size-logo-hero-mobile: 12rem;
 	--size-logo-sm: clamp(3rem, 8vw, 5rem);
 
 	/* Game player */
