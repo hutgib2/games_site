@@ -1,12 +1,12 @@
 ---
 import DupaLogo from '@/assets/my_logo.png';
-import Button from '@/components/Button.astro';
+// import Button from '@/components/Button.astro';
 import Header from '@/components/Header.astro';
 import Layout from '@/layouts/Layout.astro';
 import Image from 'astro/components/Image.astro';
 
 import ControlsPopover from '@/components/ControlsPopover.astro';
-import FullScreenIcon from '@lucide/astro/icons/expand';
+// import FullScreenIcon from '@lucide/astro/icons/expand';
 import { getCollection, render, type CollectionEntry } from 'astro:content';
 
 // Generate a new page for every file inside the content/
@@ -25,27 +25,26 @@ type Props = { game: CollectionEntry<'games'> };
 
 const { game }: Props = Astro.props; // This stores the frontmatter data
 const { Content } = await render(game); // This converts the content from .md syntax to html + css
-
-// console.log("File path:", game.filePath);
-// console.log("game id:", game.id);
 ---
 
 <Layout>
 	<Header {gamesCollection} />
-	<article class="body">
+	<article class="page">
 		<div class="game-window">
 			<div class="iframe-wrapper">
 				<iframe
 					src={`/games/${game.id}/build/web/index.html`}
+					title={`Play ${game.data.title}`}
 					allow="autoplay; fullscreen; cross-origin-isolated"
-					/>
+				/>
 			</div>
 
-			<footer>
-				<div class="left-items">
-					<Image src={DupaLogo} alt="Dupa Games Logo" width={80} />
+			<footer class="game-bar">
+				<div class="game-meta">
+					<!-- width = 2x the CSS size, only used by Astro's image optimiser -->
+					<Image class="game-logo" src={DupaLogo} alt="Dupa Games Logo" width={160} />
 					<div class="game-info">
-						<h4 class="game-type">{game.data.type}</h4>
+						<p class="game-type">{game.data.type}</p>
 						<h1 class="game-title">{game.data.title}</h1>
 					</div>
 				</div>
@@ -57,47 +56,61 @@ const { Content } = await render(game); // This converts the content from .md sy
 			</footer>
 		</div>
 
-		<div class="game-description">
-			<Content />
+		<div class="game-about">
+			<div class="prose">
+				<Content />
+			</div>
 		</div>
 	</article>
 </Layout>
 
+<!--
+	Styling rules for this file:
+	- Colors, spacing, type sizes, radii and layout widths all come from tokens.css.
+	- Need a new value? Add a token there instead of typing it here.
+	- Breakpoints are the one exception (CSS can't put variables in @media). Only 1024px is used.
+-->
 <style>
-	.body {
+	.page {
 		display: flex;
 		flex-direction: column;
-		justify-self: center;
-		gap: var(--gap-4);
-		padding-inline: var(--gap-4);
+		gap: var(--gap-6);
+		width: 100%;
+		max-width: var(--content-max-width);
+		margin-inline: auto;
+		padding: var(--gap-4) var(--gutter) var(--section-gap);
 
 		@media (min-width: 1024px) {
-			padding-inline: var(--gap-6);
-		}
-
-		@media (min-width: 1440px) {
-			padding-inline: var(--gap-8);
+			/* Player + panels share one column, sized so the player fits the viewport height */
+			max-width: calc(
+				var(--game-max-height) * var(--game-ratio-w) / var(--game-ratio-h) + 2 * var(--gutter)
+			);
 		}
 	}
 
+	/* ---------- PLAYER ---------- */
 	.game-window {
 		display: flex;
-		justify-self: center;
 		flex-direction: column;
 	}
-	
+
 	.iframe-wrapper {
 		position: relative;
 		width: 100%;
-		aspect-ratio: 9 / 16;
+		/* Phones: portrait box, game is rotated to fill it (see iframe below) */
+		aspect-ratio: var(--game-ratio-h) / var(--game-ratio-w);
 		container-type: size;
-		
+		overflow: hidden;
+		background-color: var(--color-bg);
+		border-top-left-radius: var(--radius-md);
+		border-top-right-radius: var(--radius-md);
+
 		@media (min-width: 1024px) {
-			aspect-ratio: 16 / 9;
+			aspect-ratio: var(--game-ratio-w) / var(--game-ratio-h);
 		}
 	}
 
-	 .iframe-wrapper iframe {
+	.iframe-wrapper iframe {
 		position: absolute;
 		border: 0;
 		top: 0;
@@ -117,54 +130,80 @@ const { Content } = await render(game); // This converts the content from .md sy
 		}
 	}
 
+	/* ---------- INFO BAR ---------- */
+	.game-bar {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: var(--gap-4);
+		padding: var(--gap-3) var(--gap-4);
+		background-color: var(--color-bg-alt3);
+		border: var(--border-thin) solid var(--color-border);
+		border-top: 0;
+		border-bottom-left-radius: var(--radius-md);
+		border-bottom-right-radius: var(--radius-md);
+
+		@media (min-width: 1024px) {
+			padding-inline: var(--gap-5);
+		}
+	}
+
+	.game-meta {
+		display: flex;
+		align-items: center;
+		gap: var(--gap-4);
+		min-width: 0;
+	}
+
+	.game-logo {
+		flex-shrink: 0;
+		width: var(--size-logo-sm);
+		height: auto;
+	}
+
 	.game-info {
 		display: flex;
 		flex-direction: column;
-		align-self: center;
+		gap: var(--gap-1);
+		min-width: 0;
 	}
 
-	/* TODO: this is WIP */
-	.game-title {
-		font-size: var(--font-md);
+	.game-type {
+		font-size: var(--text-caption);
+		letter-spacing: var(--tracking-wide);
+		color: var(--color-text-subtle);
+	}
 
-		@media (min-width: 1024px) {
-			font-size: var(--font-lg);
-		}
+	.game-title {
+		font-size: var(--text-title);
+		font-weight: var(--weight-bold);
+		line-height: var(--leading-tight);
+		color: var(--color-brand);
 	}
 
 	.icons {
 		display: flex;
+		align-items: center;
 		gap: var(--gap-6);
-		align-items: center;
 	}
 
-	.left-items {
-		display: flex;
-		gap: var(--gap-4);
-	}
-
-	footer {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		padding: var(--gap-3) var(--gap-5);
-		
-		background-color: var(--color-surface);
-		border-bottom-left-radius: var(--radius-md);
-		border-bottom-right-radius: var(--radius-md);
-	}
-	
-	.game-description {
-		color: var(--color-text);
-		font-size: var(--font-lg);
-		font-family: var(--font-oswald);
+	/* ---------- DESCRIPTION ---------- */
+	.game-about {
+		padding: var(--gap-5);
+		background-color: var(--color-bg-alt2);
+		border: var(--border-thin) solid var(--color-border);
+		border-radius: var(--radius-md);
 
 		@media (min-width: 1024px) {
-			padding-inline: var(--gap-6);
+			padding: var(--gap-8);
 		}
+	}
 
-		background-color: var(--color-surface);
-		border-radius: var(--radius-md);
-		padding: var(--gap-5);
+	.game-about .prose {
+		max-width: var(--measure);
+		font-family: var(--font-sans);
+		font-size: var(--text-body);
+		line-height: var(--leading-normal);
+		color: var(--color-text);
 	}
 </style>
