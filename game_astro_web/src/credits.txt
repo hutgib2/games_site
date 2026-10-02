@@ -1,0 +1,2 @@
+vampire-survivor:
+	- vampire sprite sheet: https://opengameart.org/content/vampire-4-direction-pixel-sprite
