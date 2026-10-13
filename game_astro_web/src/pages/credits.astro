@@ -1,0 +1,37 @@
+---
+import csv from "../content/credits.csv?raw";
+import Papa from "papaparse";
+import { Layout } from "@/layouts/Layout.astro";
+
+const { data: credits } = Papa.parse(csv, {
+  header: true,
+  skipEmptyLines: true,
+});
+
+// Organise credits by game
+const byGame = Object.groupBy(credits, (r: any) => r.game);
+---
+
+<Layout>
+	{Object.entries(byGame).map(([game, rows]) => (
+		<section>
+			<h2>{game}</h2>
+			{["image", "audio"].map((type) => {
+				const items = rows?.filter((r) => r.type === type) || [];
+				return items.length > 0 && (
+					<div>
+						<h3>{type === "image" ? "Images" : "Audio"}</h3>
+						<ul>
+							{items.map((r) => (
+							<li>
+								"{r.title}" by {r.author} – <a href={r.source_url}>source</a> –{" "}
+								{r.license_url ? <a href={r.license_url}>{r.license}</a> : r.license}
+							</li>
+							))}
+						</ul>
+					</div>
+				);
+			})}
+		</section>
+	))}
+</Layout>
