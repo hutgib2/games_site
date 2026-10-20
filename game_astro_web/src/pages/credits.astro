@@ -7,6 +7,9 @@ const byGame = Object.groupBy(credits, (r: any) => r.game);
 ---
 
 <Layout>
+	<h1>Credits</h1>
+	<p>Credit given to authors of all image and audio files used across all games on DupaGames</p>
+	
 	{Object.entries(byGame).map(([game, rows]) => (
 		<section>
 			<h2>{game}</h2>
@@ -15,7 +18,7 @@ const byGame = Object.groupBy(credits, (r: any) => r.game);
 				return items.length > 0 && (
 					<div>
 						<h3>{type === "image" ? "Images" : "Audio"}</h3>
-						<ul>
+						<ul class="credits">
 							{items.map((r) => (
 							<li>
 								"{r.title}" by {r.author} – <a href={r.source_url}>source</a> –{" "}
@@ -29,3 +32,35 @@ const byGame = Object.groupBy(credits, (r: any) => r.game);
 		</section>
 	))}
 </Layout>
+
+<style>
+	body {
+		padding: var(--gap-8);
+	}
+
+	h1 {
+		font-size: var(--font-6xl);
+		/* padding-bottom: var(--gap-2); */
+	}
+	
+	h2 {
+		font-size: var(--font-3xl);
+		padding-top: var(--gap-10);
+	}
+
+	h3 {
+		padding-block: var(--gap-1);
+		padding-left: var(--gap-4);
+		font-size: var(--font-lg);
+	}
+
+	.credits {
+		color: var(--color-text-strong);
+	}
+
+	ul li a {
+		color: var(--color-brand);
+		text-decoration: underline;
+	}
+	
+</style>
