@@ -13,9 +13,9 @@
     "init": "npm install && npm run update-submodule:all && npm run build:all",
     "preview:static": "astro build && python3 -m http.server 8000 --directory dist",
     "build:game": "bun run scripts/build-game.js",
-    "build:all": "for dir in ../games/*/; do bun run build:game \"$dir\" || exit 1; done",
+    "build:all": "bun run scripts/build-all.js",
     "update:submodule": "bun run scripts/update-submodule.js",
-    "update-submodule:all": "for dir in ../games/*/; do bun run update:submodule \"$dir\"; done"
+    "update-submodule:all": "bun run scripts/update-submodule-all.js"
   },
   "dependencies": {
     "@astrojs/cloudflare": "^14.2.6",

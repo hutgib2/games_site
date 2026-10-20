@@ -1,0 +1,12 @@
+- fix and style credits page
+- add local save to chess game
+- add about page ?
+- fix the score saving in the surviving vampire
+- remove the scores in the chess reboot
+- find better text font
+
+Homework:
+- re-record game previews
+- play test every part of every game (e.g. all powerups) (done)
+- make a list of content you want to include in the about page (done)
+- remove instructions from chess game ? (done)

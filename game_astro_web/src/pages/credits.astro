@@ -1,14 +1,8 @@
 ---
-import csv from "../content/credits.csv?raw";
-import Papa from "papaparse";
-import { Layout } from "@/layouts/Layout.astro";
+import { getCollection } from "astro:content";
+import Layout from "@/layouts/Layout.astro";
 
-const { data: credits } = Papa.parse(csv, {
-  header: true,
-  skipEmptyLines: true,
-});
-
-// Organise credits by game
+const credits = (await getCollection("credits")).map((e) => e.data);
 const byGame = Object.groupBy(credits, (r: any) => r.game);
 ---
 

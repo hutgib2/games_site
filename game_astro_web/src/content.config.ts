@@ -1,6 +1,7 @@
 import { defineCollection } from 'astro:content';
 import { glob, file } from 'astro/loaders';
 import { z } from 'astro/zod';
+import Papa from "papaparse";
 
 // Define a `loader` and `schema` for each collection
 const games = defineCollection({
@@ -15,5 +16,14 @@ const games = defineCollection({
   }),
 });
 
-// Export a single `collections` object to register your collection(s)
-export const collections = { games };
+const credits = defineCollection({
+  loader: file("src/content/credits.csv", {
+    parser: (text) =>
+      Papa.parse<Record<string, string>>(text, {
+        header: true,
+        skipEmptyLines: true,
+      }).data.map((row, i) => ({ id: String(i), ...row })),
+  }),
+});
+
+export const collections = { games, credits };
