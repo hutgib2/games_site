@@ -1,7 +1,5 @@
 ---
 import DupaLogo from '@/assets/my_logo.png';
-// import Button from '@/components/Button.astro';
-import Header from '@/components/Header.astro';
 import Layout from '@/layouts/Layout.astro';
 import Image from 'astro/components/Image.astro';
 
@@ -18,8 +16,6 @@ export async function getStaticPaths() {
 	}));
 }
 
-const gamesCollection = await getCollection('games');
-
 // Here is how we access the data for each page from its .md file in content/
 type Props = { game: CollectionEntry<'games'> };
 
@@ -28,7 +24,7 @@ const { Content } = await render(game); // This converts the content from .md sy
 ---
 
 <Layout>
-	<Header {gamesCollection} />
+	<!-- <Header {gamesCollection} /> -->
 	<article class="page">
 		<div class="game-window">
 			<div class="iframe-wrapper">

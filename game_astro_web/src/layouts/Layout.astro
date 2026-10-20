@@ -2,6 +2,9 @@
 import { Font } from 'astro:assets';
 // import '../styles/webcoreui.scss'
 import '../styles/global.css';
+import Header from '@/components/Header.astro';
+import { getCollection } from 'astro:content';
+const gamesCollection = await getCollection('games');
 ---
 
 <!-- 
@@ -20,10 +23,12 @@ import '../styles/global.css';
 		<title>Dupa Games</title>
 	</head>
 	<body>
+		<div class="header">
+			<Header {gamesCollection} />
+		</div>
 		<slot />
 	</body>
 </html>	
-
 <style>
 	html,
 	body {

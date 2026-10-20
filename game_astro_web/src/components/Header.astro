@@ -8,6 +8,7 @@ import Image from 'astro/components/Image.astro';
 const menu = [
 	{ name: 'Home', href: '/', active: true },
 	{ name: 'About', href: '/about', active: true },
+	{ name: 'Credits', href: '/credits', active: true}
 ];
 
 const menuLogo = {
@@ -42,8 +43,11 @@ const GAMES = gamesCollection.map((game: CollectionEntry<'games'>) => ({
 			<a href="/" class="img-wrapper">
 				<Image src={DupaLogo} alt="Dupa Games Logo" width={80} />
 			</a>
-			<a href="/">Home</a>
-			<a href="/about">About</a>
+			{
+				menu.map((item) => (
+					<a href={item.href}>{item.name}</a>
+				))
+			}
 			<h3 class="games-heading">Games</h3>
 			<div class="games-list">
 				{

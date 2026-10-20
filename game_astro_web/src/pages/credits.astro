@@ -8,8 +8,7 @@ const byGame = Object.groupBy(credits, (r: any) => r.game);
 
 <Layout>
 	<h1>Credits</h1>
-	<p>Credit given to authors of all image and audio files used across all games on DupaGames</p>
-	
+	<!-- <p>Credit given to authors of all image and audio files used across all games on DupaGames</p> -->
 	{Object.entries(byGame).map(([game, rows]) => (
 		<section>
 			<h2>{game}</h2>

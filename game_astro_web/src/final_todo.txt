@@ -4,6 +4,7 @@
 - fix the score saving in the surviving vampire
 - remove the scores in the chess reboot
 - find better text font
+- fix credits styling on mobile size
 
 Homework:
 - re-record game previews
