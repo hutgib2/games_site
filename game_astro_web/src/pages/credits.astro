@@ -33,23 +33,33 @@ const byGame = Object.groupBy(credits, (r: any) => r.game);
 </Layout>
 
 <style>
-	body {
-		padding: var(--gap-8);
+	/*
+		How can we apply padding to every element on the page except the header
+		- HINT: do not apply padding to each element individually !
+	*/
+
+	section {
+		padding-block: var(--gap-4);
 	}
 
+	section, h1 {
+		padding-inline: var(--gap-4);
+		@media (min-width: 768px) {
+			padding-inline: (--gap-8);
+		}
+	}
+	
 	h1 {
 		font-size: var(--font-6xl);
-		/* padding-bottom: var(--gap-2); */
 	}
 	
 	h2 {
 		font-size: var(--font-3xl);
-		padding-top: var(--gap-10);
 	}
 
 	h3 {
 		padding-block: var(--gap-1);
-		padding-left: var(--gap-4);
+		padding-inline: var(--gap-4);
 		font-size: var(--font-lg);
 	}
 
