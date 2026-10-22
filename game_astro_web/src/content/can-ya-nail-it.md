@@ -2,8 +2,8 @@
 # This is where we write the variables for our game
 title: 'Can Ya Nail it?'
 description: 'A suprisingly unique trivia game!'
-image: './thumbnails/trivia_preview.png'
-video: '/previews/trivia_preview.mp4'
+image: './thumbnails/can_ya_nail_it.png'
+video: '/previews/can_ya_nail_it_preview.mp4'
 type: 'Trivia'
 ---
 

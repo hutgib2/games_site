@@ -2,7 +2,7 @@
 # This is where we write the variables for our game
 title: 'Chess Reboot'
 description: 'A fun, interactive variation of classic Chess!'
-image: './thumbnails/chess_preview.png'
+image: './thumbnails/chess_reboot.png'
 video: '/previews/chess_reboot_preview.mp4'
 type: 'Strategy'
 ---

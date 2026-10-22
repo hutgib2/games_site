@@ -2,7 +2,7 @@
 # This is where we write the variables for our game
 title: 'The Surviving Vampire'
 description: 'An endless battle for vampire survival!'
-image: './thumbnails/vamp_preview.png'
+image: './thumbnails/the_surviving_vampire.png'
 video: '/previews/surviving_vampire_preview.mp4'
 type: 'Run N Gun'
 ---

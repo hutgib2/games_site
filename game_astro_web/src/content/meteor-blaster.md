@@ -2,7 +2,7 @@
 # This is where we write the variables for our game
 title: 'Meteor Blaster'
 description: 'Shoot and avoid the falling meteors for as long as possible!'
-image: './thumbnails/meteor_preview.png'
+image: './thumbnails/meteor_blaster.png'
 video: '/previews/meteor_blaster_preview.mp4'
 type: 'Shooter'
 ---
