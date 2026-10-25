@@ -1,6 +1,6 @@
 ---
 import { type CollectionEntry } from 'astro:content';
-import { Menu, Button, Sheet, Select } from 'webcoreui/astro';
+import { Menu, Button, Sheet, Popover} from 'webcoreui/astro';
 import DupaLogo from '../assets/my_logo.png';
 import MenuIcon from '@lucide/astro/icons/menu';
 import Image from 'astro/components/Image.astro';
@@ -21,15 +21,26 @@ const GAMES = gamesCollection.map((game: CollectionEntry<'games'>) => ({
 	name: game.data.title,
 	href: `/games/${game.id}`,
 }))
+
+// TASK: Replace the select dropdown with a popover, 
+// check the link i sent to see how to use the popover
+// it should still contain a vertical list of each game link
+// 
 ---
 
 <script>
-	import { modal } from 'webcoreui';
+	import { modal, popover } from 'webcoreui';
 
 	modal({
 		trigger: '.button',
 		modal: '.sheet'
 	})
+
+	popover({
+        trigger: '.popover-trigger',
+        popover: '.popover',
+		position: 'bottom-start'
+    })
 </script>
 
 <header>
@@ -51,9 +62,7 @@ const GAMES = gamesCollection.map((game: CollectionEntry<'games'>) => ({
 			<div class="games-list">
 				{
 					GAMES.map((game) => (
-						<a href={game.href}>
-							{game.name}
-						</a>
+						<a href={game.href}>{game.name}</a>
 					))
 				}
 			</div>
@@ -62,19 +71,35 @@ const GAMES = gamesCollection.map((game: CollectionEntry<'games'>) => ({
 
 	<div class="desktop-header">
 		<Menu items={menu} logo={menuLogo} />
-		<div class="select-wrapper">
-			<Select
-				name="select-id"
-				itemGroups={[{ items: GAMES }]}
-				showSearchBar={false}
-				showSearchBarIcon={false}
-				placeholder="Games"
-			/>
+		<div class="popover-wrapper">
+			<Button className="popover-trigger">Games</Button>
+			<Popover className="popover">
+    			<div class="games-list">
+					{
+						GAMES.map((game) => (
+							<a href={game.href}>{game.name}</a>
+						))
+					}
+				</div>
+			</Popover>
 		</div>
 	</div>
 </header>
 
 <style>
+	/* shared by both */
+	.games-list {
+		display: flex;
+		flex-direction: column;
+	}
+
+	a:hover {
+		color: var(--color-brand);
+		transform: scale(var(--scale-hover));
+		transition: transform var(--duration-fast) ease;
+	}
+
+	/* mobile only - sidebar menu */
 	.mobile-header {
 		display: flex;
 		justify-content: flex-end;
@@ -95,15 +120,9 @@ const GAMES = gamesCollection.map((game: CollectionEntry<'games'>) => ({
 			height: var(--size-icon-md);
 		}
  
-		& a {
+		a {
 			width: fit-content;
 			padding-block: var(--gap-1);
-		}
- 
-		a:hover {
-			color: var(--color-brand);
-			transform: scale(var(--scale-hover));
-			transition: transform var(--duration-fast) ease;
 		}
  
 		.sheet {
@@ -129,8 +148,6 @@ const GAMES = gamesCollection.map((game: CollectionEntry<'games'>) => ({
 		}
  
 		.games-list {
-			display: flex;
-			flex-direction: column;
 			padding-inline: var(--gap-6);
 		}
  
@@ -141,12 +158,12 @@ const GAMES = gamesCollection.map((game: CollectionEntry<'games'>) => ({
 			color: var(--color-text-subtle);
 		}
 	}
-
+	
 	.desktop-header {
 		display: none;
 	}
-
-	/* Show full header bar */
+	
+	/* desktop only - full header bar */
 	@media (min-width: 1024px) {
 		.mobile-header {
 			display: none;
@@ -161,12 +178,17 @@ const GAMES = gamesCollection.map((game: CollectionEntry<'games'>) => ({
 			font-weight: bold;
 			background-color: var(--color-bg);
 			border-bottom: var(--border-thin) solid var(--color-border);
+			padding-block: var(--gap-2);
+		}
 
-			
-			.select-wrapper {
-				/* to align with rest of header items */
-				transform: translateY(3) translateX(-24);
-			}
+		/* NOT WORKING */
+		:global(.popover-wrapper .popover .games-list) {
+			font-family: var(--font-oswald);
+		}
+
+		.popover-trigger {
+			font-size: var(--font-lg);
+			transform: translateX(-26);
 		}
 	}
 </style>
