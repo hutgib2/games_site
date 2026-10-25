@@ -89,7 +89,7 @@
 
 	/* ---------- LAYOUT ---------- */
 	--content-max-width: 120rem; /* 1920px */
-	--measure: 60ch; /* comfortable line length for reading text */
+	--measure: 75ch; /* comfortable line length for reading text */
 	--gutter: clamp(var(--gap-4), 4vw, var(--gap-8)); /* page side padding */
 	--section-gap: clamp(var(--gap-6), 5vw, var(--gap-12)); /* space between page sections */
 	--grid-gap: clamp(var(--gap-4), 2.5vw, var(--gap-8)); /* space between cards */

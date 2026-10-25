@@ -4,14 +4,14 @@ Eden to do
 
 
 Hugo's Homework: add about page to site
-	- look for inspo on other portfolio sites (IMPORTANT)
+	- look for inspo on other portfolio sites (IMPORTANT) (probably done)
 		- look up programming / game dev portfolios for inspo
 		- save any designs that you like the look of for us to style
 
 	content
 	- a short intro about Hugo, name, location, etc (easier)
-	- why you made the site, design interests etc (easier)
-	- contact info ? email, github (easier)
-	- what tools we used to build the site, the games, hosting, etc (harder)
+	- why you made the site, design interests etc (done)
+	- contact info ? email, github (done)
+	- what tools we used to build the site, the games, hosting, etc (harder) (done?)
 
 	(I want couple paragraphs at least of content about you and the site)

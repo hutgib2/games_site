@@ -16,9 +16,9 @@ class LocalStorage:
     Values can be anything JSON-serializable: numbers, strings, bools, None, lists and dicts.
     """
 
-    def __init__(self, key="saved_games", default=None):
-        self.key = key                   # localStorage key on web
-        self.file = key + ".json"        # file name on desktop
+    def __init__(self, path, key, default=None):
+        self.file = path    # file name on desktop
+        self.key = key      # localStorage key on web
         self.default = default or {}
         self.data = self.load()
 

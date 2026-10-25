@@ -20,9 +20,16 @@ const gameCount = gamesCollection.length;
 			</div>
 			<div class="hero-text">
 				<h1>Welcome to Dupa Games</h1>
-				<p>
-					A site where I've shared all my personal games for you to enjoy... but this is mainly a portfolio in a way
-				</p>
+					<p>
+						Hi I'm Hugo, a programming student from Australia.
+					</p>
+					<p>	
+						I'm planning to go to college next year to study computer science and I make 2D games for fun in my spare time.
+						<!-- Gaming is my passion, and making my own games has given me the freedom to create games exactly as I want them to be played. -->
+					</p>
+					<p>		
+						I made this site to share my creations with the world wide web. Please enjoy playing them and let me know if you like them!
+					</p>
 			</div>
 		</section>
 
@@ -71,7 +78,7 @@ const gameCount = gamesCollection.length;
 		flex-direction: column; /* mobile: logo stacked above text */
 		align-items: center;
 		justify-content: center;
-		gap: var(--gap-4);
+		gap: var(--gap-8);
 		padding: var(--gap-6);
 		min-height: var(--hero-min-height);
 		text-align: center;
@@ -105,21 +112,22 @@ const gameCount = gamesCollection.length;
 	.hero-text {
 		display: flex;
 		flex-direction: column;
-		gap: var(--gap-2);
-		/* max-width: var(--measure); */
+		gap: var(--gap-3);
+		max-width: var(--measure);
 		
 		h1 {
 			font-size: var(--text-display);
 			font-weight: var(--weight-bold);
 			line-height: var(--leading-tight);
 			color: var(--color-brand);
+			padding-bottom: var(--gap-1);
 		}
 		
 		p {
 			font-size: var(--text-lead);
 			font-weight: var(--weight-regular);
 			line-height: var(--leading-snug);
-			color: var(--color-text);
+			color:white;
 			text-wrap: pretty;
 			max-width: var(--measure);
 		}
