@@ -3,7 +3,7 @@ import DupaLogo from '@/assets/my_logo.png';
 import Layout from '@/layouts/Layout.astro';
 import Image from 'astro/components/Image.astro';
 
-import ControlsPopover from '@/components/ControlsPopover.astro';
+// import ControlsPopover from '@/components/ControlsPopover.astro';
 // import FullScreenIcon from '@lucide/astro/icons/expand';
 import { getCollection, render, type CollectionEntry } from 'astro:content';
 
@@ -45,10 +45,10 @@ const { Content } = await render(game); // This converts the content from .md sy
 					</div>
 				</div>
 
-				<div class="icons">
-					<ControlsPopover />
+				<!-- <div class="icons"> -->
+					<!-- <ControlsPopover /> -->
 					<!-- <Button><FullScreenIcon size={44} /></Button> -->
-				</div>
+				<!-- </div> -->
 			</footer>
 		</div>
 
@@ -177,11 +177,11 @@ const { Content } = await render(game); // This converts the content from .md sy
 		color: var(--color-brand);
 	}
 
-	.icons {
+	/* .icons {
 		display: flex;
 		align-items: center;
 		gap: var(--gap-6);
-	}
+	} */
 
 	/* ---------- DESCRIPTION ---------- */
 	.game-about {
@@ -196,7 +196,6 @@ const { Content } = await render(game); // This converts the content from .md sy
 	}
 
 	.game-about .prose {
-		max-width: var(--measure);
 		font-family: var(--font-sans);
 		font-size: var(--text-body);
 		line-height: var(--leading-normal);

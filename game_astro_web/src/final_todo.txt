@@ -1,3 +1,5 @@
 Eden to do
 - add local save to chess game
 - fix the score saving in the surviving vampire
+
+- change the default pygbag loading screen

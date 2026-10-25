@@ -2,11 +2,10 @@
 import { Popover } from 'webcoreui/astro'
 import ControllerIcon from '@lucide/astro/icons/gamepad-2';
 import Button from './Button.astro'
+
+// TASK: make the controls dependent on each game
 ---
 
-<!-- 
-	change the Button from the webcoreui import to the component we just made
--->
 <Button className="popover-trigger"><ControllerIcon class="controls-icon" /></Button>
 
 <Popover className="popover">

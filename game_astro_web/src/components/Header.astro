@@ -37,8 +37,8 @@ const GAMES = gamesCollection.map((game: CollectionEntry<'games'>) => ({
 	})
 
 	popover({
-        trigger: '.popover-trigger',
-        popover: '.popover',
+        trigger: '.games-popover-trigger',
+        popover: '.games-popover',
 		position: 'bottom-start'
     })
 </script>
@@ -72,7 +72,7 @@ const GAMES = gamesCollection.map((game: CollectionEntry<'games'>) => ({
 	<div class="desktop-header">
 		<Menu items={menu} logo={menuLogo} />
 		<div class="popover-wrapper">
-			<Button className="popover-trigger">Games</Button>
+			<Button className="games-popover-trigger">Games</Button>
 			<Popover className="popover">
     			<div class="games-list">
 					{
@@ -182,11 +182,11 @@ const GAMES = gamesCollection.map((game: CollectionEntry<'games'>) => ({
 		}
 
 		/* NOT WORKING */
-		:global(.popover-wrapper .popover .games-list) {
+		:global(.games-popover-wrapper .games-popover .games-list) {
 			font-family: var(--font-oswald);
 		}
 
-		.popover-trigger {
+		.games-popover-trigger {
 			font-size: var(--font-lg);
 			transform: translateX(-26);
 		}

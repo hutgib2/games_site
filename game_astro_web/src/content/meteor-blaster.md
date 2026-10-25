@@ -17,3 +17,4 @@ Meteor Blaster is a game where the UFO has to last as long as possible while sho
 ## How to Play
 
 Arrow keys to move and space to shoot.
+Press esc to return to main menu.

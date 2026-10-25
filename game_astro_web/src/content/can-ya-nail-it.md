@@ -16,6 +16,7 @@ Can Ya Nail it is a game where you have to correctly answer 15 questions to beco
 
 ## How to Play
 Click on the answer you think is correct, but be careful - one strike and you're out!
+Press esc to return to main menu.
 
 <br>
 
