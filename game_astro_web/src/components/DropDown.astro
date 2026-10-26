@@ -60,8 +60,9 @@ const { label, items }: {label: string, items: { label: string, href: string }[]
       }
 
       &:hover {
-        color: var(--color-text-strong);
-        border-color: var(--color-brand);
+        color: var(--color-brand);
+        transform: scale(var(--scale-hover));
+		    transition: transform var(--duration-fast) ease;
       }
 
       &:focus-visible {
@@ -95,11 +96,6 @@ const { label, items }: {label: string, items: { label: string, href: string }[]
       font-size: var(--text-body);
       line-height: var(--leading-snug);
       color: var(--color-text);
-      text-decoration: none;
-      white-space: nowrap;
-      transition:
-        background var(--duration-fast),
-        color var(--duration-fast);
 
       &:hover {
         background: var(--color-bg-alt);

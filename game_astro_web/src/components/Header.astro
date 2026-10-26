@@ -1,20 +1,15 @@
 ---
 import { type CollectionEntry } from 'astro:content';
-import { Menu, Button, Sheet } from 'webcoreui/astro';
+import { Button, Sheet } from 'webcoreui/astro';
 import DropDown from './DropDown.astro';
 import DupaLogo from '../assets/my_logo.png';
 import MenuIcon from '@lucide/astro/icons/menu';
 import Image from 'astro/components/Image.astro';
 
-const menu = [
-	{ name: 'Home', href: '/', active: true },
-	{ name: 'Credits', href: '/credits', active: true}
+const menuLinks = [
+	{ name: 'Home', href: '/' },
+	{ name: 'Credits', href: '/credits' }
 ];
-
-const menuLogo = {
-	url: DupaLogo.src,
-	width: 48,
-};
 
 const { gamesCollection } = Astro.props;
 
@@ -44,7 +39,7 @@ const GAMES = gamesCollection.map((game: CollectionEntry<'games'>) => ({
 				<Image src={DupaLogo} alt="Dupa Games Logo" width={80} />
 			</a>
 			{
-				menu.map((item) => (
+				menuLinks.map((item) => (
 					<a href={item.href}>{item.name}</a>
 				))
 			}
@@ -60,8 +55,12 @@ const GAMES = gamesCollection.map((game: CollectionEntry<'games'>) => ({
 	</div>
 
 	<div class="desktop-header">
-		<!-- After we will change the menu too -->
-		<Menu items={menu} logo={menuLogo} />
+		<a href="/"><Image src={DupaLogo} alt="Dupa Games Logo" width={64}/></a>
+		{
+			menuLinks.map((item) => (
+				<a href={item.href}>{item.name}</a>
+			))
+		}
 		<DropDown label='Games' items={(GAMES.map((game: any) => (
 			{ label: game.name, href: game.href }
 		)))}/>
@@ -88,7 +87,7 @@ const GAMES = gamesCollection.map((game: CollectionEntry<'games'>) => ({
 		width: 100%;
  
 		.button {
-			padding: var(--gap-4);
+			padding: var(--gap-3);
 			transition: transform var(--duration-fast) ease;
 		}
  
@@ -105,6 +104,7 @@ const GAMES = gamesCollection.map((game: CollectionEntry<'games'>) => ({
 		a {
 			width: fit-content;
 			padding-block: var(--gap-1);
+			padding-inline: var(--gap-2);
 		}
  
 		.sheet {
@@ -154,13 +154,15 @@ const GAMES = gamesCollection.map((game: CollectionEntry<'games'>) => ({
 		.desktop-header {
 			display: flex;
 			align-items: center;
+			gap: var(--gap-4);
 
 			font-family: var(--font-oswald);
 			font-size: var(--font-lg);
 			font-weight: bold;
 			background-color: var(--color-bg);
 			border-bottom: var(--border-thin) solid var(--color-border);
-			padding-block: var(--gap-2);
+			padding-inline: var(--gutter);
+			padding-block: var(--gap-3);
 		}
 	}
 </style>
