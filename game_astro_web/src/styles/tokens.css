@@ -47,7 +47,7 @@
 	--font-xs: 0.75rem; /* 12px */
 	--font-s: 0.875rem; /* 14px */
 	--font-base: 1rem; /* 16px, body default */
-	--font-m: 1.125rem; /* 18px */
+	--font-md: 1.125rem; /* 18px */
 	--font-lg: 1.25rem; /* 20px */
 	--font-xl: 1.5rem; /* 24px */
 	--font-2xl: 1.875rem; /* 30px */
@@ -59,7 +59,7 @@
 	/* ---------- TYPE: roles (fluid, no media queries needed) ---------- */
 	--text-display: clamp(var(--font-4xl), 2rem + 3vw, var(--font-6xl)); /* hero heading */
 	--text-heading: clamp(var(--font-2xl), 1.25rem + 1.5vw, var(--font-4xl)); /* section headings */
-	--text-lead: clamp(var(--font-m), 1rem + 0.5vw, var(--font-xl)); /* intro paragraphs */
+	--text-lead: clamp(var(d), 1rem + 0.5vw, var(--font-xl)); /* intro paragraphs */
 	--text-title: clamp(var(--font-lg), 1rem + 0.5vw, var(--font-xl)); /* card / bar titles */
 	--text-body: var(--font-m);
 	--text-caption: var(--font-s);

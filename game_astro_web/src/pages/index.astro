@@ -20,16 +20,15 @@ const gameCount = gamesCollection.length;
 			</div>
 			<div class="hero-text">
 				<h1>Welcome to Dupa Games</h1>
-					<p>
-						Hi I'm Hugo, a programming student from Australia.
-					</p>
-					<p>	
-						I'm planning to go to college next year to study computer science and I make 2D games for fun in my spare time.
-						<!-- Gaming is my passion, and making my own games has given me the freedom to create games exactly as I want them to be played. -->
-					</p>
-					<p>		
-						I made this site to share my creations with the world wide web. Please enjoy playing them and let me know if you like them!
-					</p>
+				<p>
+					Hi I'm Hugo, a programming student from Australia.
+				</p>
+				<p>	
+					I'm planning to go to college next year to study computer science and I make 2D games for fun in my spare time.
+				</p>
+				<p>		
+					I made this site to share my creations with the world wide web. Please enjoy my games and let me know if you like them!
+				</p>
 			</div>
 		</section>
 
@@ -54,6 +53,10 @@ const gameCount = gamesCollection.length;
 				}
 			</ul>
 		</section>
+		<footer>
+			<p>Find me on github:</p>
+			<a href="https://github.com/hutgib2">@hutgib2</a>
+		</footer>
 	</div>
 </Layout>
 
@@ -184,5 +187,18 @@ const gameCount = gamesCollection.length;
 		display: grid;
 		grid-template-columns: repeat(auto-fill, minmax(min(100%, var(--card-min-width)), 1fr));
 		gap: var(--grid-gap);
+	}
+
+	footer {
+		display: flex;
+		justify-content: center;
+		gap: var(--gap-1);
+		margin-inline: var(--gutter);
+		padding-block: var(--gap-4);
+
+		border-top: var(--border-thin) solid var(--color-border);
+		font-size: var(--font-base);
+		font-family: var(--font-oswald);
+		font-weight: 400;
 	}
 </style>
