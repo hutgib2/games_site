@@ -35,15 +35,15 @@ const GAMES = gamesCollection.map((game: CollectionEntry<'games'>) => ({
 		</button>
 		
 		<Sheet className="sheet" position="left" showCloseIcon={false}>
-			<a href="/" class="img-wrapper">
+			<!-- <a href="/" class="img-wrapper">
 				<Image src={DupaLogo} alt="Dupa Games Logo" width={80} />
-			</a>
+			</a> -->
 			{
 				menuLinks.map((item) => (
-					<a href={item.href}>{item.name}</a>
+					<a href={item.href} class="menu-link">{item.name}</a>
 				))
 			}
-			<h3 class="games-heading">Games</h3>
+			<h3 class="games-heading">All Games</h3>
 			<div class="games-list">
 				{
 					GAMES.map((game: any) => (
@@ -98,15 +98,14 @@ const GAMES = gamesCollection.map((game: CollectionEntry<'games'>) => ({
 		
 		a {
 			width: fit-content;
-			padding-block: var(--gap-1);
-			padding-inline: var(--gap-2);
 		}
 		
 		.sheet {
 			display: flex;
 			flex-direction: column;
 			width: var(--sheet-width);
-			padding: var(--gap-6);
+			padding-inline: var(--gap-6);
+			padding-block: var(--gap-12);
 			border-right: var(--border-thin) solid var(--color-border);
 			
 			font-family: var(--font-sans);
@@ -117,6 +116,7 @@ const GAMES = gamesCollection.map((game: CollectionEntry<'games'>) => ({
 			.games-list {
 				display: flex;
 				flex-direction: column;
+				white-space: nowrap;
 			}
 
 			a.img-wrapper {
@@ -129,9 +129,14 @@ const GAMES = gamesCollection.map((game: CollectionEntry<'games'>) => ({
 			width: var(--size-logo-sm);
 			height: auto;
 		}
+
+		.menu-link {
+			font-size: var(--font-2xl);
+		}
  
 		.games-list {
-			padding-inline: var(--gap-6);
+			padding-inline: var(--gap-4);
+			gap: var(--gap-2);
 		}
  
 		.games-heading {
@@ -145,6 +150,7 @@ const GAMES = gamesCollection.map((game: CollectionEntry<'games'>) => ({
 	.desktop-header {
 		display: none;
 	}
+
 	
 	/* desktop only - full header bar */
 	@media (min-width: 1024px) {

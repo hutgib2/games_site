@@ -1,9 +1,7 @@
 ---
 // JavaScript Section
-// import DupaLogoText from '@/assets/my_logo_text.png';
 import DupaLogo from '@/assets/my_logo.png';
 import GameCard from '@/components/GameCard.astro';
-// import GamePreviewReel from '@/components/GamePreviewReel.astro';
 import Layout from '@/layouts/Layout.astro';
 import Image from 'astro/components/Image.astro';
 import { getCollection } from 'astro:content';
@@ -61,13 +59,6 @@ const gameCount = gamesCollection.length;
 </Layout>
 
 <style>
-	/* .header { */
-		/* position: absolute; */
-		/* inset: 0; */
-		/* z-index: var(--z-header); */
-		/* height: fit-content; */
-	/* } */
-
 	.page {
 		display: flex;
 		flex-direction: column;
