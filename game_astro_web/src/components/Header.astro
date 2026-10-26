@@ -1,6 +1,7 @@
 ---
 import { type CollectionEntry } from 'astro:content';
-import { Menu, Button, Sheet, Popover} from 'webcoreui/astro';
+import { Menu, Button, Sheet } from 'webcoreui/astro';
+import DropDown from './DropDown.astro';
 import DupaLogo from '../assets/my_logo.png';
 import MenuIcon from '@lucide/astro/icons/menu';
 import Image from 'astro/components/Image.astro';
@@ -21,26 +22,15 @@ const GAMES = gamesCollection.map((game: CollectionEntry<'games'>) => ({
 	name: game.data.title,
 	href: `/games/${game.id}`,
 }))
-
-// TASK: Replace the select dropdown with a popover, 
-// check the link i sent to see how to use the popover
-// it should still contain a vertical list of each game link
-// 
 ---
 
 <script>
-	import { modal, popover } from 'webcoreui';
+	import { modal } from 'webcoreui';
 
 	modal({
 		trigger: '.button',
 		modal: '.sheet'
 	})
-
-	popover({
-        trigger: '.games-popover-trigger',
-        popover: '.games-popover',
-		position: 'bottom-start'
-    })
 </script>
 
 <header>
@@ -61,7 +51,7 @@ const GAMES = gamesCollection.map((game: CollectionEntry<'games'>) => ({
 			<h3 class="games-heading">Games</h3>
 			<div class="games-list">
 				{
-					GAMES.map((game) => (
+					GAMES.map((game: any) => (
 						<a href={game.href}>{game.name}</a>
 					))
 				}
@@ -70,19 +60,11 @@ const GAMES = gamesCollection.map((game: CollectionEntry<'games'>) => ({
 	</div>
 
 	<div class="desktop-header">
+		<!-- After we will change the menu too -->
 		<Menu items={menu} logo={menuLogo} />
-		<div class="popover-wrapper">
-			<Button className="games-popover-trigger">Games</Button>
-			<Popover className="popover">
-    			<div class="games-list">
-					{
-						GAMES.map((game) => (
-							<a href={game.href}>{game.name}</a>
-						))
-					}
-				</div>
-			</Popover>
-		</div>
+		<DropDown label='Games' items={(GAMES.map((game: any) => (
+			{ label: game.name, href: game.href }
+		)))}/>
 	</div>
 </header>
 
@@ -179,16 +161,6 @@ const GAMES = gamesCollection.map((game: CollectionEntry<'games'>) => ({
 			background-color: var(--color-bg);
 			border-bottom: var(--border-thin) solid var(--color-border);
 			padding-block: var(--gap-2);
-		}
-
-		/* NOT WORKING */
-		:global(.games-popover-wrapper .games-popover .games-list) {
-			font-family: var(--font-oswald);
-		}
-
-		.games-popover-trigger {
-			font-size: var(--font-lg);
-			transform: translateX(-26);
 		}
 	}
 </style>
