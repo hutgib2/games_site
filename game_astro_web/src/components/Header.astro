@@ -1,6 +1,6 @@
 ---
 import { type CollectionEntry } from 'astro:content';
-import { Button, Sheet } from 'webcoreui/astro';
+import { Sheet } from 'webcoreui/astro';
 import DropDown from './DropDown.astro';
 import DupaLogo from '../assets/my_logo.png';
 import MenuIcon from '@lucide/astro/icons/menu';
@@ -23,16 +23,16 @@ const GAMES = gamesCollection.map((game: CollectionEntry<'games'>) => ({
 	import { modal } from 'webcoreui';
 
 	modal({
-		trigger: '.button',
+		trigger: '.toggle-sidebar',
 		modal: '.sheet'
 	})
 </script>
 
 <header>
 	<div class="mobile-header">
-		<Button className="button">
+		<button class="toggle-sidebar">
 			<MenuIcon stroke-width={2} size={38} />
-		</Button>
+		</button>
 		
 		<Sheet className="sheet" position="left" showCloseIcon={false}>
 			<a href="/" class="img-wrapper">
@@ -69,55 +69,56 @@ const GAMES = gamesCollection.map((game: CollectionEntry<'games'>) => ({
 
 <style>
 	/* shared by both */
-	.games-list {
-		display: flex;
-		flex-direction: column;
-	}
-
 	a:hover {
 		color: var(--color-brand);
 		transform: scale(var(--scale-hover));
 		transition: transform var(--duration-fast) ease;
 	}
-
+	
 	/* mobile only - sidebar menu */
 	.mobile-header {
 		display: flex;
 		justify-content: flex-end;
 		width: 100%;
- 
-		.button {
+		
+		.toggle-sidebar {
 			padding: var(--gap-3);
 			transition: transform var(--duration-fast) ease;
 		}
- 
-		.button:hover {
+		
+		.toggle-sidebar:hover {
 			color: var(--color-brand);
 			transform: scale(var(--scale-hover));
 		}
- 
+		
 		.menu-icon {
 			width: var(--size-icon-md);
 			height: var(--size-icon-md);
 		}
- 
+		
 		a {
 			width: fit-content;
 			padding-block: var(--gap-1);
 			padding-inline: var(--gap-2);
 		}
- 
+		
 		.sheet {
 			display: flex;
 			flex-direction: column;
 			width: var(--sheet-width);
 			padding: var(--gap-6);
-			background-color: var(--color-bg);
 			border-right: var(--border-thin) solid var(--color-border);
+			
 			font-family: var(--font-sans);
 			font-size: var(--text-title);
 			font-weight: var(--weight-bold);
- 
+			background-color: var(--color-bg);
+			
+			.games-list {
+				display: flex;
+				flex-direction: column;
+			}
+
 			a.img-wrapper {
 				padding-bottom: var(--gap-6);
 				transform: none;
