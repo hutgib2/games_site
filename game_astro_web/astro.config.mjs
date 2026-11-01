@@ -15,4 +15,9 @@ export default defineConfig({
 			styles: ["normal"],
 		},
 	],
+	vite: {
+		build: {
+			cssMinify: false,
+		},
+	},
 })
