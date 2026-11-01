@@ -14,3 +14,6 @@
 	path = games/the-surviving-vampire
 	url = git@github.com:hutgib2/the-surviving-vampire.git
 	branch = browser
+[submodule "games/Pong"]
+	path = games/Pong
+	url = https://github.com/hutgib2/Pong.git
