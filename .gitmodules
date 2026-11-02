@@ -17,3 +17,9 @@
 [submodule "games/Pong"]
 	path = games/Pong
 	url = https://github.com/hutgib2/Pong.git
+[submodule "games/my_game"]
+	path = games/my_game
+	url = git@github.com:hutgib2/my_game.git
+[submodule "games/Rory"]
+	path = games/Rory
+	url = git@github.com:hutgib2/Rory.git

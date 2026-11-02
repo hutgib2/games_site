@@ -15,7 +15,7 @@ Vampire Survivor is an endless game where you shoot bats, skeletons and demon bo
 
 
 ## How to Play
-- Arrow keys/ASDW to move 
+- Arrow keys/WASD to move 
 - Mouse to aim and shoot
 - Spacebar to use ultimate move - does 1 damage to ever enemy on the screen
 - Press esc to return to main menu
