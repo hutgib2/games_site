@@ -14,6 +14,5 @@ Eat the orange squares to increase your score but avoid touching the walls or yo
 
 
 ## How to Play
-- Press esc to return to main menu
 - WASD to move
 </article>
