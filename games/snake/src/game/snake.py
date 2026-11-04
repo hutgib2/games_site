@@ -2,17 +2,24 @@ import pygame
 import sys
 import random
 from game.settings import *
+from game.textSprite import TextSprite
 from utils.async_clock import AsyncClock
 
 class Snake():
     def __init__(self):
         self.clock= AsyncClock(fps=16)
         self.score = None
-
+        self.menu_sprites = pygame.sprite.Group()
+        self.game_over_sprites = pygame.sprite.Group()
+        TextSprite('Arcade Snake', (WINDOW_WIDTH / 2, WINDOW_HEIGHT / 3), (128, 0, 0), WINDOW_WIDTH / 16, self.menu_sprites)
+        TextSprite('Press enter to play', (WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2), (128, 0, 0), WINDOW_WIDTH / 32, (self.menu_sprites, self.game_over_sprites))
+        TextSprite('WASTED', (WINDOW_WIDTH / 2, WINDOW_HEIGHT / 3), (128, 0, 0), WINDOW_WIDTH / 16, self.game_over_sprites)
+        
     def draw_text(self,text, color, x, y):
         img = FONT.render(text, True, color)
         font_rect = img.get_frect(center=(x, y))
         screen.blit(img, font_rect)
+
 
     async def show_menu(self):
         while True:
@@ -24,10 +31,13 @@ class Snake():
                     await self.run()
             
             screen.fill((0,0,0))
-            self.draw_text('Press enter to play', (128, 0, 0), WINDOW_WIDTH / 2, WINDOW_HEIGHT / 4)
+            
             if self.score != None:
-                self.draw_text('WASTED', (128, 0, 0), WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2)
-                self.draw_text(f'Final score: {self.score}', (128, 0, 0), WINDOW_WIDTH / 2, 100 + WINDOW_HEIGHT / 2)
+                self.game_over_sprites.update()
+                self.score_text.update()
+            else:
+                self.menu_sprites.update()
+
             pygame.display.update()
 
 
@@ -54,6 +64,7 @@ class Snake():
             head_row, head_col = snake[0]
             d_row, d_col = direction
             new_head = (head_row+d_row, head_col+d_col)
+        
 
             # wall_collision
             if new_head == food:
@@ -77,4 +88,4 @@ class Snake():
             self.score = len(snake) - 3
             self.draw_text(f'Score: {self.score}', (255, 255, 255), WINDOW_WIDTH / 16, WINDOW_HEIGHT / 24)
             pygame.display.update()
-        
+        self.score_text = TextSprite(f'Final score: {self.score}', (WINDOW_WIDTH / 2, WINDOW_HEIGHT / 10 + WINDOW_HEIGHT / 2), (128, 0, 0), WINDOW_WIDTH / 32, ())

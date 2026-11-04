@@ -1,18 +1,12 @@
 #Import packages
-import pygame
 import sys
 import random
 import math
-# import images
-# Initialise pygame
-pygame.init()
+from settings import *
+
 game_over = False
-# Set up screen
-width = 2560
-height = 1280
-screen = pygame.display.set_mode((width, height))
-pygame.display.set_caption(('Tower defense'))
 clock = pygame.time.Clock()
+
 # variables
 building = True
 enemies = []
@@ -27,18 +21,20 @@ current_wave = 0
 spawn_delay = 60
 wave_complete = False
 
+# fix bullets missing by making them slower and have them be homing
+
 way_points = [
-    (0, 1400),
-    (1600, 1400),
-    (1600, 1000),
-    (250, 1000),
-    (250, 500),
-    (1000, 500),
-    (1000, 300),
-    (800, 300),
-    (800, 100),
-    (1000, 100),
-    (1000, 0)
+    (0, WINDOW_HEIGHT / 1.1),
+    (WINDOW_WIDTH / 1.1, WINDOW_HEIGHT / 1.1),
+    (WINDOW_WIDTH / 1.1, WINDOW_HEIGHT / 1.35),
+    (WINDOW_WIDTH / 7, WINDOW_HEIGHT / 1.35),
+    (WINDOW_WIDTH / 7, WINDOW_HEIGHT / 2),
+    (WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2),
+    (WINDOW_WIDTH / 2, WINDOW_HEIGHT / 3),
+    (WINDOW_WIDTH / 2.5, WINDOW_HEIGHT / 3),
+    (WINDOW_WIDTH / 2.5, WINDOW_HEIGHT / 10),
+    (WINDOW_WIDTH / 2, WINDOW_HEIGHT / 10),
+    (WINDOW_WIDTH / 2, 0)
 ]
 
 def draw_map():
@@ -58,7 +54,7 @@ def spawn_tower(x, y):
     return {
         'x': x,
         'y': y, 
-        'range': 512,
+        'range': WINDOW_WIDTH / 4,
         'damage': 1,
         'cooldown': 0,
         'fire_rate': 16
@@ -99,9 +95,10 @@ def draw_build_phase():
     global cost
     if building:
         font = pygame.font.SysFont(None, 128)
-        pygame.draw.rect(screen, (0, 80, 180), (width-750, 20, 500, 100))
-        screen.blit(font.render('start wave', True, (255, 255, 255)), (width-720, 20))
-        screen.blit(font.render(f'place tower: ${cost}', True, (255, 220, 0)), (width-1000, 120))
+        text_pos = (3*WINDOW_WIDTH / 4, WINDOW_HEIGHT / 32)
+        pygame.draw.rect(screen, (0, 80, 180), (text_pos[0] - WINDOW_WIDTH / 100, text_pos[1], WINDOW_WIDTH / 4, WINDOW_HEIGHT / 12))
+        screen.blit(font.render('start wave', True, (255, 255, 255)), (text_pos[0], text_pos[1]))
+        screen.blit(font.render(f'place tower: ${cost}', True, (255, 220, 0)), (33*WINDOW_WIDTH / 55, WINDOW_HEIGHT / 8))
 
 def get_target(tower):
     # closest = None
@@ -141,7 +138,7 @@ def update_bullets():
     for bullet in bullets[:]:
         bullet['x'] += bullet['dx'] * bullet['speed']
         bullet['y'] += bullet['dy'] * bullet['speed']
-        if bullet['x'] < 0 or bullet['x'] > width or bullet['y'] < 0 or bullet['y'] > height:
+        if bullet['x'] < 0 or bullet['x'] > WINDOW_WIDTH or bullet['y'] < 0 or bullet['y'] > WINDOW_HEIGHT:
             bullets.remove(bullet)
             continue
         for enemy in enemies[:]:
@@ -197,7 +194,7 @@ while running:
             running = False
         if event.type == pygame.MOUSEBUTTONDOWN and building:
             mx, my = pygame.mouse.get_pos()
-            if width - 750 <= mx <= width - 250 and 20 <= my <= 120:
+            if WINDOW_WIDTH - 750 <= mx <= WINDOW_WIDTH - 250 and 20 <= my <= 120:
                 building = False
                 wave_complete = False
                 start_wave(current_wave)

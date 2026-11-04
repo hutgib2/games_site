@@ -178,7 +178,7 @@ class Roguelike():
             # await asyncio.sleep(0)
             await self.clock.tick()
             screen.fill((0,0,0))
-            screen.blit(FONT.render("Press P to play", True, (255, 255, 255)), (WINDOW_WIDTH // 3, WINDOW_HEIGHT // 2))
+            screen.blit(FONT.render("Press P to play", True, (255, 255, 255)), (WINDOW_WIDTH / 3, WINDOW_HEIGHT / 2))
             pygame.display.update()
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
