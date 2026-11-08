@@ -7,6 +7,7 @@ import asyncio
 from game.settings import *
 from game.textSprite import TextSprite
 from utils.async_clock import AsyncClock
+from utils.timer import Timer
 
 WEB = sys.platform == "emscripten"
 
@@ -25,6 +26,9 @@ class Roguelike():
         self.powerups = []
         self.active_effects = {}
         self.particles = []
+        self.can_shoot = False
+        self.shoot_cooldown = 200
+        self.shoot_timer = Timer(self.shoot_cooldown, self.reload, repeat=True, autostart=True)
         self.menu_sprites = pygame.sprite.Group()
         self.highscore = self.load_high_score()
         self.bg_image = pygame.image.load('assets/images/roguelike.png')
@@ -169,7 +173,6 @@ class Roguelike():
         with open("assets/highscore.txt", "w") as file:
             file.write(str(new_score))
 
-
     def reset_game(self):
         self.game_over = False
         self.score = 0
@@ -180,6 +183,27 @@ class Roguelike():
         self.current_wave = 1
         self.player_health = 3
         self.invincible_timer = 0
+
+    def reload(self):
+        self.can_shoot = True
+
+    def shoot(self):
+        self.direction = [self.dx, self.dy]
+        if self.direction == [0,0]:
+            self.choose_direction()
+        if 'rear shot' in self.active_effects:
+            self.bullets.append([self.player_x, self.player_y, -self.direction[0], -self.direction[1]])
+        if 'side shot' in self.active_effects:
+            self.bullets.append([self.player_x, self.player_y, self.direction[1], self.direction[0]])
+            self.bullets.append([self.player_x, self.player_y, -self.direction[1], -self.direction[0]])
+        if 'shotgun' in self.active_effects:
+            for sign in [-1, 1]:
+                self.offset = sign*math.radians(30)
+                new_dx = self.dx*math.cos(self.offset) - self.dy*math.sin(self.offset)
+                new_dy = self.dx*math.sin(self.offset) + self.dy*math.cos(self.offset)
+                self.bullets.append([self.player_x, self.player_y, new_dx, new_dy])
+        self.bullets.append([self.player_x, self.player_y, self.direction[0], self.direction[1]])
+        self.can_shoot = False
 
     async def run(self):
         while self.start_screen:
@@ -210,33 +234,16 @@ class Roguelike():
                 self.angle += 0.1
             tip_x = self.player_x + 32 + self.radius * math.cos(self.angle)
             tip_y = self.player_y + 32 + self.radius * math.sin(self.angle)
-            
+
             # INPUTS
             for event in pygame.event.get():
-                    if event.type == pygame.QUIT:
-                       self.running = False
-                    if event.type == pygame.KEYDOWN:
-                        if event.key == pygame.K_k or event.key == pygame.K_SPACE:
-                            self.direction = [self.dx, self.dy]
-                            if self.direction == [0,0]:
-                                self.choose_direction()
-                            if 'rear shot' in self.active_effects:
-                                self.bullets.append([self.player_x, self.player_y, -self.direction[0], -self.direction[1]])
-                            if 'side shot' in self.active_effects:
-                                self.bullets.append([self.player_x, self.player_y, self.direction[1], self.direction[0]])
-                                self.bullets.append([self.player_x, self.player_y, -self.direction[1], -self.direction[0]])
-                            if 'shotgun' in self.active_effects:
-                                for sign in [-1, 1]:
-                                    self.offset = sign*math.radians(30)
-                                    new_dx = self.dx*math.cos(self.offset) - self.dy*math.sin(self.offset)
-                                    new_dy = self.dx*math.sin(self.offset) + self.dy*math.cos(self.offset)
-                                    self.bullets.append([self.player_x, self.player_y, new_dx, new_dy])
-                            self.bullets.append([self.player_x, self.player_y, self.direction[0], self.direction[1]])
-                        if self.game_over and event.key == pygame.K_r:
-                            self.reset_game()
-            self.dx = 0
-            self.dy = 0
+                if event.type == pygame.QUIT:
+                    self.running = False
+                if event.type == pygame.KEYDOWN:
+                    if self.game_over and event.key == pygame.K_r:
+                        self.reset_game()
             keys = pygame.key.get_pressed()
+            self.dx = self.dy = 0
             if keys[pygame.K_a] or keys[pygame.K_LEFT]:
                 self.player_x -= self.player_speed
                 self.dx = -1
@@ -249,11 +256,14 @@ class Roguelike():
             if keys[pygame.K_w] or keys[pygame.K_UP]:
                 self.player_y -= self.player_speed
                 self.dy = -1
+            if (keys[pygame.K_k] or keys[pygame.K_SPACE]) and self.can_shoot:
+                self.shoot()
             self.player_x =  max(0, min(self.player_x, WINDOW_WIDTH - 64))
             self.player_y = max(0, min(self.player_y, WINDOW_HEIGHT - 64))
 
             if not self.game_over:
-
+                self.shoot_timer.update()
+                
         # MOVE ENEMIES
                 for enemy in self.enemies:
                     if enemy['x'] < self.player_x:
