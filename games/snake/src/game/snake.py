@@ -5,15 +5,25 @@ from game.settings import *
 from game.textSprite import TextSprite
 from utils.async_clock import AsyncClock
 
+# powerup ideas: 
+# 1. snake shrinker 
+# 2. bounce off walls 
+# 3. instant turnaround 
+# 4. invincibility 
+# 5. food magnet
+
 class Snake():
     def __init__(self):
         self.clock= AsyncClock(fps=16)
         self.score = None
         self.menu_sprites = pygame.sprite.Group()
         self.game_over_sprites = pygame.sprite.Group()
-        TextSprite('Arcade Snake', (WINDOW_WIDTH / 2, WINDOW_HEIGHT / 3), (128, 0, 0), WINDOW_WIDTH / 16, self.menu_sprites)
-        TextSprite('Press enter to play', (WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2), (128, 0, 0), WINDOW_WIDTH / 32, (self.menu_sprites, self.game_over_sprites))
-        TextSprite('WASTED', (WINDOW_WIDTH / 2, WINDOW_HEIGHT / 3), (128, 0, 0), WINDOW_WIDTH / 16, self.game_over_sprites)
+        self.text_color = (255, 0, 0)
+        TextSprite('Arcade Snake', (WINDOW_WIDTH / 1.5, WINDOW_HEIGHT / 2), self.text_color, WINDOW_WIDTH / 16, self.menu_sprites)
+        TextSprite('Press enter to play', (WINDOW_WIDTH / 1.5, WINDOW_HEIGHT / 1.5), self.text_color, WINDOW_WIDTH / 32, (self.menu_sprites, self.game_over_sprites))
+        TextSprite('Game Over', (WINDOW_WIDTH / 1.5, WINDOW_HEIGHT / 2), self.text_color, WINDOW_WIDTH / 16, self.game_over_sprites)
+        self.bg_image = pygame.image.load('assets/images/snake.png')
+        self.bg_image = pygame.transform.smoothscale(self.bg_image, (WINDOW_WIDTH, WINDOW_HEIGHT))
         
     def draw_text(self,text, color, x, y):
         img = FONT.render(text, True, color)
@@ -30,7 +40,8 @@ class Snake():
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
                     await self.run()
             
-            screen.fill((0,0,0))
+            # screen.fill((0,0,0))
+            screen.blit(self.bg_image)
             
             if self.score != None:
                 self.game_over_sprites.update()
@@ -88,4 +99,4 @@ class Snake():
             self.score = len(snake) - 3
             self.draw_text(f'Score: {self.score}', (255, 255, 255), WINDOW_WIDTH / 16, WINDOW_HEIGHT / 24)
             pygame.display.update()
-        self.score_text = TextSprite(f'Final score: {self.score}', (WINDOW_WIDTH / 2, WINDOW_HEIGHT / 10 + WINDOW_HEIGHT / 2), (128, 0, 0), WINDOW_WIDTH / 32, ())
+        self.score_text = TextSprite(f'Final score: {self.score}', (WINDOW_WIDTH / 1.5, WINDOW_HEIGHT / 1.25), self.text_color, WINDOW_WIDTH / 32, ())
