@@ -5,9 +5,12 @@ import random
 import math
 import asyncio
 from game.settings import *
+from game.textSprite import TextSprite
 from utils.async_clock import AsyncClock
 
 WEB = sys.platform == "emscripten"
+
+# TODO: hook up high score to database
 
 class Roguelike():
     def __init__(self):
@@ -22,8 +25,13 @@ class Roguelike():
         self.powerups = []
         self.active_effects = {}
         self.particles = []
+        self.menu_sprites = pygame.sprite.Group()
         self.highscore = self.load_high_score()
-        
+        self.bg_image = pygame.image.load('assets/images/roguelike.png')
+        self.bg_image = pygame.transform.smoothscale(self.bg_image, (WINDOW_WIDTH, WINDOW_HEIGHT))
+        self.text_color = (255, 255, 255)
+        TextSprite("Welcome to Mr. Roguelike!", (WINDOW_WIDTH / 2, WINDOW_HEIGHT / 6), self.text_color, WINDOW_WIDTH / 16, self.menu_sprites)
+        TextSprite("Press P to play", (WINDOW_WIDTH / 2, WINDOW_HEIGHT / 1.5), self.text_color, WINDOW_WIDTH / 24, self.menu_sprites)
 
         # player
         self.player_x = WINDOW_WIDTH // 2
@@ -177,8 +185,9 @@ class Roguelike():
         while self.start_screen:
             # await asyncio.sleep(0)
             await self.clock.tick()
-            screen.fill((0,0,0))
-            screen.blit(FONT.render("Press P to play", True, (255, 255, 255)), (WINDOW_WIDTH / 3, WINDOW_HEIGHT / 2))
+            # screen.fill((0,0,0))
+            screen.blit(self.bg_image)
+            self.menu_sprites.update()
             pygame.display.update()
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -192,7 +201,7 @@ class Roguelike():
             await self.clock.tick()
             if self.invincible_timer > 0:
                 self.invincible_timer -= 1
-            screen.fill((0,0,0))
+            screen.fill((0,0,0)) 
             
             # melee weapon
             if 'faster swing' in self.active_effects:
@@ -377,7 +386,7 @@ class Roguelike():
                 if self.score > self.highscore:
                     self.highscore = self.score
                     self.save_high_score(self.score)
-                screen.blit(FONT.render("doomslayer has been slayed", True, (128,0,0)), (WINDOW_WIDTH // 5, WINDOW_HEIGHT // 2))
+                screen.blit(FONT.render("Game over", True, (128,0,0)), (WINDOW_WIDTH // 5, WINDOW_HEIGHT // 2))
                 screen.blit(FONT.render("Press R to restart", True, (255,255,255)), (WINDOW_WIDTH // 5, WINDOW_HEIGHT // 1.5))
                 pygame.display.update()
             pygame.display.update()
