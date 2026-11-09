@@ -3,7 +3,7 @@
 title: 'Special Pong'
 description: 'A pong game but with extra features!'
 image: './thumbnails/pong.png'
-video: '/previews/can_ya_nail_it_preview.mp4'
+video: '/previews/pong_preview.mp4'
 type: 'Pong'
 ---
  

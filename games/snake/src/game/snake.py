@@ -1,16 +1,24 @@
 import pygame
 import sys
-import random
+from random import randint, choice
 from game.settings import *
 from game.textSprite import TextSprite
+from utils.timer import Timer
 from utils.async_clock import AsyncClock
 
 # powerup ideas: 
 # 1. snake shrinker 
 # 2. bounce off walls 
 # 3. instant turnaround 
-# 4. invincibility 
-# 5. food magnet
+# 4. food magnet
+# 5. Score multiplier maybe? 
+
+# TASK: add powerups to game
+# - create a timer that spawns a powerup on the screen
+    # just print "powerup" when timer executes
+
+# - start with just snake shrinker and we'll more after
+# - when snake eats powerup, activate it
 
 class Snake():
     def __init__(self):
@@ -24,12 +32,25 @@ class Snake():
         TextSprite('Game Over', (WINDOW_WIDTH / 1.5, WINDOW_HEIGHT / 2), self.text_color, WINDOW_WIDTH / 16, self.game_over_sprites)
         self.bg_image = pygame.image.load('assets/images/snake.png')
         self.bg_image = pygame.transform.smoothscale(self.bg_image, (WINDOW_WIDTH, WINDOW_HEIGHT))
+        self.powerup_pos = None
+        self.powerup_list = ['shrink', 'multiplier']
+        self.powerup_spawn_timer = Timer(5 * 1000, self.spawn_powerup, repeat=True, autostart=True)
+
+    def spawn_powerup(self):
+        if self.powerup_pos:
+            return
+        self.powerup_pos = (randint(1, ROWS-2), randint(1, COLS-2))
+
+    def activate_powerup(self):
+        self.powerup = choice(self.powerup_list)
+        # we need to actually do something with the powerup that is selected
+        if self.powerup == 'shrink':
+            pass
         
     def draw_text(self,text, color, x, y):
         img = FONT.render(text, True, color)
         font_rect = img.get_frect(center=(x, y))
         screen.blit(img, font_rect)
-
 
     async def show_menu(self):
         while True:
@@ -39,8 +60,7 @@ class Snake():
                     return
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
                     await self.run()
-            
-            # screen.fill((0,0,0))
+
             screen.blit(self.bg_image)
             
             if self.score != None:
@@ -51,12 +71,11 @@ class Snake():
 
             pygame.display.update()
 
-
     async def run(self):
         self.score = 0
         snake = [(5,5),(5,4),(5,3)]
         direction = (0, 1)
-        food = (random.randint(1, ROWS-2), random.randint(1, COLS-2))
+        food = (randint(1, ROWS-2), randint(1, COLS-2))
         running = True
         while running:
             await self.clock.tick()
@@ -77,12 +96,16 @@ class Snake():
             new_head = (head_row+d_row, head_col+d_col)
         
 
-            # wall_collision
             if new_head == food:
-                food = (random.randint(1, ROWS-2), random.randint(1, COLS-2))
+                food = (randint(1, ROWS-2), randint(1, COLS-2))
             else:
                 snake.pop()
+                
+            if new_head == self.powerup_pos:
+                self.activate_powerup()
+                self.powerup_pos = None
             
+            # wall_collision
             if not (0 <= new_head[0] < ROWS and 0 <= new_head[1] < COLS):
                 running = False
             # snake collision
@@ -96,7 +119,11 @@ class Snake():
                 (col*CELL_SIZE, row*CELL_SIZE, CELL_SIZE, CELL_SIZE))
             f_row, f_col = food
             pygame.draw.rect(screen, (255, 128, 0), (f_col*CELL_SIZE, f_row*CELL_SIZE, CELL_SIZE, CELL_SIZE))
+            if self.powerup_pos:
+                pygame.draw.rect(screen, (255, 255, 0), (self.powerup_pos[0]*CELL_SIZE, self.powerup_pos[1]*CELL_SIZE, CELL_SIZE, CELL_SIZE))
+            
             self.score = len(snake) - 3
             self.draw_text(f'Score: {self.score}', (255, 255, 255), WINDOW_WIDTH / 16, WINDOW_HEIGHT / 24)
+            self.powerup_spawn_timer.update()
             pygame.display.update()
-        self.score_text = TextSprite(f'Final score: {self.score}', (WINDOW_WIDTH / 1.5, WINDOW_HEIGHT / 1.25), self.text_color, WINDOW_WIDTH / 32, ())
+        self.score_text = TextSprite(f'Final score: {self.score}', (WINDOW_WIDTH / 1.5, WINDOW_HEIGHT / 1.5), self.text_color, WINDOW_WIDTH / 24, ())
