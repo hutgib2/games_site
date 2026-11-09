@@ -1,8 +1,8 @@
 ---
 # This is where we write the variables for our game
-title: 'Roguelike'
+title: 'Mr. Roguelike'
 description: 'Face relentless waves of enemy squares!'
-image: './thumbnails/the_surviving_vampire.png'
+image: './thumbnails/roguelike.png'
 video: '/previews/surviving_vampire_preview.mp4'
 type: 'Roguelike'
 ---
