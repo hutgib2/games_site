@@ -32,19 +32,30 @@ class Snake():
         self.powerup_pos = None
         self.powerup_list = ['shrink', 'multiplier']
         self.powerup_spawn_timer = Timer(5 * 1000, self.spawn_powerup, repeat=True, autostart=True)
+        self.multiplier_timer = None
+        self.score_multiplier = 1
 
     def spawn_powerup(self):
         if self.powerup_pos != None:
             return
         self.powerup_pos = (randint(1, ROWS-2), randint(1, COLS-2))
 
+    # We need a timer that resets the score multiplier 
+
     def activate_powerup(self):
         self.powerup = choice(self.powerup_list)
+        print(self.powerup)
+
         if self.powerup == 'shrink' and len(self.snake) > 2:
             self.snake.pop()
             self.snake.pop()
-        else:
-            print(self.powerup)
+        elif self.powerup == 'multiplier':
+            self.score_multiplier = 2
+            self.multiplier_timer = Timer(10 * 1000, self.reset_multiplier, autostart=True)
+
+    def reset_multiplier(self):
+        self.score_multiplier = 1
+        self.multiplier_timer = None
 
     async def run(self):
         while self.running:
@@ -67,6 +78,7 @@ class Snake():
 
             if new_head == self.food:
                 self.food = (randint(1, ROWS-2), randint(1, COLS-2))
+                self.score += self.score_multiplier
             else:
                 self.snake.pop()
             
@@ -91,9 +103,10 @@ class Snake():
             if self.powerup_pos:
                 pygame.draw.rect(screen, (255, 255, 0), (self.powerup_pos[1]*CELL_SIZE, self.powerup_pos[0]*CELL_SIZE, CELL_SIZE, CELL_SIZE))
             
-            self.score = len(self.snake) - 3
             self.score_text = TextSprite(f'Score: {self.score}', (WINDOW_WIDTH / 12, WINDOW_HEIGHT / 24), (255, 255, 255), WINDOW_WIDTH / 24, ())
             self.score_text.update()
             self.powerup_spawn_timer.update()
+            if self.multiplier_timer:
+                self.multiplier_timer.update()
             pygame.display.update()
         return self.score
