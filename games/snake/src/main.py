@@ -1,10 +1,10 @@
 import pygame
 import asyncio
 
-from game.snake import Snake
+from game.menu import Menu
 
 async def main():
-    game = Snake()
-    await game.show_menu()
+    menu = Menu()
+    await menu.run()
     
 asyncio.run(main())
