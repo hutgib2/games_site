@@ -11,7 +11,8 @@ from utils.async_clock import AsyncClock
 # 2. bounce off walls 
 # 3. instant turnaround 
 # 4. self.food magnet
-# 5. Score multiplier maybe? 
+# 5. Score multiplier
+# 6. bigger orange
 
 # TASK: add powerups to game
 # - create a timer that spawns a powerup on the screen
@@ -30,23 +31,20 @@ class Snake():
         self.clock= AsyncClock(fps=16)
         self.powerup_pos = None
         self.powerup_list = ['shrink', 'multiplier']
-        self.powerup_spawn_timer = Timer(15 * 1000, self.spawn_powerup, repeat=True, autostart=True)
+        self.powerup_spawn_timer = Timer(5 * 1000, self.spawn_powerup, repeat=True, autostart=True)
 
     def spawn_powerup(self):
-        if self.powerup_pos:
+        if self.powerup_pos != None:
             return
         self.powerup_pos = (randint(1, ROWS-2), randint(1, COLS-2))
 
     def activate_powerup(self):
         self.powerup = choice(self.powerup_list)
-        # we need to actually do something with the powerup that is selected
-        if self.powerup == 'shrink':
-            pass
-        
-    # def draw_text(self,text, color, x, y):
-    #     img = FONT.render(text, True, color)
-    #     font_rect = img.get_frect(center=(x, y))
-    #     screen.blit(img, font_rect)
+        if self.powerup == 'shrink' and len(self.snake) > 2:
+            self.snake.pop()
+            self.snake.pop()
+        else:
+            print(self.powerup)
 
     async def run(self):
         while self.running:
@@ -71,7 +69,7 @@ class Snake():
                 self.food = (randint(1, ROWS-2), randint(1, COLS-2))
             else:
                 self.snake.pop()
-                
+            
             if new_head == self.powerup_pos:
                 self.activate_powerup()
                 self.powerup_pos = None
@@ -79,6 +77,7 @@ class Snake():
             # wall_collision
             if not (0 <= new_head[0] < ROWS and 0 <= new_head[1] < COLS):
                 self.running = False
+            
             # snake collision
             elif new_head in self.snake:
                 self.running = False
@@ -88,10 +87,9 @@ class Snake():
             for row, col in self.snake:
                 pygame.draw.rect(screen, (0, 255, 0),
                 (col*CELL_SIZE, row*CELL_SIZE, CELL_SIZE, CELL_SIZE))
-            f_row, f_col = self.food
-            pygame.draw.rect(screen, (255, 128, 0), (f_col*CELL_SIZE, f_row*CELL_SIZE, CELL_SIZE, CELL_SIZE))
+            pygame.draw.rect(screen, (255, 128, 0), (self.food[1]*CELL_SIZE, self.food[0]*CELL_SIZE, CELL_SIZE, CELL_SIZE))
             if self.powerup_pos:
-                pygame.draw.rect(screen, (255, 255, 0), (self.powerup_pos[0]*CELL_SIZE, self.powerup_pos[1]*CELL_SIZE, CELL_SIZE, CELL_SIZE))
+                pygame.draw.rect(screen, (255, 255, 0), (self.powerup_pos[1]*CELL_SIZE, self.powerup_pos[0]*CELL_SIZE, CELL_SIZE, CELL_SIZE))
             
             self.score = len(self.snake) - 3
             self.score_text = TextSprite(f'Score: {self.score}', (WINDOW_WIDTH / 12, WINDOW_HEIGHT / 24), (255, 255, 255), WINDOW_WIDTH / 24, ())
