@@ -43,10 +43,10 @@ class Snake():
         if self.powerup == 'shrink':
             pass
         
-    def draw_text(self,text, color, x, y):
-        img = FONT.render(text, True, color)
-        font_rect = img.get_frect(center=(x, y))
-        screen.blit(img, font_rect)
+    # def draw_text(self,text, color, x, y):
+    #     img = FONT.render(text, True, color)
+    #     font_rect = img.get_frect(center=(x, y))
+    #     screen.blit(img, font_rect)
 
     async def run(self):
         while self.running:
@@ -94,7 +94,8 @@ class Snake():
                 pygame.draw.rect(screen, (255, 255, 0), (self.powerup_pos[0]*CELL_SIZE, self.powerup_pos[1]*CELL_SIZE, CELL_SIZE, CELL_SIZE))
             
             self.score = len(self.snake) - 3
-            self.draw_text(f'Score: {self.score}', (255, 255, 255), WINDOW_WIDTH / 16, WINDOW_HEIGHT / 24)
+            self.score_text = TextSprite(f'Score: {self.score}', (WINDOW_WIDTH / 12, WINDOW_HEIGHT / 24), (255, 255, 255), WINDOW_WIDTH / 24, ())
+            self.score_text.update()
             self.powerup_spawn_timer.update()
             pygame.display.update()
         return self.score

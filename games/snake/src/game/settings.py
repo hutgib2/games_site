@@ -1,7 +1,6 @@
 import pygame
 
 pygame.init()
-FONT = pygame.font.SysFont(None, 64)
 WINDOW_WIDTH, WINDOW_HEIGHT = 1920, 1080
 CELL_SIZE = 30
 ROWS = int(WINDOW_HEIGHT / CELL_SIZE)
