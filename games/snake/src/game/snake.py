@@ -9,13 +9,18 @@ from utils.async_clock import AsyncClock
 
 # powerup ideas: 
 # 1. snake shrinker (done)
-# 2. bounce off walls
-# 3. instant turnaround 
+# 2. bounce off walls (trails the wall up or down after dying)
+# 3. instant turnaround (might not work)
 # 4. self.food magnet
 # 5. Score multiplier (done)
 # 6. bigger orange
 # 7. random hole in snake's body
 
+# Steps for adding a feature:
+# 1. locate where in the file we need to write new code
+# 2. understand how the current code works
+# 3. determine how we need to change it
+# 4. write in small, testable chunks (testable=can run game and see a change)
 
 class Snake():
     def __init__(self):
@@ -29,12 +34,18 @@ class Snake():
         # powerup
         self.powerup = None
         self.powerup_pos = None
-        self.powerup_list = ['shrink', 'multiplier']
+        self.powerup_list = [
+            # 'shrink', 
+            # 'multiplier', 
+            'bounce'
+        ]
         self.powerup_color_map = {
             'shrink': '#FF0000', 
-            'multiplier': '#FFFF00'
+            'multiplier': '#FFFF00',
+            'bounce': '#0000FF'
         }
         self.powerup_spawn_timer = Timer(5 * 1000, self.spawn_powerup, repeat=True, autostart=True)
+        self.can_bounce = False
         self.multiplier_timer = None
         self.score_multiplier = 1
         self.powerup_notifier = Notifier(
@@ -51,8 +62,6 @@ class Snake():
         self.powerup_pos = (randint(1, ROWS-2), randint(1, COLS-2))
         self.powerup_spawn_timer.deactivate()
 
-    # We need a timer that resets the score multiplier 
-
     def activate_powerup(self):
         self.powerup_notifier.notify(f"{self.powerup.title()}!")
         self.powerup_spawn_timer.activate()
@@ -63,10 +72,21 @@ class Snake():
         elif self.powerup == 'multiplier':
             self.score_multiplier = 2
             self.multiplier_timer = Timer(10 * 1000, self.reset_multiplier, autostart=True)
+        elif self.powerup == 'bounce':
+            self.can_bounce = True
 
     def reset_multiplier(self):
         self.score_multiplier = 1
         self.multiplier_timer = None
+
+    # lets do a random direction 
+    def bounce(self):
+        print(self.direction)
+        if self.direction == (-1, 0) or self.direction == (1, 0):
+            self.direction = choice([(0, -1), (0, 1)])
+        elif self.direction == (0, 1) or self.direction == (0, -1):
+            self.direction = choice([(1, 0), (-1, 0)])        
+        print(self.direction)
 
     async def run(self):
         while self.running:
@@ -83,28 +103,32 @@ class Snake():
                         self.direction = (0, -1)
                     if event.key == pygame.K_d and self.direction != (0, -1):
                         self.direction = (0, 1)
+            
             head_row, head_col = self.snake[0]
             d_row, d_col = self.direction
-            new_head = (head_row+d_row, head_col+d_col)
-
-            if new_head == self.food:
+            self.new_head = (head_row+d_row, head_col+d_col)
+            if self.new_head == self.food:
                 self.food = (randint(1, ROWS-2), randint(1, COLS-2))
                 self.score += self.score_multiplier
             else:
                 self.snake.pop()
             
-            if new_head == self.powerup_pos:
+            if self.new_head == self.powerup_pos:
                 self.activate_powerup()
                 self.powerup_pos = None
             
             # wall_collision
-            if not (0 <= new_head[0] < ROWS and 0 <= new_head[1] < COLS):
-                self.running = False
-            
+            if not (0 <= self.new_head[0] < ROWS and 0 <= self.new_head[1] < COLS):
+                if not self.can_bounce:
+                    self.running = False
+                else:
+                    self.bounce()
+                    d_row, d_col = self.direction
+                    self.new_head = (head_row + d_row, head_col + d_col)  
             # snake collision
-            elif new_head in self.snake:
+            elif self.new_head in self.snake:
                 self.running = False
-            self.snake.insert(0, new_head)
+            self.snake.insert(0, self.new_head)
 
             screen.fill((0,0,0))
             for row, col in self.snake:
