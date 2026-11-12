@@ -3,23 +3,19 @@ import sys
 from random import randint, choice
 from game.settings import *
 from game.textSprite import TextSprite
+from game.notifier import Notifier
 from utils.timer import Timer
 from utils.async_clock import AsyncClock
 
 # powerup ideas: 
-# 1. snake shrinker 
-# 2. bounce off walls 
+# 1. snake shrinker (done)
+# 2. bounce off walls
 # 3. instant turnaround 
 # 4. self.food magnet
-# 5. Score multiplier
+# 5. Score multiplier (done)
 # 6. bigger orange
+# 7. random hole in snake's body
 
-# TASK: add powerups to game
-# - create a timer that spawns a powerup on the screen
-    # just print "powerup" when timer executes
-
-# - start with just snake shrinker and we'll more after
-# - when snake eats powerup, activate it
 
 class Snake():
     def __init__(self):
@@ -29,22 +25,37 @@ class Snake():
         self.food = (randint(1, ROWS-2), randint(1, COLS-2))
         self.running = True
         self.clock= AsyncClock(fps=16)
+        
+        # powerup
+        self.powerup = None
         self.powerup_pos = None
         self.powerup_list = ['shrink', 'multiplier']
+        self.powerup_color_map = {
+            'shrink': '#FF0000', 
+            'multiplier': '#FFFF00'
+        }
         self.powerup_spawn_timer = Timer(5 * 1000, self.spawn_powerup, repeat=True, autostart=True)
         self.multiplier_timer = None
         self.score_multiplier = 1
+        self.powerup_notifier = Notifier(
+            pos=(WINDOW_WIDTH / 1.1, WINDOW_HEIGHT / 24), 
+            duration=3000, 
+            color='#FFFFFF', 
+            size=WINDOW_WIDTH / 24
+        )
 
     def spawn_powerup(self):
-        if self.powerup_pos != None:
+        if self.powerup_pos:
             return
+        self.powerup = choice(self.powerup_list)
         self.powerup_pos = (randint(1, ROWS-2), randint(1, COLS-2))
+        self.powerup_spawn_timer.deactivate()
 
     # We need a timer that resets the score multiplier 
 
     def activate_powerup(self):
-        self.powerup = choice(self.powerup_list)
-        print(self.powerup)
+        self.powerup_notifier.notify(f"{self.powerup.title()}!")
+        self.powerup_spawn_timer.activate()
 
         if self.powerup == 'shrink' and len(self.snake) > 2:
             self.snake.pop()
@@ -101,11 +112,12 @@ class Snake():
                 (col*CELL_SIZE, row*CELL_SIZE, CELL_SIZE, CELL_SIZE))
             pygame.draw.rect(screen, (255, 128, 0), (self.food[1]*CELL_SIZE, self.food[0]*CELL_SIZE, CELL_SIZE, CELL_SIZE))
             if self.powerup_pos:
-                pygame.draw.rect(screen, (255, 255, 0), (self.powerup_pos[1]*CELL_SIZE, self.powerup_pos[0]*CELL_SIZE, CELL_SIZE, CELL_SIZE))
+                pygame.draw.rect(screen, self.powerup_color_map[self.powerup], (self.powerup_pos[1]*CELL_SIZE, self.powerup_pos[0]*CELL_SIZE, CELL_SIZE, CELL_SIZE))
             
             self.score_text = TextSprite(f'Score: {self.score}', (WINDOW_WIDTH / 12, WINDOW_HEIGHT / 24), (255, 255, 255), WINDOW_WIDTH / 24, ())
             self.score_text.update()
             self.powerup_spawn_timer.update()
+            self.powerup_notifier.update()
             if self.multiplier_timer:
                 self.multiplier_timer.update()
             pygame.display.update()
