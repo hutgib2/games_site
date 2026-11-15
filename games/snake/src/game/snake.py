@@ -22,6 +22,12 @@ from utils.async_clock import AsyncClock
 # 3. determine how we need to change it
 # 4. write in small, testable chunks (testable=can run game and see a change)
 
+# Task: Add a powerup timer
+# choose a timer you like the look of
+# cut up the frames and create a folder for it
+# look at how we run the timer in vampire survivor
+# recreate a similar logic for the timer in this game
+
 class Snake():
     def __init__(self):
         self.score = 0
@@ -49,7 +55,7 @@ class Snake():
         self.powerup_timer = None
         self.score_multiplier = 1
         self.powerup_notifier = Notifier(
-            pos=(WINDOW_WIDTH / 1.1, WINDOW_HEIGHT / 24), 
+            pos=(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 24), 
             duration=3000, 
             color='#FFFFFF', 
             size=WINDOW_WIDTH / 24
@@ -69,11 +75,12 @@ class Snake():
         if self.powerup == 'shrink' and len(self.snake) > 2:
             self.snake.pop()
             self.snake.pop()
+            return
         elif self.powerup == 'multiplier':
             self.score_multiplier = 2
         elif self.powerup == 'bounce':
             self.can_bounce = True
-        
+
         self.powerup_timer = Timer(10 * 1000, self.deactivate_powerup, autostart=True)
 
     # instead of calling a new function in each timer, we can have one deactivate_powerup()
@@ -104,6 +111,15 @@ class Snake():
         pygame.draw.rect(screen, (255, 128, 0), (self.food[1]*CELL_SIZE, self.food[0]*CELL_SIZE, CELL_SIZE, CELL_SIZE))
         if self.powerup_pos:
             pygame.draw.rect(screen, self.powerup_color_map[self.powerup], (self.powerup_pos[1]*CELL_SIZE, self.powerup_pos[0]*CELL_SIZE, CELL_SIZE, CELL_SIZE))
+        if self.powerup_timer:
+            progress = self.powerup_timer.get_progress()
+            i = int(progress * (len(TIMER_FRAMES) - 1))
+            image = TIMER_FRAMES[i]
+            timer_progress_rect = image.get_frect(center = (WINDOW_WIDTH - 32, WINDOW_HEIGHT / 10))
+            screen.blit(image, timer_progress_rect)
+        self.score_text = TextSprite(f'Score: {self.score}', (WINDOW_WIDTH / 12, WINDOW_HEIGHT / 24), (255, 255, 255), WINDOW_WIDTH / 24, ())
+        self.score_text.update()
+        self.powerup_notifier.update()
             
     async def run(self):
         while self.running:
@@ -142,10 +158,7 @@ class Snake():
             
             self.snake.insert(0, self.new_head)
 
-            self.score_text = TextSprite(f'Score: {self.score}', (WINDOW_WIDTH / 12, WINDOW_HEIGHT / 24), (255, 255, 255), WINDOW_WIDTH / 24, ())
-            self.score_text.update()
             self.powerup_spawn_timer.update()
-            self.powerup_notifier.update()
             if self.powerup_timer:
                 self.powerup_timer.update()
                 
