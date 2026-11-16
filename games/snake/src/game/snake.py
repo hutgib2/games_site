@@ -75,34 +75,38 @@ class Snake():
         self.powerup_pos = (randint(1, ROWS-2), randint(1, COLS-2))
         self.powerup_spawn_timer.deactivate()
 
+    # replace the if elif chains with match case
     def activate_powerup(self):
         self.powerup_notifier.notify(f"{self.powerup.title()}!")
         self.powerup_spawn_timer.activate()
-
-        if self.powerup == 'shrink' and len(self.snake) > 2:
-            self.snake.pop()
-            self.snake.pop()
-            return
-        elif self.powerup == 'multiplier':
-            self.score_multiplier = 2
-        elif self.powerup == 'bounce':
-            self.can_bounce = True
-        elif self.powerup == 'grow':
-            self.grow_food = True
-        elif self.powerup == 'ghost':
-            self.is_ghost = True
+        
+        match self.powerup:
+            case 'shrink':
+                if len(self.snake) > 2:
+                    self.snake.pop()
+                    self.snake.pop()
+                return
+            case 'multiplier':
+                self.score_multiplier = 2
+            case 'bounce':
+                self.can_bounce = True
+            case 'grow':
+                self.grow_food = True
+            case 'ghost':
+                self.is_ghost = True
 
         self.powerup_timer = Timer(10 * 1000, self.deactivate_powerup, autostart=True)
 
     def deactivate_powerup(self):
-        if self.powerup == 'bounce':
-            self.can_bounce = False
-        elif self.powerup == 'multiplier':
-            self.score_multiplier = 1
-        elif self.powerup == 'grow':
-            self.grow_food = False
-        elif self.powerup == 'ghost':
-            self.is_ghost = False
+        match self.powerup:
+            case 'bounce':
+                self.can_bounce = False
+            case 'multiplier':
+                self.score_multiplier = 1
+            case 'grow':
+                self.grow_food = False
+            case 'ghost':
+                self.is_ghost = False
         self.powerup_timer = None
 
     def bounce(self):
