@@ -20,7 +20,6 @@ from utils.async_clock import AsyncClock
 # 3. determine how we need to change it
 # 4. write in small, testable chunks (testable=can run game and see a change)
 
-
 class Snake():
     def __init__(self):
         self.score = 0
