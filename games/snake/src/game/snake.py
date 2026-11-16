@@ -12,7 +12,7 @@ from utils.async_clock import AsyncClock
 # 2. bounce off walls (done)
 # 3. Score multiplier (done)
 # 4. bigger orange (done)
-# 5. pass through body
+# 5. pass through body (done)
 
 # Steps for adding a feature:
 # 1. locate where in the file we need to write new code
