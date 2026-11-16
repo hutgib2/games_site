@@ -9,12 +9,10 @@ from utils.async_clock import AsyncClock
 
 # powerup ideas: 
 # 1. snake shrinker (done)
-# 2. bounce off walls (trails the wall up or down after dying)
-# 3. instant turnaround (might not work)
-# 4. self.food magnet
-# 5. Score multiplier (done)
-# 6. bigger orange
-# 7. random hole in snake's body
+# 2. bounce off walls (done)
+# 3. Score multiplier (done)
+# 4. bigger orange (done)
+# 5. pass through body
 
 # Steps for adding a feature:
 # 1. locate where in the file we need to write new code
@@ -22,18 +20,13 @@ from utils.async_clock import AsyncClock
 # 3. determine how we need to change it
 # 4. write in small, testable chunks (testable=can run game and see a change)
 
-# Task: Add a powerup timer
-# choose a timer you like the look of
-# cut up the frames and create a folder for it
-# look at how we run the timer in vampire survivor
-# recreate a similar logic for the timer in this game
 
 class Snake():
     def __init__(self):
         self.score = 0
         self.snake = [(5,5),(5,4),(5,3)]
         self.direction = (0, 1)
-        self.food = (randint(1, ROWS-2), randint(1, COLS-2))
+        self.food = [(randint(1, ROWS-2), randint(1, COLS-2))]
         self.running = True
         self.clock= AsyncClock(fps=16)
         
@@ -43,23 +36,38 @@ class Snake():
         self.powerup_list = [
             'shrink', 
             'multiplier',
-            'bounce'
+            'bounce',
+            'grow',
+            'ghost',
         ]
         self.powerup_color_map = {
             'shrink': '#FF0000', 
             'multiplier': '#FFFF00',
-            'bounce': '#0000FF'
+            'bounce': '#0000FF',
+            'grow': '#FF00FF',
+            'ghost': '#FFFFFF',
         }
-        self.powerup_spawn_timer = Timer(5 * 1000, self.spawn_powerup, repeat=True, autostart=True)
+        self.powerup_spawn_timer = Timer(15 * 1000, self.spawn_powerup, repeat=True, autostart=True)
         self.can_bounce = False
         self.powerup_timer = None
+        self.grow_food = False
+        self.is_ghost = False
         self.score_multiplier = 1
         self.powerup_notifier = Notifier(
             pos=(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 24), 
             duration=3000, 
-            color='#FFFFFF', 
+            color='#FFFFFF',
             size=WINDOW_WIDTH / 24
         )
+
+    def spawn_food(self):
+        self.food = [(randint(1, ROWS-2), randint(1, COLS-2))]
+        
+        if self.grow_food == True:
+            row, col = self.food[0]
+            self.food.append((row+1, col))
+            self.food.append((row, col+1))
+            self.food.append((row+1, col+1))
 
     def spawn_powerup(self):
         if self.powerup_pos:
@@ -80,18 +88,24 @@ class Snake():
             self.score_multiplier = 2
         elif self.powerup == 'bounce':
             self.can_bounce = True
+        elif self.powerup == 'grow':
+            self.grow_food = True
+        elif self.powerup == 'ghost':
+            self.is_ghost = True
 
         self.powerup_timer = Timer(10 * 1000, self.deactivate_powerup, autostart=True)
 
-    # instead of calling a new function in each timer, we can have one deactivate_powerup()
     def deactivate_powerup(self):
         if self.powerup == 'bounce':
             self.can_bounce = False
         elif self.powerup == 'multiplier':
             self.score_multiplier = 1
+        elif self.powerup == 'grow':
+            self.grow_food = False
+        elif self.powerup == 'ghost':
+            self.is_ghost = False
         self.powerup_timer = None
 
-    # lets do a random direction 
     def bounce(self):
         if self.direction == (-1, 0) or self.direction == (1, 0):
             self.direction = choice([(0, -1), (0, 1)])
@@ -108,7 +122,8 @@ class Snake():
         screen.fill((0,0,0))
         for row, col in self.snake:
             pygame.draw.rect(screen, (0, 255, 0),(col*CELL_SIZE, row*CELL_SIZE, CELL_SIZE, CELL_SIZE))
-        pygame.draw.rect(screen, (255, 128, 0), (self.food[1]*CELL_SIZE, self.food[0]*CELL_SIZE, CELL_SIZE, CELL_SIZE))
+        for row, col in self.food:
+            pygame.draw.rect(screen, (255, 128, 0), (col*CELL_SIZE, row*CELL_SIZE, CELL_SIZE, CELL_SIZE))
         if self.powerup_pos:
             pygame.draw.rect(screen, self.powerup_color_map[self.powerup], (self.powerup_pos[1]*CELL_SIZE, self.powerup_pos[0]*CELL_SIZE, CELL_SIZE, CELL_SIZE))
         if self.powerup_timer:
@@ -138,8 +153,8 @@ class Snake():
                         self.direction = (0, 1)
             
             self.move_head()
-            if self.new_head == self.food:
-                self.food = (randint(1, ROWS-2), randint(1, COLS-2))
+            if self.new_head in self.food:
+                self.spawn_food()
                 self.score += self.score_multiplier
             else:
                 self.snake.pop()
@@ -153,7 +168,7 @@ class Snake():
                 self.running = False if not self.can_bounce else self.bounce()
 
             # snake collision
-            elif self.new_head in self.snake:
+            elif self.new_head in self.snake and self.is_ghost == False:
                 self.running = False
             
             self.snake.insert(0, self.new_head)
