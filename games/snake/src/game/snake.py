@@ -20,6 +20,8 @@ from utils.async_clock import AsyncClock
 # 3. determine how we need to change it
 # 4. write in small, testable chunks (testable=can run game and see a change)
 
+# TODO: make grow affect food on screen when activate and deactivate
+
 class Snake():
     def __init__(self):
         self.score = 0
@@ -59,14 +61,19 @@ class Snake():
             size=WINDOW_WIDTH / 24
         )
 
+    def increase_food_size(self):
+        row, col = self.food[0]
+        self.food.append((row+1, col))
+        self.food.append((row, col+1))
+        self.food.append((row+1, col+1))
+
     def spawn_food(self):
         self.food = [(randint(1, ROWS-2), randint(1, COLS-2))]
+        while self.food in self.snake:
+            self.food = [(randint(1, ROWS-2), randint(1, COLS-2))]
         
         if self.grow_food == True:
-            row, col = self.food[0]
-            self.food.append((row+1, col))
-            self.food.append((row, col+1))
-            self.food.append((row+1, col+1))
+            self.increase_food_size()
 
     def spawn_powerup(self):
         if self.powerup_pos:
@@ -92,6 +99,7 @@ class Snake():
                 self.can_bounce = True
             case 'grow':
                 self.grow_food = True
+                self.increase_food_size()
             case 'ghost':
                 self.is_ghost = True
 
@@ -105,6 +113,9 @@ class Snake():
                 self.score_multiplier = 1
             case 'grow':
                 self.grow_food = False
+                self.food.pop()
+                self.food.pop()
+                self.food.pop()
             case 'ghost':
                 self.is_ghost = False
         self.powerup_timer = None

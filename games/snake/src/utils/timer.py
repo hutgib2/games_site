@@ -31,7 +31,7 @@ class Timer:
     def resume(self): # Use to resume a repeating timer
         self.repeat = True
 
-    def get_progress(self): # returns the progress since last execution of callback
+    def get_progress(self):
         elapsed_time = pygame.time.get_ticks() - self.start_time
         progress = elapsed_time / self.duration
         return min(progress, 1)
