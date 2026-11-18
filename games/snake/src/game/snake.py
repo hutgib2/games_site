@@ -13,6 +13,8 @@ from utils.async_clock import AsyncClock
 # 3. Score multiplier (done)
 # 4. bigger orange (done)
 # 5. pass through body (done)
+# 6. slower snake (done)
+# 7. snake teleport
 
 # Steps for adding a feature:
 # 1. locate where in the file we need to write new code
@@ -29,17 +31,18 @@ class Snake():
         self.direction = (0, 1)
         self.food = [(randint(1, ROWS-2), randint(1, COLS-2))]
         self.running = True
-        self.clock= AsyncClock(fps=16)
+        self.clock= AsyncClock(fps=15)
         
         # powerup
         self.powerup = None
         self.powerup_pos = None
         self.powerup_list = [
-            'shrink', 
+            # 'shrink', 
             'multiplier',
             'bounce',
             'grow',
             'ghost',
+            'slow',
         ]
         self.powerup_color_map = {
             'shrink': '#FF0000', 
@@ -47,6 +50,7 @@ class Snake():
             'bounce': '#0000FF',
             'grow': '#FF00FF',
             'ghost': '#FFFFFF',
+            'slow': '#00FFFF'
         }
         self.powerup_spawn_timer = Timer(15 * 1000, self.spawn_powerup, repeat=True, autostart=True)
         self.can_bounce = False
@@ -102,6 +106,8 @@ class Snake():
                 self.increase_food_size()
             case 'ghost':
                 self.is_ghost = True
+            case 'slow':
+                self.clock= AsyncClock(fps=5)
 
         self.powerup_timer = Timer(10 * 1000, self.deactivate_powerup, autostart=True)
 
@@ -118,6 +124,8 @@ class Snake():
                 self.food.pop()
             case 'ghost':
                 self.is_ghost = False
+            case 'slow':
+                self.clock= AsyncClock(fps=15)
         self.powerup_timer = None
 
     def bounce(self):
@@ -152,7 +160,7 @@ class Snake():
             
     async def run(self):
         while self.running:
-            await self.clock.tick()
+            self.dt = await self.clock.tick() / 1000
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.running = False
