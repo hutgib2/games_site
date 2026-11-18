@@ -28,6 +28,7 @@ class Snake():
     def __init__(self):
         self.score = 0
         self.snake = [(5,5),(5,4),(5,3)]
+        self.snake_color = '#00FF00'
         self.direction = (0, 1)
         self.running = True
         self.clock = AsyncClock(fps=15)
@@ -115,6 +116,7 @@ class Snake():
                 self.increase_food_size()
             case 'ghost':
                 self.is_ghost = True
+                self.snake_color = '#7BB274'
             case 'slow':
                 self.clock = AsyncClock(fps=5)
             case 'portal':
@@ -134,6 +136,7 @@ class Snake():
                     self.food.pop()           
             case 'ghost':
                 self.is_ghost = False
+                self.snake_color = '#00FF00'
             case 'slow':
                 self.clock = AsyncClock(fps=15)
             case 'portal':
@@ -167,7 +170,7 @@ class Snake():
     def draw_game(self):
         screen.fill((0,0,0))
         for row, col in self.snake:
-            pygame.draw.rect(screen, (0, 255, 0),(col*CELL_SIZE, row*CELL_SIZE, CELL_SIZE, CELL_SIZE))
+            pygame.draw.rect(screen, self.snake_color,(col*CELL_SIZE, row*CELL_SIZE, CELL_SIZE, CELL_SIZE))
         for row, col in self.food:
             pygame.draw.rect(screen, (255, 128, 0), (col*CELL_SIZE, row*CELL_SIZE, CELL_SIZE, CELL_SIZE))
         if self.powerup_pos:
@@ -178,7 +181,7 @@ class Snake():
             image = TIMER_FRAMES[i]
             timer_progress_rect = image.get_frect(center = (WINDOW_WIDTH - 32, WINDOW_HEIGHT / 10))
             screen.blit(image, timer_progress_rect)
-        self.score_text = TextSprite(f'Score: {self.score}', (WINDOW_WIDTH / 12, WINDOW_HEIGHT / 24), (255, 255, 255), WINDOW_WIDTH / 24, ())
+        self.score_text = TextSprite(f'Score: {self.score}', (WINDOW_WIDTH / 12, WINDOW_HEIGHT / 24), ('#FFFFFF'), WINDOW_WIDTH / 24, ())
         self.score_text.update()
         self.powerup_notifier.update()
             
