@@ -15,7 +15,6 @@ from utils.async_clock import AsyncClock
 # 5. pass through body (done)
 # 6. slower snake (done)
 # 7. portal (done)
-# 8. project fire (maybe?)
 
 # Steps for adding a feature:
 # 1. locate where in the file we need to write new code
@@ -74,6 +73,12 @@ class Snake():
         self.food.append([row+1, col])
         self.food.append([row, col+1])
         self.food.append([row+1, col+1])
+        self.food.append([row-1, col])
+        self.food.append([row, col-1])
+        self.food.append([row-1, col-1])
+        self.food.append([row+1, col-1])
+        self.food.append([row-1, col+1])
+
 
     def spawn_food(self):
         self.food = [[randint(1, ROWS-2), randint(1, COLS-2)]]
@@ -125,9 +130,8 @@ class Snake():
                 self.score_multiplier = 1
             case 'grow':
                 self.grow_food = False
-                self.food.pop()
-                self.food.pop()
-                self.food.pop()
+                while len(self.food) > 1:
+                    self.food.pop()           
             case 'ghost':
                 self.is_ghost = False
             case 'slow':
