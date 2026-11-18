@@ -14,7 +14,8 @@ from utils.async_clock import AsyncClock
 # 4. bigger orange (done)
 # 5. pass through body (done)
 # 6. slower snake (done)
-# 7. snake teleport
+# 7. portal (done)
+# 8. project fire (maybe?)
 
 # Steps for adding a feature:
 # 1. locate where in the file we need to write new code
@@ -29,20 +30,20 @@ class Snake():
         self.score = 0
         self.snake = [(5,5),(5,4),(5,3)]
         self.direction = (0, 1)
-        self.food = [(randint(1, ROWS-2), randint(1, COLS-2))]
         self.running = True
-        self.clock= AsyncClock(fps=15)
+        self.clock = AsyncClock(fps=15)
         
         # powerup
         self.powerup = None
         self.powerup_pos = None
         self.powerup_list = [
             # 'shrink', 
-            'multiplier',
+            # 'multiplier',
             'bounce',
             'grow',
             'ghost',
             'slow',
+            'portal',
         ]
         self.powerup_color_map = {
             'shrink': '#FF0000', 
@@ -50,7 +51,8 @@ class Snake():
             'bounce': '#0000FF',
             'grow': '#FF00FF',
             'ghost': '#FFFFFF',
-            'slow': '#00FFFF'
+            'slow': '#00FFFF',
+            'portal': '#770077'
         }
         self.powerup_spawn_timer = Timer(15 * 1000, self.spawn_powerup, repeat=True, autostart=True)
         self.can_bounce = False
@@ -58,23 +60,25 @@ class Snake():
         self.grow_food = False
         self.is_ghost = False
         self.score_multiplier = 1
+        self.can_teleport = False
         self.powerup_notifier = Notifier(
             pos=(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 24), 
             duration=3000, 
             color='#FFFFFF',
             size=WINDOW_WIDTH / 24
         )
+        self.spawn_food()
 
     def increase_food_size(self):
         row, col = self.food[0]
-        self.food.append((row+1, col))
-        self.food.append((row, col+1))
-        self.food.append((row+1, col+1))
+        self.food.append([row+1, col])
+        self.food.append([row, col+1])
+        self.food.append([row+1, col+1])
 
     def spawn_food(self):
-        self.food = [(randint(1, ROWS-2), randint(1, COLS-2))]
+        self.food = [[randint(1, ROWS-2), randint(1, COLS-2)]]
         while self.food in self.snake:
-            self.food = [(randint(1, ROWS-2), randint(1, COLS-2))]
+            self.food = [[randint(1, ROWS-2), randint(1, COLS-2)]]
         
         if self.grow_food == True:
             self.increase_food_size()
@@ -83,7 +87,7 @@ class Snake():
         if self.powerup_pos:
             return
         self.powerup = choice(self.powerup_list)
-        self.powerup_pos = (randint(1, ROWS-2), randint(1, COLS-2))
+        self.powerup_pos = [randint(1, ROWS-2), randint(1, COLS-2)]
         self.powerup_spawn_timer.deactivate()
 
     # replace the if elif chains with match case
@@ -107,7 +111,9 @@ class Snake():
             case 'ghost':
                 self.is_ghost = True
             case 'slow':
-                self.clock= AsyncClock(fps=5)
+                self.clock = AsyncClock(fps=5)
+            case 'portal':
+                self.can_teleport = True
 
         self.powerup_timer = Timer(10 * 1000, self.deactivate_powerup, autostart=True)
 
@@ -125,20 +131,34 @@ class Snake():
             case 'ghost':
                 self.is_ghost = False
             case 'slow':
-                self.clock= AsyncClock(fps=15)
+                self.clock = AsyncClock(fps=15)
+            case 'portal':
+                self.can_teleport = False
         self.powerup_timer = None
+
+    def move_head(self):
+        head_row, head_col = self.snake[0]
+        d_row, d_col = self.direction
+        self.new_head = [head_row+d_row, head_col+d_col]
 
     def bounce(self):
         if self.direction == (-1, 0) or self.direction == (1, 0):
             self.direction = choice([(0, -1), (0, 1)])
         elif self.direction == (0, 1) or self.direction == (0, -1):
             self.direction = choice([(1, 0), (-1, 0)])
-        self.move_head()   
+        self.move_head()
 
-    def move_head(self):
-        head_row, head_col = self.snake[0]
-        d_row, d_col = self.direction
-        self.new_head = (head_row+d_row, head_col+d_col)
+    def teleport(self):
+        print(self.direction, self.new_head)
+        if self.direction == (-1, 0):
+            self.new_head[0] = ROWS-1
+        elif self.direction == (1, 0):
+            self.new_head[0] = 1
+        elif self.direction == (0, -1):
+            self.new_head[1] = COLS-1
+        elif self.direction == (0, 1):
+            self.new_head[1] = 1
+        print(self.direction, self.new_head)
 
     def draw_game(self):
         screen.fill((0,0,0))
@@ -187,7 +207,13 @@ class Snake():
             
             # wall_collision
             if not (0 <= self.new_head[0] < ROWS and 0 <= self.new_head[1] < COLS):
-                self.running = False if not self.can_bounce else self.bounce()
+                if self.can_bounce:
+                    self.bounce()
+                elif self.can_teleport:
+                    self.teleport()
+                else:
+                    self.running = False
+                    
 
             # snake collision
             elif self.new_head in self.snake and self.is_ghost == False:
