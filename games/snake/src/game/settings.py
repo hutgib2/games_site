@@ -10,3 +10,11 @@ screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 pygame.display.set_caption('snake')
 
 TIMER_FRAMES = load_images("assets", "images", "powerup_timer", scale=6)
+
+SNAKE_COLOR = {
+    'default': '#00FF00',
+    'ghost': '#7BB274',
+    'portal': '#AAFFAA',
+    'slow': '#00FF77',
+    'bounce': '#AAFF00'
+}

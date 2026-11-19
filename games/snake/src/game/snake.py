@@ -22,13 +22,20 @@ from utils.async_clock import AsyncClock
 # 3. determine how we need to change it
 # 4. write in small, testable chunks (testable=can run game and see a change)
 
-# TODO: make grow affect food on screen when activate and deactivate
+
+# TASK: shrink update
+# we are shrinking the snake to len 3 when active
+# after we want him to grow on each frame until he gets to the previous length
+# think, how do we know what the previous length was?
+# how can we make him grow ?
+
 
 class Snake():
     def __init__(self):
         self.score = 0
         self.snake = [(5,5),(5,4),(5,3)]
-        self.snake_color = '#00FF00'
+        self.old_snake_length = len(self.snake)
+        self.snake_color = SNAKE_COLOR['default']
         self.direction = (0, 1)
         self.running = True
         self.clock = AsyncClock(fps=15)
@@ -37,8 +44,8 @@ class Snake():
         self.powerup = None
         self.powerup_pos = None
         self.powerup_list = [
-            # 'shrink', 
-            # 'multiplier',
+            'shrink', 
+            'multiplier',
             'bounce',
             'grow',
             'ghost',
@@ -55,6 +62,7 @@ class Snake():
             'portal': '#770077'
         }
         self.powerup_spawn_timer = Timer(15 * 1000, self.spawn_powerup, repeat=True, autostart=True)
+        self.is_shrunk = False
         self.can_bounce = False
         self.powerup_timer = None
         self.grow_food = False
@@ -82,18 +90,21 @@ class Snake():
 
 
     def spawn_food(self):
-        self.food = [[randint(1, ROWS-2), randint(1, COLS-2)]]
-        while self.food in self.snake:
-            self.food = [[randint(1, ROWS-2), randint(1, COLS-2)]]
+        self.food = [self.rand_coord()]
+        while self.food in self.snake or self.food[0][0] == self.snake[0][0] or self.food[0][1] == self.snake[0][1]:
+            self.food = [self.rand_coord()]
         
         if self.grow_food == True:
             self.increase_food_size()
+
+    def rand_coord(self):
+        return [randint(1, ROWS-2), randint(1, COLS-2)]
 
     def spawn_powerup(self):
         if self.powerup_pos:
             return
         self.powerup = choice(self.powerup_list)
-        self.powerup_pos = [randint(1, ROWS-2), randint(1, COLS-2)]
+        self.powerup_pos = self.rand_coord()
         self.powerup_spawn_timer.deactivate()
 
     # replace the if elif chains with match case
@@ -103,10 +114,9 @@ class Snake():
         
         match self.powerup:
             case 'shrink':
-                if len(self.snake) > 2:
+                self.old_snake_length = len(self.snake)
+                while len(self.snake) > 3:
                     self.snake.pop()
-                    self.snake.pop()
-                return
             case 'multiplier':
                 self.score_multiplier = 2
             case 'bounce':
@@ -116,32 +126,36 @@ class Snake():
                 self.increase_food_size()
             case 'ghost':
                 self.is_ghost = True
-                self.snake_color = '#7BB274'
             case 'slow':
                 self.clock = AsyncClock(fps=5)
             case 'portal':
                 self.can_teleport = True
 
+        if self.powerup in ['ghost', 'bounce', 'slow', 'portal']:
+            self.snake_color = SNAKE_COLOR[self.powerup]
+
         self.powerup_timer = Timer(10 * 1000, self.deactivate_powerup, autostart=True)
 
     def deactivate_powerup(self):
         match self.powerup:
-            case 'bounce':
-                self.can_bounce = False
+            case 'shrink':
+                self.is_shrunk = True
             case 'multiplier':
                 self.score_multiplier = 1
+            case 'bounce':
+                self.can_bounce = False
             case 'grow':
                 self.grow_food = False
                 while len(self.food) > 1:
                     self.food.pop()           
             case 'ghost':
                 self.is_ghost = False
-                self.snake_color = '#00FF00'
             case 'slow':
                 self.clock = AsyncClock(fps=15)
             case 'portal':
                 self.can_teleport = False
         self.powerup_timer = None
+        self.snake_color = SNAKE_COLOR['default']
 
     def move_head(self):
         head_row, head_col = self.snake[0]
@@ -156,7 +170,6 @@ class Snake():
         self.move_head()
 
     def teleport(self):
-        print(self.direction, self.new_head)
         if self.direction == (-1, 0):
             self.new_head[0] = ROWS-1
         elif self.direction == (1, 0):
@@ -165,7 +178,6 @@ class Snake():
             self.new_head[1] = COLS-1
         elif self.direction == (0, 1):
             self.new_head[1] = 1
-        print(self.direction, self.new_head)
 
     def draw_game(self):
         screen.fill((0,0,0))
@@ -205,6 +217,10 @@ class Snake():
             if self.new_head in self.food:
                 self.spawn_food()
                 self.score += self.score_multiplier
+                self.old_snake_length += 1
+            elif self.is_shrunk and len(self.snake) <= self.old_snake_length:
+                if len(self.snake) == self.old_snake_length:
+                    self.is_shrunk = False
             else:
                 self.snake.pop()
             
@@ -220,7 +236,6 @@ class Snake():
                     self.teleport()
                 else:
                     self.running = False
-                    
 
             # snake collision
             elif self.new_head in self.snake and self.is_ghost == False:
