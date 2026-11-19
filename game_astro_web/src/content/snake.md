@@ -3,7 +3,7 @@
 title: 'Special Snake'
 description: 'Snake game with a twist maybe?'
 image: './thumbnails/snake.png'
-video: '/previews/surviving_vampire_preview.mp4'
+video: '/previews/special_snake_preview.mp4'
 type: 'Snake'
 ---
 
@@ -20,6 +20,8 @@ Eat the oranges to increase your score but avoid touching the walls or yourself 
 - Each powerup only lasts 10 seconds
 
 ## Powerups
+- Shrink: Sets snake to be the mininum size
+- Multiplier: Doubles score gained from eating oranges
 - Bounce: Snake deflects off walls
 - Grow: Turns the small orange into a big pumpkin
 - Ghost: Snake can move through its own body

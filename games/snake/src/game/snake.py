@@ -7,33 +7,16 @@ from game.notifier import Notifier
 from utils.timer import Timer
 from utils.async_clock import AsyncClock
 
-# powerup ideas: 
-# 1. snake shrinker (done)
-# 2. bounce off walls (done)
-# 3. Score multiplier (done)
-# 4. bigger orange (done)
-# 5. pass through body (done)
-# 6. slower snake (done)
-# 7. portal (done)
-
 # Steps for adding a feature:
 # 1. locate where in the file we need to write new code
 # 2. understand how the current code works
 # 3. determine how we need to change it
 # 4. write in small, testable chunks (testable=can run game and see a change)
 
-
-# TASK: shrink update
-# we are shrinking the snake to len 3 when active
-# after we want him to grow on each frame until he gets to the previous length
-# think, how do we know what the previous length was?
-# how can we make him grow ?
-
-
 class Snake():
     def __init__(self):
         self.score = 0
-        self.snake = [(5,5),(5,4),(5,3)]
+        self.snake = [[5,5],[5,4],[5,3]]
         self.old_snake_length = len(self.snake)
         self.snake_color = SNAKE_COLOR['default']
         self.direction = (0, 1)
@@ -62,12 +45,12 @@ class Snake():
             'portal': '#770077'
         }
         self.powerup_spawn_timer = Timer(15 * 1000, self.spawn_powerup, repeat=True, autostart=True)
-        self.is_shrunk = False
-        self.can_bounce = False
         self.powerup_timer = None
+        self.is_shrunk = False
+        self.score_multiplier = 1
+        self.can_bounce = False
         self.grow_food = False
         self.is_ghost = False
-        self.score_multiplier = 1
         self.can_teleport = False
         self.powerup_notifier = Notifier(
             pos=(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 24), 
@@ -88,10 +71,9 @@ class Snake():
         self.food.append([row+1, col-1])
         self.food.append([row-1, col+1])
 
-
     def spawn_food(self):
         self.food = [self.rand_coord()]
-        while self.food in self.snake or self.food[0][0] == self.snake[0][0] or self.food[0][1] == self.snake[0][1]:
+        while self.food in self.snake or self.food[0][0] == self.snake[0][0] or self.food[0][1] == self.snake[0][1] or self.food[0] == self.powerup_pos:
             self.food = [self.rand_coord()]
         
         if self.grow_food == True:
@@ -104,10 +86,12 @@ class Snake():
         if self.powerup_pos:
             return
         self.powerup = choice(self.powerup_list)
-        self.powerup_pos = self.rand_coord()
         self.powerup_spawn_timer.deactivate()
+        
+        self.powerup_pos = self.rand_coord()
+        while self.powerup_pos in self.snake or self.powerup_pos == self.food[0]:
+            self.powerup_pos = self.rand_coord()
 
-    # replace the if elif chains with match case
     def activate_powerup(self):
         self.powerup_notifier.notify(f"{self.powerup.title()}!")
         self.powerup_spawn_timer.activate()
@@ -131,7 +115,7 @@ class Snake():
             case 'portal':
                 self.can_teleport = True
 
-        if self.powerup in ['ghost', 'bounce', 'slow', 'portal']:
+        if self.powerup in ['multiplier', 'bounce', 'slow', 'ghost', 'portal']:
             self.snake_color = SNAKE_COLOR[self.powerup]
 
         self.powerup_timer = Timer(10 * 1000, self.deactivate_powerup, autostart=True)

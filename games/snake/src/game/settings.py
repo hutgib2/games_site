@@ -13,8 +13,9 @@ TIMER_FRAMES = load_images("assets", "images", "powerup_timer", scale=6)
 
 SNAKE_COLOR = {
     'default': '#00FF00',
+    'multiplier': '#FFD700',
+    'bounce': '#AAFF00',
     'ghost': '#7BB274',
     'portal': '#AAFFAA',
     'slow': '#00FF77',
-    'bounce': '#AAFF00'
 }

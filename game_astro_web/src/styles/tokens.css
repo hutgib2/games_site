@@ -111,7 +111,7 @@
 	--size-icon-lg: 3.5rem; /* 56px, controls button */
 
 	/* Game cards */
-	--card-thumb-ratio: 1.6;
+	--card-thumb-ratio: calc(var(--game-ratio-w) / var(--game-ratio-h));
 	--card-description-lines: 3; /* keeps cards in a row the same height */
 
 	/* ---------- MOTION ---------- */
