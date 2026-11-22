@@ -13,6 +13,10 @@ WEB = sys.platform == "emscripten"
 
 # TODO: hook up high score to database
 
+# Task: we also want to break up the run()
+# create a draw_game(), and put all code for drawing in there
+# create a handle_events(), and put all user event handling in there
+
 class Roguelike():
     def __init__(self):
         self.running = True
@@ -20,15 +24,14 @@ class Roguelike():
         self.score = 0
         self.angle = 0
         self.radius = 200
-        self.start_screen = True
         self.player_health = 3
         self.powerups = []
         self.active_effects = {}
         self.particles = []
         self.can_shoot = False
-        self.shoot_cooldown = 200
-        self.shoot_timer = Timer(self.shoot_cooldown, self.reload, repeat=True, autostart=True)
+        self.shoot_timer = Timer(200, self.reload, repeat=True, autostart=True)
         self.highscore = self.load_high_score()
+        
         self.powerup_color_map = {
             'speed boost': (80, 255, 80), 
             'nuke': (255, 0, 255),
@@ -195,41 +198,80 @@ class Roguelike():
         self.bullets.append([self.player_x, self.player_y, self.direction[0], self.direction[1]])
         self.can_shoot = False
 
+    def draw_game(self):
+        screen.fill((0,0,0))
+        # HEALTH BAR
+        pygame.draw.rect(screen, (255, 0, 0), (16, 100, 600, 40))
+        pygame.draw.rect(screen, (0, 255, 0), (16, 100, int(600*(self.player_health / 3)), 40))
+
+        # PLAYER
+        if self.invincible_timer == 0 or self.invincible_timer % 10 < 5:
+            pygame.draw.rect(screen, (0, 255, 0),  (self.player_x, self.player_y, 64, 64))
+            pygame.draw.line(screen, (255, 255, 0), (self.player_x+32, self.player_y+32), (self.tip_x, self.tip_y), 16)
+
+        # ENEMIES
+        for enemy in self.enemies:
+            if enemy['type'] == 'minion':
+                pygame.draw.rect(screen, (255, 0, 0), (enemy['x'], enemy['y'], 64, 64))
+            elif enemy['type'] == 'mob':
+                pygame.draw.rect(screen, (0, 255, 255), (enemy['x'], enemy['y'], 32, 32))
+            else:
+                pygame.draw.rect(screen, (255, 0, 255), (enemy['x'], enemy['y'], 64 + 192*(enemy['health']/self.current_wave), 64 + 192*(enemy['health']/self.current_wave)))
+        
+        # BULLETS
+        for bullet in self.bullets:
+            pygame.draw.rect(screen, (255, 255, 255), (bullet[0], bullet[1], 32, 32))
+
+        # POWERUPS
+        for powerup in self.powerups:
+            pygame.draw.circle(screen, self.powerup_color_map[powerup['type']], (powerup['x'], powerup['y']), 20)
+        
+        for particle in self.particles:
+            size = max(1, particle['life'] // 4)
+            pygame.draw.rect(screen, particle['color'], (int(particle['x']), int(particle['y']), size, size))
+        # SCORES
+        screen.blit(FONT.render(f"score: {self.score}", True, (255,255,255)), (16, 16))
+        screen.blit(FONT.render(f"current wave: {self.current_wave}", True, (255,255,255)), (512, 16))
+        screen.blit(FONT.render(f"high score: {max(self.highscore,self.score)}", True, (255,255,255)), (1280, 16))
+        pygame.display.update()
+
+    def handle_events(self):
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                self.running = False
+        keys = pygame.key.get_pressed()
+        self.dx = self.dy = 0
+        if keys[pygame.K_a] or keys[pygame.K_LEFT]:
+            self.player_x -= self.player_speed
+            self.dx = -1
+        if keys[pygame.K_d] or keys[pygame.K_RIGHT]:
+            self.player_x += self.player_speed
+            self.dx = 1
+        if keys[pygame.K_s] or keys[pygame.K_DOWN]:
+            self.player_y += self.player_speed
+            self.dy = 1
+        if keys[pygame.K_w] or keys[pygame.K_UP]:
+            self.player_y -= self.player_speed
+            self.dy = -1
+        if (keys[pygame.K_k] or keys[pygame.K_SPACE]) and self.can_shoot:
+            self.shoot()
+
     async def run(self):
         while self.running:
             await self.clock.tick()
+            self.handle_events()
+
             if self.invincible_timer > 0:
                 self.invincible_timer -= 1
-            screen.fill((0,0,0)) 
             
             # melee weapon
             if 'faster swing' in self.active_effects:
                 self.angle += 0.4
             else:
                 self.angle += 0.1
-            tip_x = self.player_x + 32 + self.radius * math.cos(self.angle)
-            tip_y = self.player_y + 32 + self.radius * math.sin(self.angle)
-
-            # INPUTS
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    self.running = False
-            keys = pygame.key.get_pressed()
-            self.dx = self.dy = 0
-            if keys[pygame.K_a] or keys[pygame.K_LEFT]:
-                self.player_x -= self.player_speed
-                self.dx = -1
-            if keys[pygame.K_d] or keys[pygame.K_RIGHT]:
-                self.player_x += self.player_speed
-                self.dx = 1
-            if keys[pygame.K_s] or keys[pygame.K_DOWN]:
-                self.player_y += self.player_speed
-                self.dy = 1
-            if keys[pygame.K_w] or keys[pygame.K_UP]:
-                self.player_y -= self.player_speed
-                self.dy = -1
-            if (keys[pygame.K_k] or keys[pygame.K_SPACE]) and self.can_shoot:
-                self.shoot()
+            self.tip_x = self.player_x + 32 + self.radius * math.cos(self.angle)
+            self.tip_y = self.player_y + 32 + self.radius * math.sin(self.angle)
+            
             self.player_x =  max(0, min(self.player_x, WINDOW_WIDTH - 64))
             self.player_y = max(0, min(self.player_y, WINDOW_HEIGHT - 64))
 
@@ -314,42 +356,6 @@ class Roguelike():
                     self.invincible_timer = 60
                     if self.player_health <= 0:
                         self.running = False
-
-        # DRAWING
-            # HEALTH BAR
-            pygame.draw.rect(screen, (255, 0, 0), (16, 100, 600, 40))
-            pygame.draw.rect(screen, (0, 255, 0), (16, 100, int(600*(self.player_health / 3)), 40))
-
-            # PLAYER
-            if self.invincible_timer == 0 or self.invincible_timer % 10 < 5:
-                pygame.draw.rect(screen, (0, 255, 0),  (self.player_x, self.player_y, 64, 64))
-                pygame.draw.line(screen, (255, 255, 0), (self.player_x+32, self.player_y+32), (tip_x, tip_y), 16)
-
-            # ENEMIES
-            for enemy in self.enemies:
-                if enemy['type'] == 'minion':
-                    pygame.draw.rect(screen, (255, 0, 0), (enemy['x'], enemy['y'], 64, 64))
-                elif enemy['type'] == 'mob':
-                    pygame.draw.rect(screen, (0, 255, 255), (enemy['x'], enemy['y'], 32, 32))
-                else:
-                    pygame.draw.rect(screen, (255, 0, 255), (enemy['x'], enemy['y'], 64 + 192*(enemy['health']/self.current_wave), 64 + 192*(enemy['health']/self.current_wave)))
             
-            # BULLETS
-            for bullet in self.bullets:
-                pygame.draw.rect(screen, (255, 255, 255), (bullet[0], bullet[1], 32, 32))
-
-            # POWERUPS
-            for powerup in self.powerups:
-                pygame.draw.circle(screen, self.powerup_color_map[powerup['type']], (powerup['x'], powerup['y']), 20)
-            
-            for particle in self.particles:
-                size = max(1, particle['life'] // 4)
-                pygame.draw.rect(screen, particle['color'], (int(particle['x']), int(particle['y']), size, size))
-
-            # SCORES
-            screen.blit(FONT.render(f"score: {self.score}", True, (255,255,255)), (16, 16))
-            screen.blit(FONT.render(f"current wave: {self.current_wave}", True, (255,255,255)), (512, 16))
-            screen.blit(FONT.render(f"high score: {max(self.highscore,self.score)}", True, (255,255,255)), (1280, 16))
-
-            pygame.display.update()
+            self.draw_game()
         return self.score
