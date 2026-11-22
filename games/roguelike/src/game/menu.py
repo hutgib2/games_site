@@ -11,10 +11,14 @@ class Menu:
         self.running = True
         self.menu_sprites = pygame.sprite.Group()
         self.game_over_sprites = pygame.sprite.Group()
+        self.score = None
         self.text_color = (255, 255, 255)
-        TextSprite("Welcome to Mr. Roguelike!", (WINDOW_WIDTH / 2, WINDOW_HEIGHT / 6), self.text_color, WINDOW_WIDTH / 16, self.menu_sprites)
-        TextSprite("Press P to play", (WINDOW_WIDTH / 2, WINDOW_HEIGHT / 1.5), self.text_color, WINDOW_WIDTH / 24, self.menu_sprites)
-        TextSprite('Game Over', (WINDOW_WIDTH / 1.5, WINDOW_HEIGHT / 2), self.text_color, WINDOW_WIDTH / 16, self.game_over_sprites)
+        self.game_over_color = (128, 0, 0)
+        self.title_size = WINDOW_WIDTH / 12
+        self.paragraph_size = WINDOW_WIDTH / 24
+        TextSprite("Welcome to Mr. Roguelike!", (WINDOW_WIDTH / 2, WINDOW_HEIGHT / 6), self.text_color, self.title_size, self.menu_sprites)
+        TextSprite("Press P to play", (WINDOW_WIDTH / 2, WINDOW_HEIGHT / 1.5), self.text_color, self.paragraph_size, self.menu_sprites)
+        TextSprite('Game Over', (WINDOW_WIDTH / 2, WINDOW_HEIGHT / 6), self.game_over_color, self.title_size, self.game_over_sprites)
         
     def handle_events(self):
         for event in pygame.event.get():
@@ -39,5 +43,5 @@ class Menu:
 
             if self.pending_game:
                 self.score = await self.pending_game.run()
-                self.score_text = TextSprite(f'Final score: {self.score}', (WINDOW_WIDTH / 1.5, WINDOW_HEIGHT / 1.5), self.text_color, WINDOW_WIDTH / 24, ())
+                self.score_text = TextSprite(f'Final score: {self.score}', (WINDOW_WIDTH / 2, WINDOW_HEIGHT / 1.5), self.text_color, self.paragraph_size, ())
                 self.pending_game = None

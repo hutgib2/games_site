@@ -354,6 +354,6 @@ class Roguelike():
             screen.blit(FONT.render(f"high score: {max(self.highscore,self.score)}", True, (255,255,255)), (1280, 16))
 
             pygame.display.update()
-
+        return self.score
         # pygame.quit()
         # sys.exit()
