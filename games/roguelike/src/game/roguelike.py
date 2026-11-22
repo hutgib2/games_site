@@ -15,7 +15,6 @@ WEB = sys.platform == "emscripten"
 
 class Roguelike():
     def __init__(self):
-        self.game_over = False
         self.running = True
         self.clock = AsyncClock(fps=150) if WEB else AsyncClock(60)
         self.score = 0
@@ -29,13 +28,7 @@ class Roguelike():
         self.can_shoot = False
         self.shoot_cooldown = 200
         self.shoot_timer = Timer(self.shoot_cooldown, self.reload, repeat=True, autostart=True)
-        self.menu_sprites = pygame.sprite.Group()
         self.highscore = self.load_high_score()
-        self.bg_image = pygame.image.load('assets/images/roguelike.png')
-        self.bg_image = pygame.transform.smoothscale(self.bg_image, (WINDOW_WIDTH, WINDOW_HEIGHT))
-        self.text_color = (255, 255, 255)
-        TextSprite("Welcome to Mr. Roguelike!", (WINDOW_WIDTH / 2, WINDOW_HEIGHT / 6), self.text_color, WINDOW_WIDTH / 16, self.menu_sprites)
-        TextSprite("Press P to play", (WINDOW_WIDTH / 2, WINDOW_HEIGHT / 1.5), self.text_color, WINDOW_WIDTH / 24, self.menu_sprites)
 
         # player
         self.player_x = WINDOW_WIDTH // 2
@@ -57,7 +50,6 @@ class Roguelike():
         self.last_idle_direction = (0,0)
         # for i in range(1):
         self.enemies.append(self.spawn_enemy())
-
 
     def spawn_enemy(self):
         side = random.choice(['left', 'right', 'top', 'bottom'])
@@ -173,17 +165,6 @@ class Roguelike():
         with open("assets/highscore.txt", "w") as file:
             file.write(str(new_score))
 
-    def reset_game(self):
-        self.game_over = False
-        self.score = 0
-        self.player_x = WINDOW_WIDTH // 2
-        self.player_y = WINDOW_HEIGHT // 2
-        self.bullets = []
-        self.enemies = [self.spawn_enemy()]
-        self.current_wave = 1
-        self.player_health = 3
-        self.invincible_timer = 0
-
     def reload(self):
         self.can_shoot = True
 
@@ -206,21 +187,6 @@ class Roguelike():
         self.can_shoot = False
 
     async def run(self):
-        while self.start_screen:
-            # await asyncio.sleep(0)
-            await self.clock.tick()
-            # screen.fill((0,0,0))
-            screen.blit(self.bg_image)
-            self.menu_sprites.update()
-            pygame.display.update()
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    self.start_screen = False
-                    self.running = False
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_p:
-                        self.start_screen = False
-
         while self.running:
             await self.clock.tick()
             if self.invincible_timer > 0:
@@ -239,9 +205,6 @@ class Roguelike():
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.running = False
-                if event.type == pygame.KEYDOWN:
-                    if self.game_over and event.key == pygame.K_r:
-                        self.reset_game()
             keys = pygame.key.get_pressed()
             self.dx = self.dy = 0
             if keys[pygame.K_a] or keys[pygame.K_LEFT]:
@@ -261,74 +224,59 @@ class Roguelike():
             self.player_x =  max(0, min(self.player_x, WINDOW_WIDTH - 64))
             self.player_y = max(0, min(self.player_y, WINDOW_HEIGHT - 64))
 
-            if not self.game_over:
-                self.shoot_timer.update()
+            self.shoot_timer.update()
                 
         # MOVE ENEMIES
-                for enemy in self.enemies:
-                    if enemy['x'] < self.player_x:
-                        enemy['x'] += enemy['speed']
-                    elif enemy['x'] > self.player_x:
-                        enemy['x'] -= enemy['speed']
-                    if enemy['y'] < self.player_y:
-                        enemy['y'] += enemy['speed']
-                    elif enemy['y'] > self.player_y:
-                        enemy['y'] -= enemy['speed']
+            for enemy in self.enemies:
+                if enemy['x'] < self.player_x:
+                    enemy['x'] += enemy['speed']
+                elif enemy['x'] > self.player_x:
+                    enemy['x'] -= enemy['speed']
+                if enemy['y'] < self.player_y:
+                    enemy['y'] += enemy['speed']
+                elif enemy['y'] > self.player_y:
+                    enemy['y'] -= enemy['speed']
 
         # PARTICLES
-                for particle in self.particles[:]:
-                    particle['x'] += particle['dx']
-                    particle['y'] += particle['dy']
-                    particle['life'] -= 1
-                    if particle['life'] <= 0:
-                        self.particles.remove(particle)
+            for particle in self.particles[:]:
+                particle['x'] += particle['dx']
+                particle['y'] += particle['dy']
+                particle['life'] -= 1
+                if particle['life'] <= 0:
+                    self.particles.remove(particle)
 
         # POWERUPS
-                for powerup in self.powerups[:]:
-                    powerup['timer'] -= 1
-                    if powerup['timer'] == 0:
-                        self.powerups.remove(powerup)
-                        continue
-                    if self.colliding(self.player_x, self.player_y, 64, powerup['x'], powerup['y'], 32):
-                        self.apply_powerup(powerup['type'])
-                        self.powerups.remove(powerup)
+            for powerup in self.powerups[:]:
+                powerup['timer'] -= 1
+                if powerup['timer'] == 0:
+                    self.powerups.remove(powerup)
+                    continue
+                if self.colliding(self.player_x, self.player_y, 64, powerup['x'], powerup['y'], 32):
+                    self.apply_powerup(powerup['type'])
+                    self.powerups.remove(powerup)
 
-                for effect in list(self.active_effects.keys()):
-                    self.active_effects[effect] -= 1
-                    if self.active_effects[effect] <= 0:
-                        self.remove_powerup(effect)
-                        del self.active_effects[effect]
+            for effect in list(self.active_effects.keys()):
+                self.active_effects[effect] -= 1
+                if self.active_effects[effect] <= 0:
+                    self.remove_powerup(effect)
+                    del self.active_effects[effect]
                     
         # MOVE BULLETS
-                for bullet in self.bullets[:]:
-                    bullet[0] -= bullet[2]*self.bullet_speed
-                    bullet[1] -= bullet[3]*self.bullet_speed
+            for bullet in self.bullets[:]:
+                bullet[0] -= bullet[2]*self.bullet_speed
+                bullet[1] -= bullet[3]*self.bullet_speed
 
-                    if bullet[0] < 0 or bullet[0] > WINDOW_WIDTH or bullet[1] < 0 or bullet[1] > WINDOW_HEIGHT:
-                        self.bullets.remove(bullet)
-                        continue
+                if bullet[0] < 0 or bullet[0] > WINDOW_WIDTH or bullet[1] < 0 or bullet[1] > WINDOW_HEIGHT:
+                    self.bullets.remove(bullet)
+                    continue
         # COLLISIONS
             # ENEMY AND BULLET            
-                    for enemy in self.enemies[:]:
-                        if self.colliding(bullet[0], bullet[1], 32, enemy['x'], enemy['y'], enemy['size']):
-                            try:
-                                self.bullets.remove(bullet)
-                            except ValueError:
-                                continue
-                            enemy['health'] -= 1
-                            if enemy['health'] == 0:
-                                self.kill_enemy(enemy)
-                            if len(self.enemies) ==  0:
-                                self.next_wave()
-                            break
-
-            # ENEMY AND SWORD                    
                 for enemy in self.enemies[:]:
-                    self.dif_x = enemy['x'] - (self.player_x + 32)
-                    self.dif_y = enemy['y'] - (self.player_y + 32)
-                    distance = math.hypot(self.dif_x, self.dif_y)
-                    dif_angle = abs(math.atan2(self.dif_y, self.dif_x) - self.angle)  % (2 * math.pi)
-                    if (distance <= self.radius) and (dif_angle <= math.radians(30)) and enemy['type'] != 'boss':
+                    if self.colliding(bullet[0], bullet[1], 32, enemy['x'], enemy['y'], enemy['size']):
+                        try:
+                            self.bullets.remove(bullet)
+                        except ValueError:
+                            continue
                         enemy['health'] -= 1
                         if enemy['health'] == 0:
                             self.kill_enemy(enemy)
@@ -336,13 +284,27 @@ class Roguelike():
                             self.next_wave()
                         break
 
+            # ENEMY AND SWORD                    
+            for enemy in self.enemies[:]:
+                self.dif_x = enemy['x'] - (self.player_x + 32)
+                self.dif_y = enemy['y'] - (self.player_y + 32)
+                distance = math.hypot(self.dif_x, self.dif_y)
+                dif_angle = abs(math.atan2(self.dif_y, self.dif_x) - self.angle)  % (2 * math.pi)
+                if (distance <= self.radius) and (dif_angle <= math.radians(30)) and enemy['type'] != 'boss':
+                    enemy['health'] -= 1
+                    if enemy['health'] == 0:
+                        self.kill_enemy(enemy)
+                    if len(self.enemies) ==  0:
+                        self.next_wave()
+                    break
+
             # ENEMY AND PLAYER
-                for enemy in self.enemies[:]:
-                    if self.colliding(self.player_x, self.player_y, 64, enemy['x'], enemy['y'], enemy['size']) and self.invincible_timer == 0:
-                        self.player_health -= 1
-                        self.invincible_timer = 60
-                        if self.player_health <= 0:
-                            self.game_over = True
+            for enemy in self.enemies[:]:
+                if self.colliding(self.player_x, self.player_y, 64, enemy['x'], enemy['y'], enemy['size']) and self.invincible_timer == 0:
+                    self.player_health -= 1
+                    self.invincible_timer = 60
+                    if self.player_health <= 0:
+                        self.running = False
 
         # DRAWING
             # HEALTH BAR
@@ -391,15 +353,7 @@ class Roguelike():
             screen.blit(FONT.render(f"current wave: {self.current_wave}", True, (255,255,255)), (512, 16))
             screen.blit(FONT.render(f"high score: {max(self.highscore,self.score)}", True, (255,255,255)), (1280, 16))
 
-            # HIGHSCORE
-            if self.game_over:
-                if self.score > self.highscore:
-                    self.highscore = self.score
-                    self.save_high_score(self.score)
-                screen.blit(FONT.render("Game over", True, (128,0,0)), (WINDOW_WIDTH // 5, WINDOW_HEIGHT // 2))
-                screen.blit(FONT.render("Press R to restart", True, (255,255,255)), (WINDOW_WIDTH // 5, WINDOW_HEIGHT // 1.5))
-                pygame.display.update()
             pygame.display.update()
 
-        pygame.quit()
+        # pygame.quit()
         # sys.exit()

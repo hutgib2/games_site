@@ -1,9 +1,9 @@
 import pygame
-from game.roguelike import Roguelike
+from game.menu import Menu
 import asyncio
 
 async def main():
-    game = Roguelike()
-    await game.run()
+    menu = Menu()
+    await menu.run()
 
 asyncio.run(main())
