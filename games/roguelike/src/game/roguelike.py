@@ -29,6 +29,15 @@ class Roguelike():
         self.shoot_cooldown = 200
         self.shoot_timer = Timer(self.shoot_cooldown, self.reload, repeat=True, autostart=True)
         self.highscore = self.load_high_score()
+        self.powerup_color_map = {
+            'speed boost': (80, 255, 80), 
+            'nuke': (255, 0, 255),
+            'long reach': (150, 75, 0),
+            'rear shot': (255, 165, 0),
+            'side shot': (100, 0, 100),
+            'shotgun': (255, 192, 203),
+            'faster swing': (128, 128, 128)
+        }
 
         # player
         self.player_x = WINDOW_WIDTH // 2
@@ -324,25 +333,14 @@ class Roguelike():
                     pygame.draw.rect(screen, (0, 255, 255), (enemy['x'], enemy['y'], 32, 32))
                 else:
                     pygame.draw.rect(screen, (255, 0, 255), (enemy['x'], enemy['y'], 64 + 192*(enemy['health']/self.current_wave), 64 + 192*(enemy['health']/self.current_wave)))
+            
             # BULLETS
             for bullet in self.bullets:
-                    pygame.draw.rect(screen, (255, 255, 255), (bullet[0], bullet[1], 32, 32))
+                pygame.draw.rect(screen, (255, 255, 255), (bullet[0], bullet[1], 32, 32))
+
             # POWERUPS
             for powerup in self.powerups:
-                if powerup['type'] == 'speed boost':
-                    pygame.draw.circle(screen, (80, 255, 80), (powerup['x'], powerup['y']), 20)  # greenish
-                if powerup['type'] == 'nuke':
-                    pygame.draw.circle(screen, (255, 0, 255), (powerup['x'], powerup['y']), 20) # purple
-                if powerup['type'] == 'long reach':
-                    pygame.draw.circle(screen, (150, 75, 0), (powerup['x'], powerup['y']), 20) # brown
-                if powerup['type'] == 'rear shot':
-                    pygame.draw.circle(screen, (255, 165, 0), (powerup['x'], powerup['y']), 20) # orange
-                if powerup['type'] == 'side shot':
-                    pygame.draw.circle(screen, (100, 0, 100), (powerup['x'], powerup['y']), 20) # dark purple
-                if powerup['type'] == 'shotgun':
-                    pygame.draw.circle(screen, (255, 192, 203), (powerup['x'], powerup['y']), 20) # pink
-                if powerup['type'] == 'faster swing':
-                    pygame.draw.circle(screen, (128, 128, 128), (powerup['x'], powerup['y']), 20) # grey
+                pygame.draw.circle(screen, self.powerup_color_map[powerup['type']], (powerup['x'], powerup['y']), 20)
             
             for particle in self.particles:
                 size = max(1, particle['life'] // 4)
@@ -355,5 +353,3 @@ class Roguelike():
 
             pygame.display.update()
         return self.score
-        # pygame.quit()
-        # sys.exit()
