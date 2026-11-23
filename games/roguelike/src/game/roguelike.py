@@ -13,10 +13,6 @@ WEB = sys.platform == "emscripten"
 
 # TODO: hook up high score to database
 
-# Task: we also want to break up the run()
-# create a draw_game(), and put all code for drawing in there
-# create a handle_events(), and put all user event handling in there
-
 class Roguelike():
     def __init__(self):
         self.running = True
@@ -63,38 +59,33 @@ class Roguelike():
         # for i in range(1):
         self.enemies.append(self.spawn_enemy())
 
-    def spawn_enemy(self):
+    # Look and see what is different and what is the same.
+    # we can refactor so that the differences are the only defined vars in the if elif chain
+    # all common code can be shared after
+    
+    def get_spawn_pos(self):
         side = random.choice(['left', 'right', 'top', 'bottom'])
         if side == 'top':
-            return {'x': random.randint(0, WINDOW_WIDTH), 'y': 0, 'speed': 4, 'health': 1, 'type': 'minion', 'size': 64}
+            x, y = random.randint(0, WINDOW_WIDTH), 0
         elif side == 'bottom':
-            return {'x': random.randint(0, WINDOW_WIDTH), 'y': WINDOW_HEIGHT, 'speed': 4, 'health': 1, 'type': 'minion', 'size': 64}
-        if side == 'left':
-            return {'x': 0, 'y': random.randint(0, WINDOW_HEIGHT), 'speed': 4, 'health': 1, 'type': 'minion', 'size': 64}
+            x, y = random.randint(0, WINDOW_WIDTH), WINDOW_HEIGHT
+        elif side == 'left':
+            x, y = 0, random.randint(0, WINDOW_HEIGHT)
         elif side == 'right':
-            return {'x': WINDOW_WIDTH, 'y': random.randint(0, WINDOW_HEIGHT), 'speed': 4, 'health': 1, 'type': 'minion', 'size': 64}
+            x, y = WINDOW_WIDTH, random.randint(0, WINDOW_HEIGHT)
+        return x, y
+
+    def spawn_enemy(self):
+        x, y = self.get_spawn_pos()
+        return {'x': x, 'y': y, 'speed': 4, 'health': 1, 'type': 'minion', 'size': 64}
 
     def spawn_boss(self):
-        side = random.choice(['left', 'right', 'top', 'bottom'])
-        if side == 'top':
-            return {'x': random.randint(0, WINDOW_WIDTH), 'y': 0, 'speed': 2, 'health': self.current_wave, 'type': 'boss', 'size': 256}
-        elif side == 'bottom':
-            return {'x': random.randint(0, WINDOW_WIDTH), 'y': WINDOW_HEIGHT, 'speed': 2, 'health': self.current_wave, 'type': 'boss', 'size': 256}
-        if side == 'left':
-            return {'x': 0, 'y': random.randint(0, WINDOW_HEIGHT), 'speed': 2, 'health': self.current_wave, 'type': 'boss', 'size': 256}
-        elif side == 'right':
-            return {'x': WINDOW_WIDTH, 'y': random.randint(0, WINDOW_HEIGHT), 'speed': 2, 'health': self.current_wave, 'type': 'boss', 'size': 256}
+        x, y = self.get_spawn_pos()
+        return {'x': x, 'y': y, 'speed': 2, 'health': self.current_wave, 'type': 'boss', 'size': 256}
 
     def spawn_mob(self):
-        side = random.choice(['left', 'right', 'top', 'bottom'])
-        if side == 'top':
-            return {'x': random.randint(0, WINDOW_WIDTH), 'y': 0, 'speed': 10, 'health': 1, 'type': 'mob', 'size': 32}
-        elif side == 'bottom':
-            return {'x': random.randint(0, WINDOW_WIDTH), 'y': WINDOW_HEIGHT, 'speed': 10, 'health': 1, 'type': 'mob', 'size': 32}
-        if side == 'left':
-            return {'x': 0, 'y': random.randint(0, WINDOW_HEIGHT), 'speed': 10, 'health': 1, 'type': 'mob', 'size': 32}
-        elif side == 'right':
-            return {'x': WINDOW_WIDTH, 'y': random.randint(0, WINDOW_HEIGHT), 'speed': 10, 'health': 1, 'type': 'mob', 'size': 32}
+        x, y = self.get_spawn_pos()
+        return {'x': x, 'y': y, 'speed': 10, 'health': 1, 'type': 'mob', 'size': 32}
 
     def spawn_powerup(self, enemy):
         ptype = random.choices(['speed boost', 'nuke', 'long reach', 'rear shot', 'side shot', 'shotgun', 'faster swing'], weights = [20, 20, 20, 20, 20, 20, 20])[0]
@@ -103,21 +94,14 @@ class Roguelike():
     def apply_powerup(self, ptype):
         if ptype == 'speed boost':
             self.player_speed = 16
-            self.active_effects[ptype] = 300
-        if ptype == 'nuke':
+        elif ptype == 'nuke':
             self.score += len(self.enemies)
             self.enemies = []
             self.next_wave()
-        if ptype == 'long reach':
-            self.radius = 600
-            self.active_effects[ptype] = 300
-        if ptype == 'rear shot':
-            self.active_effects[ptype] = 300
-        if ptype == 'side shot':
-            self.active_effects[ptype] = 300
-        if ptype == 'shotgun':
-            self.active_effects[ptype] = 300
-        if ptype == 'faster swing':
+        elif ptype == 'long reach':
+            self.radius = 600       
+        
+        if ptype != 'nuke':
             self.active_effects[ptype] = 300
 
     def remove_powerup(self, ptype):
@@ -229,6 +213,7 @@ class Roguelike():
         for particle in self.particles:
             size = max(1, particle['life'] // 4)
             pygame.draw.rect(screen, particle['color'], (int(particle['x']), int(particle['y']), size, size))
+        
         # SCORES
         screen.blit(FONT.render(f"score: {self.score}", True, (255,255,255)), (16, 16))
         screen.blit(FONT.render(f"current wave: {self.current_wave}", True, (255,255,255)), (512, 16))
