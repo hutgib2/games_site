@@ -3,7 +3,7 @@
 title: 'Mr. Roguelike'
 description: 'Face relentless waves of enemy squares!'
 image: './thumbnails/roguelike.png'
-video: '/previews/surviving_vampire_preview.mp4'
+video: '/previews/roguelike_preview.mp4'
 type: 'Roguelike'
 ---
 
@@ -15,12 +15,12 @@ Roguelike is an endless game where you shoot regular squares, speedy squares and
 <br>
 
 ## How to Play
-- Press ESC to return to main menu
 - Arrow keys/WASD to move 
 - SPACE, ENTER, L or Z to shoot
 	- while stationary bullets fire in random directions
-	- while moving bullets fire in the opposite direction
+	- while moving bullets fire in the opposite direction to the player
 - G or H to change the direction of your melee weapon
+- Press ESC to return to main menu
 
 <br>
 

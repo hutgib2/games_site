@@ -17,7 +17,7 @@ class Menu:
         self.title_size = WINDOW_WIDTH / 12
         self.paragraph_size = WINDOW_WIDTH / 24
         TextSprite("Welcome to Mr. Roguelike!", (WINDOW_WIDTH / 2, WINDOW_HEIGHT / 6), self.text_color, self.title_size, self.menu_sprites)
-        TextSprite("Press P to play", (WINDOW_WIDTH / 2, WINDOW_HEIGHT / 1.5), self.text_color, self.paragraph_size, self.menu_sprites)
+        TextSprite("Press P to play", (WINDOW_WIDTH / 2, WINDOW_HEIGHT / 1.2), self.text_color, self.paragraph_size, (self.menu_sprites, self.game_over_sprites))
         TextSprite('Game Over', (WINDOW_WIDTH / 2, WINDOW_HEIGHT / 6), self.game_over_color, self.title_size, self.game_over_sprites)
         
     def handle_events(self):
@@ -31,7 +31,8 @@ class Menu:
     async def run(self):
         while self.running:
             self.handle_events()
-            screen.blit(self.bg_image, (0, 0))
+            screen.fill((0, 0, 0))
+            screen.blit(self.bg_image, (0, 100))
             if self.score != None:
                 self.game_over_sprites.update()
                 self.score_text.update()
@@ -43,5 +44,5 @@ class Menu:
 
             if self.pending_game:
                 self.score = await self.pending_game.run()
-                self.score_text = TextSprite(f'Final score: {self.score}', (WINDOW_WIDTH / 2, WINDOW_HEIGHT / 1.5), self.text_color, self.paragraph_size, ())
+                self.score_text = TextSprite(f'Final score: {self.score}', (WINDOW_WIDTH / 2, WINDOW_HEIGHT / 3), self.game_over_color, self.paragraph_size, ())
                 self.pending_game = None

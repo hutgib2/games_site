@@ -12,21 +12,16 @@ from utils.timer import Timer
 WEB = sys.platform == "emscripten"
 
 # TODO: hook up high score to database
+# TODO: look into failed melee collision on left side of player
 
 class Roguelike():
     def __init__(self):
         self.running = True
         self.clock = AsyncClock(fps=150) if WEB else AsyncClock(60)
         self.score = 0
-        self.angle = 0
-        self.rotation_speed = 0.1
-        self.radius = 200
-        self.player_health = 3
         self.powerups = []
         self.active_effects = {}
         self.particles = []
-        self.can_shoot = False
-        self.shoot_timer = Timer(200, self.reload, repeat=True, autostart=True)
         self.highscore = self.load_high_score()
         
         self.powerup_color_map = {
@@ -39,7 +34,13 @@ class Roguelike():
             'faster swing': (128, 128, 128)
         }
 
+        # melee
+        self.angle = 0
+        self.rotation_speed = 0.1
+        self.radius = 200
+
         # player
+        self.player_health = 3
         self.player_x = WINDOW_WIDTH // 2
         self.player_y = WINDOW_HEIGHT // 2
         self.player_speed = 8
@@ -50,14 +51,14 @@ class Roguelike():
         # bullets
         self.bullets = []
         self.bullet_speed = 32
+        self.can_shoot = False
+        self.shoot_timer = Timer(200, self.reload, repeat=True, autostart=True)
         
         # demons
         self.enemies = []
         self.current_wave = 1
         self.invincible_timer = 0
         self.last_idle_direction = (0,0)
-        
-        # for i in range(1):
         self.enemies.append(self.spawn_enemy())
     
     def get_spawn_pos(self):
@@ -132,9 +133,9 @@ class Roguelike():
             self.player_health += 1
         for i in range(self.current_wave):
             self.enemies.append(self.spawn_enemy())
-            if i == 0 and self.current_wave %5 == 0:
+            if i == 0 and self.current_wave % 5 == 0:
                 self.enemies.append(self.spawn_boss())
-            if (i+1) % 3 == 0 and self.current_wave %3 == 0:
+            if (i + 1) % 3 == 0 and self.current_wave %3 == 0:
                 self.enemies.append(self.spawn_mob())
 
     def colliding(self, ax, ay, asize, bx, by, bsize):
@@ -258,7 +259,7 @@ class Roguelike():
             
             # melee weapon
             if 'faster swing' in self.active_effects:
-                self.angle += self.rotation_speed * 8
+                self.angle += self.rotation_speed * 4
             else:
                 self.angle += self.rotation_speed
             self.tip_x = self.player_x + 32 + self.radius * math.cos(self.angle)
@@ -310,7 +311,8 @@ class Roguelike():
                 bullet[1] -= bullet[3]*self.bullet_speed
 
                 if bullet[0] < 0 or bullet[0] > WINDOW_WIDTH or bullet[1] < 0 or bullet[1] > WINDOW_HEIGHT:
-                    self.bullets.remove(bullet)
+                    if bullet in self.bullets:
+                        self.bullets.remove(bullet)
                     continue
         
         # COLLISIONS
