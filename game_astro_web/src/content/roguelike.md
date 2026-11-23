@@ -15,11 +15,12 @@ Roguelike is an endless game where you shoot regular squares, speedy squares and
 <br>
 
 ## How to Play
-- Press esc to return to main menu
+- Press ESC to return to main menu
 - Arrow keys/WASD to move 
-- Space to shoot 
+- SPACE, ENTER, L or Z to shoot
 	- while stationary bullets fire in random directions
 	- while moving bullets fire in the opposite direction
+- G or H to change the direction of your melee weapon
 
 <br>
 

@@ -19,6 +19,7 @@ class Roguelike():
         self.clock = AsyncClock(fps=150) if WEB else AsyncClock(60)
         self.score = 0
         self.angle = 0
+        self.rotation_speed = 0.1
         self.radius = 200
         self.player_health = 3
         self.powerups = []
@@ -227,6 +228,9 @@ class Roguelike():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.running = False
+            if event.type == pygame.KEYDOWN and (event.key == pygame.K_g or event.key == pygame.K_h):
+                self.rotation_speed *= -1
+                
         keys = pygame.key.get_pressed()
         self.dx = self.dy = 0
         if keys[pygame.K_a] or keys[pygame.K_LEFT]:
@@ -241,7 +245,7 @@ class Roguelike():
         if keys[pygame.K_w] or keys[pygame.K_UP]:
             self.player_y -= self.player_speed
             self.dy = -1
-        if (keys[pygame.K_k] or keys[pygame.K_SPACE]) and self.can_shoot:
+        if (keys[pygame.K_l] or keys[pygame.K_SPACE] or keys[pygame.K_RETURN] or keys[pygame.K_z]) and self.can_shoot:
             self.shoot()
 
     async def run(self):
@@ -254,9 +258,9 @@ class Roguelike():
             
             # melee weapon
             if 'faster swing' in self.active_effects:
-                self.angle += 0.4
+                self.angle += self.rotation_speed * 8
             else:
-                self.angle += 0.1
+                self.angle += self.rotation_speed
             self.tip_x = self.player_x + 32 + self.radius * math.cos(self.angle)
             self.tip_y = self.player_y + 32 + self.radius * math.sin(self.angle)
             
@@ -308,6 +312,7 @@ class Roguelike():
                 if bullet[0] < 0 or bullet[0] > WINDOW_WIDTH or bullet[1] < 0 or bullet[1] > WINDOW_HEIGHT:
                     self.bullets.remove(bullet)
                     continue
+        
         # COLLISIONS
             # ENEMY AND BULLET            
                 for enemy in self.enemies[:]:
