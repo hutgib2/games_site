@@ -23,3 +23,4 @@ WASD to move player 1 and arrows keys for player 2
 ## Powerups
 - Superspeed: makes the paddle faster
 - Grow powerup: makes the paddle bigger
+- Both powerups can stack

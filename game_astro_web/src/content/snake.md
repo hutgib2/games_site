@@ -4,7 +4,7 @@ title: 'Special Snake'
 description: 'Snake game with a twist maybe?'
 image: './thumbnails/snake.png'
 video: '/previews/special_snake_preview.mp4'
-type: 'Snake'
+type: 'Arcade'
 ---
 
 <article class='prose'>

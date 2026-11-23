@@ -13,8 +13,8 @@ type: 'Strategy'
 This is a unique variation of Chess, all the pieces have been replaced with new ones to make the game more fun!
 
 ## How to Play
-The way to win is the same as regular chess, by putting the Emporer in a checkmate.
-Press esc to return to main menu.
+The way to win is the same as regular chess, by putting the Emperor in a checkmate.
+Press ESC to return to main menu.
 
 ## Pieces
 **Legionary** *(replaces pawn)*

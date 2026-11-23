@@ -10,11 +10,11 @@ type: 'Shooter'
 <!-- This is where we write the long-form content in .md syntax -->
 
 ## Description
-Meteor Blaster is a game where the UFO has to last as long as possible while shooting and dodging meteors! Every second the meteors rain down slightly faster, and each meteor you shoot gives you +5 points... but comes with a hidden cost!
+Meteor Blaster is a game where the UFO has to last as long as possible while shooting and dodging meteors! Every second the meteors rain down slightly faster, and each meteor you shoot gives you 5 points... but it comes with a hidden cost!
 
 <br>
 
 ## How to Play
 
 Arrow keys to move and space to shoot.
-Press esc to return to main menu.
+Press ESC to return to main menu.
