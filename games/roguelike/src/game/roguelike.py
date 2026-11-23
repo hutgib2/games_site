@@ -52,16 +52,12 @@ class Roguelike():
         
         # demons
         self.enemies = []
-        # self.enemy_speed = 0
         self.current_wave = 1
         self.invincible_timer = 0
         self.last_idle_direction = (0,0)
+        
         # for i in range(1):
         self.enemies.append(self.spawn_enemy())
-
-    # Look and see what is different and what is the same.
-    # we can refactor so that the differences are the only defined vars in the if elif chain
-    # all common code can be shared after
     
     def get_spawn_pos(self):
         side = random.choice(['left', 'right', 'top', 'bottom'])
@@ -184,6 +180,7 @@ class Roguelike():
 
     def draw_game(self):
         screen.fill((0,0,0))
+
         # HEALTH BAR
         pygame.draw.rect(screen, (255, 0, 0), (16, 100, 600, 40))
         pygame.draw.rect(screen, (0, 255, 0), (16, 100, int(600*(self.player_health / 3)), 40))
@@ -196,12 +193,18 @@ class Roguelike():
         # ENEMIES
         for enemy in self.enemies:
             if enemy['type'] == 'minion':
-                pygame.draw.rect(screen, (255, 0, 0), (enemy['x'], enemy['y'], 64, 64))
+                width = 64
+                color = (255, 0, 0)
             elif enemy['type'] == 'mob':
-                pygame.draw.rect(screen, (0, 255, 255), (enemy['x'], enemy['y'], 32, 32))
+                width = 32
+                color = (0, 255, 255)
             else:
-                pygame.draw.rect(screen, (255, 0, 255), (enemy['x'], enemy['y'], 64 + 192*(enemy['health']/self.current_wave), 64 + 192*(enemy['health']/self.current_wave)))
-        
+                width = 64 + 192*(enemy['health']/self.current_wave)
+                color = (200, 0, 200)
+            
+            pygame.draw.rect(screen, color, (enemy['x'], enemy['y'], width, width))
+
+
         # BULLETS
         for bullet in self.bullets:
             pygame.draw.rect(screen, (255, 255, 255), (bullet[0], bullet[1], 32, 32))
