@@ -1,12 +1,20 @@
 import pygame
 
+# We want to have the option to run the timer a certain number of times
+# e.g. 5 times and then switch off
+
+# Think how we can make the time run a given number of times and then stop
+# HINT - repurpose the the repeat arg, to be the number of times to repeat
+# None == infinite 
+
 class Timer:
-    def __init__(self, duration, func = None, repeat = None, autostart = False):
+    def __init__(self, duration, func = None, repeat = 1, autostart = False):
         self.duration = duration
         self.start_time = 0
         self.active = False
         self.func = func
         self.repeat = repeat
+        self.func_exections = 0
 
         if autostart:
             self.activate()
@@ -21,15 +29,15 @@ class Timer:
     def deactivate(self):
         self.active = False
         self.start_time = 0
-        if self.repeat:
+        if self.func_exections < self.repeat or self.repeat==None:
             self.activate()
     
     def stop(self): # Use to temporarily pause a repeating timer
         if self.repeat:
-            self.repeat = False
+            self.repeat = 0
 
     def resume(self): # Use to resume a repeating timer
-        self.repeat = True
+        self.repeat = None # TODO: fix stop and resume for new repeat functionality
 
     def get_progress(self):
         elapsed_time = pygame.time.get_ticks() - self.start_time
@@ -40,4 +48,5 @@ class Timer:
         if pygame.time.get_ticks() - self.start_time >= self.duration:
             if self.func and self.start_time != 0:
                 self.func()
+                self.func_exections += 1
             self.deactivate()

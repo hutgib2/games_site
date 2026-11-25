@@ -1,5 +1,12 @@
 import math
 from game.settings import *
+from game.enemy import Enemy
+from utils.timer import Timer
+
+# HOMEWORK
+# choose a theme for the game
+# find images for enemies, towers, bg image, map
+
 
 # TODO: reorganise the code into classes
 # TODO: add images to game
@@ -19,13 +26,12 @@ class TowerDefense():
         self.running = True
         self.clock = pygame.time.Clock()
         self.building = True
-        self.enemies = []
-        # self.enemy_sprites = pygame.group.enemy_sprites
+        self.enemy_sprites = pygame.sprite.Group()
         self.towers = []
         self.bullets = []
         self.spawn_queue = []
         self.cost = 100
-        self.spawn_timer = 0
+        self.spawn_timer = None
         self.money = 100
         self.lives = 3
         self.current_wave = 0
@@ -49,7 +55,7 @@ class TowerDefense():
     def draw_game(self):
         screen.fill((0, 0, 0))
         self.draw_map()
-        self.draw_enemies()
+        self.enemy_sprites.update()
         self.draw_tower()
         self.draw_bullets()
         self.draw_display()
@@ -61,13 +67,7 @@ class TowerDefense():
             pygame.draw.line(screen, (0, 255, 255), self.way_points[i], self.way_points[i+1], 64)
 
     def spawn_enemy(self):
-        return {
-            'x': self.way_points[0][0],
-            'y': self.way_points[0][1],
-            'speed': 1,
-            'health': self.current_wave*2,
-            'target': 1
-        }
+        Enemy([self.way_points[0][0], self.way_points[0][1]], self.current_wave*2, self.enemy_sprites)
 
     def spawn_tower(self, x, y):
         return {
@@ -80,28 +80,25 @@ class TowerDefense():
         }
 
     def move_enemies(self):
-        for enemy in self.enemies[:]:
-            if enemy['target'] >= len(self.way_points):
+        # replace the indexing into a dict, with accessing the class attributes
+        for enemy in self.enemy_sprites:
+            if enemy.target >= len(self.way_points):
                 self.lives -= 1
                 self.money += 1
                 if self.lives <= 0:
                     self.running = False
-                self.enemies.remove(enemy)
+                enemy.kill()
                 continue
-            tx = self.way_points[enemy['target']][0]
-            ty = self.way_points[enemy['target']][1]
-            dx = tx - enemy['x']
-            dy = ty - enemy['y']
+            tx = self.way_points[enemy.target][0]
+            ty = self.way_points[enemy.target][1]
+            dx = tx - enemy.pos[0]
+            dy = ty - enemy.pos[1]
             dist = math.hypot(dx, dy)
-            if dist < enemy['speed']:
-                enemy['target'] += 1
+            if dist < enemy.speed:
+                enemy.target += 1
             else:
-                enemy['x'] += (dx / dist) * enemy['speed']
-                enemy['y'] += (dy / dist) * enemy['speed']
-
-    def draw_enemies(self):
-        for enemy in self.enemies[:]:
-            pygame.draw.circle(screen, (255, 0, 0), (int(enemy['x']), int(enemy['y'])), 32)
+                enemy.pos[0] += (dx / dist) * enemy.speed
+                enemy.pos[1] += (dy / dist) * enemy.speed
 
     def draw_tower(self):
         for tower in self.towers[:]:
@@ -127,17 +124,17 @@ class TowerDefense():
         # return closest
         furthest = None
         furthest_dist = -1
-        for enemy in self.enemies:
-            dist = math.hypot(enemy['x'] - tower['x'], enemy['y'] - tower['y'])
+        for enemy in self.enemy_sprites:
+            dist = math.hypot(enemy.pos[0] - tower['x'], enemy.pos[1] - tower['y'])
             if dist < tower['range']:
-                if enemy['target'] > furthest_dist:
+                if enemy.target > furthest_dist:
                     furthest = enemy
-                    furthest_dist = enemy['target']
+                    furthest_dist = enemy.target
         return furthest
 
     def fire(self, tower, target):
-        dx = target['x'] - tower['x']
-        dy = target['y'] - tower['y']
+        dx = target.pos[0] - tower['x']
+        dy = target.pos[1] - tower['y']
         dist = math.hypot(dx, dy)
         self.bullets.append({
             'x': tower['x'],
@@ -156,14 +153,14 @@ class TowerDefense():
             if bullet['x'] < 0 or bullet['x'] > WINDOW_WIDTH or bullet['y'] < 0 or bullet['y'] > WINDOW_HEIGHT:
                 self.bullets.remove(bullet)
                 continue
-            for enemy in self.enemies[:]:
-                dist = math.hypot(bullet['x'] - enemy['x'], bullet['y'] - enemy['y'])
+            for enemy in self.enemy_sprites:
+                dist = math.hypot(bullet['x'] - enemy.pos[0], bullet['y'] - enemy.pos[1])
                 if dist < 32:
-                    enemy['health'] -= bullet['damage']
+                    enemy.health -= bullet['damage']
                     if bullet in self.bullets:
                         self.bullets.remove(bullet)
-                    if enemy['health'] <= 0:
-                        self.enemies.remove(enemy)
+                    if enemy.health <= 0:
+                        enemy.kill()
                         self.money += 1
                     break
 
@@ -186,19 +183,8 @@ class TowerDefense():
         screen.blit(font.render(f"current wave: {self.current_wave}", True, (255,255,255)), (16, 256))
         screen.blit(font.render(f"lives: {self.lives}", True, (255,255,255)), (16, 136))
 
-    def start_wave(self, wave_number):
-        total = wave_number * 5
-        for i in range(total):
-            self.spawn_queue.append(self.spawn_enemy())
-
-    def update_spawning(self):
-        if not self.spawn_queue:
-            return
-        self.spawn_timer -= 1
-
-        if self.spawn_timer <= 0:
-            self.enemies.append(self.spawn_queue.pop(0))
-            self.spawn_timer = self.spawn_delay
+    def start_wave(self):
+        self.spawn_timer = Timer(250, self.spawn_enemy, repeat=self.current_wave * 5, autostart=True)
 
     def handle_events(self):
         for event in pygame.event.get():
@@ -209,7 +195,7 @@ class TowerDefense():
                 if WINDOW_WIDTH - 750 <= mx <= WINDOW_WIDTH - 250 and 20 <= my <= 120:
                     self.building = False
                     self.wave_complete = False
-                    self.start_wave(self.current_wave)
+                    self.start_wave()
                 elif self.money >= self.cost:
                     self.towers.append(self.spawn_tower(mx, my))
                     self.money -= self.cost
@@ -221,8 +207,9 @@ class TowerDefense():
             self.move_enemies()
             self.update_towers()
             self.update_bullets()
-            self.update_spawning()
-            if not self.spawn_queue and not self.enemies and not self.wave_complete:
+            if self.spawn_timer:
+                self.spawn_timer.update()
+            if len(self.enemy_sprites) == 0 and not self.wave_complete:
                 self.current_wave += 1
                 self.wave_complete = True
                 self.building = True
