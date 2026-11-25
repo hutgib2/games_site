@@ -1,7 +1,6 @@
 import pygame
 import asyncio
 
-
 class AsyncClock:
 	def __init__(self, fps=60):
 		self.previous_tick = pygame.time.get_ticks()
