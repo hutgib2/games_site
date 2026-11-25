@@ -47,7 +47,6 @@ class TowerDefense():
             (WINDOW_WIDTH / 2, 0)
         ]
 
-
     def spawn_enemy(self):
         Enemy([self.way_points[0][0], self.way_points[0][1]], self.current_wave*2, self.enemy_sprites)
 
