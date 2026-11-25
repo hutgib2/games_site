@@ -2,7 +2,9 @@ import math
 from game.settings import *
 from game.enemy import Enemy
 from game.tower import Tower
+from game.bullet import Bullet
 from utils.timer import Timer
+from utils.async_clock import AsyncClock
 
 # HOMEWORK
 # choose a theme for the game
@@ -18,25 +20,24 @@ from utils.timer import Timer
 
 # Task: creating classes
 # class Enemy (done)
-# class Tower
+# class Tower (done)
 # class Bullet ??
 # - replace lists with groups for the different sprites
 
 class TowerDefense():
     def __init__(self):
         self.running = True
-        self.clock = pygame.time.Clock()
-        self.building = True
+        self.clock = AsyncClock(fps=60)
         self.enemy_sprites = pygame.sprite.Group()
         self.tower_sprites = pygame.sprite.Group()
+        self.bullet_sprites = pygame.sprite.Group()
         self.bullets = []
-        self.spawn_queue = []
         self.cost = 100
         self.spawn_timer = None
         self.money = 100
         self.lives = 3
         self.current_wave = 0
-        self.spawn_delay = 60
+        self.building = True
         self.wave_complete = False
 
         self.way_points = [
@@ -53,19 +54,6 @@ class TowerDefense():
             (WINDOW_WIDTH / 2, 0)
         ]
 
-    def draw_game(self):
-        screen.fill((0, 0, 0))
-        self.draw_map()
-        self.enemy_sprites.update()
-        self.tower_sprites.update()
-        self.draw_bullets()
-        self.draw_display()
-        self.draw_build_phase()
-        pygame.display.update()
-
-    def draw_map(self):
-        for i in range(len(self.way_points)-1):
-            pygame.draw.line(screen, (0, 255, 255), self.way_points[i], self.way_points[i+1], 64)
 
     def spawn_enemy(self):
         Enemy([self.way_points[0][0], self.way_points[0][1]], self.current_wave*2, self.enemy_sprites)
@@ -125,29 +113,22 @@ class TowerDefense():
         dx = target.pos[0] - tower.pos[0]
         dy = target.pos[1] - tower.pos[1]
         dist = math.hypot(dx, dy)
-        self.bullets.append({
-            'x': tower.pos[0],
-            'y': tower.pos[1], 
-            'dx': dx / dist,
-            'dy': dy / dist,
-            'speed': 16,
-            'damage': tower.damage   
-        })
+        Bullet([tower.pos[0], tower.pos[1]], [dx / dist, dy / dist], 16, tower.damage, self.bullet_sprites)
         tower.cooldown = tower.fire_rate
 
     def update_bullets(self):
-        for bullet in self.bullets[:]:
-            bullet['x'] += bullet['dx'] * bullet['speed']
-            bullet['y'] += bullet['dy'] * bullet['speed']
-            if bullet['x'] < 0 or bullet['x'] > WINDOW_WIDTH or bullet['y'] < 0 or bullet['y'] > WINDOW_HEIGHT:
-                self.bullets.remove(bullet)
+        for bullet in self.bullet_sprites:
+            bullet.pos[0] += bullet.direction[0] * bullet.speed
+            bullet.pos[1] += bullet.direction[1] * bullet.speed
+            if bullet.pos[0] < 0 or bullet.pos[0] > WINDOW_WIDTH or bullet.pos[1] < 0 or bullet.pos[1] > WINDOW_HEIGHT:
+                bullet.kill()
                 continue
             for enemy in self.enemy_sprites:
-                dist = math.hypot(bullet['x'] - enemy.pos[0], bullet['y'] - enemy.pos[1])
+                dist = math.hypot(bullet.pos[0] - enemy.pos[0], bullet.pos[1] - enemy.pos[1])
                 if dist < 32:
-                    enemy.health -= bullet['damage']
-                    if bullet in self.bullets:
-                        self.bullets.remove(bullet)
+                    enemy.health -= bullet.damage
+                    if bullet in self.bullet_sprites:
+                        bullet.kill()
                     if enemy.health <= 0:
                         enemy.kill()
                         self.money += 1
@@ -163,8 +144,8 @@ class TowerDefense():
                 self.fire(tower, target)
             
     def draw_bullets(self):
-        for bullet in self.bullets:
-            pygame.draw.circle(screen, (255, 220, 0), (int(bullet['x']), int(bullet['y'])), 10)
+        for bullet in self.bullet_sprites:
+            pygame.draw.circle(screen, (255, 220, 0), (int(bullet.pos[0]), int(bullet.pos[1])), 10)
 
     def draw_display(self):
         font = pygame.font.SysFont(None, 128)
@@ -172,6 +153,20 @@ class TowerDefense():
         screen.blit(font.render(f"current wave: {self.current_wave}", True, (255,255,255)), (16, 256))
         screen.blit(font.render(f"lives: {self.lives}", True, (255,255,255)), (16, 136))
 
+    def draw_game(self):
+        screen.fill((0, 0, 0))
+        self.draw_map()
+        self.enemy_sprites.update()
+        self.tower_sprites.update()
+        self.draw_bullets()
+        self.draw_display()
+        self.draw_build_phase()
+        pygame.display.update()
+
+    def draw_map(self):
+        for i in range(len(self.way_points)-1):
+            pygame.draw.line(screen, (0, 255, 255), self.way_points[i], self.way_points[i+1], 64)
+            
     def start_wave(self):
         self.spawn_timer = Timer(250, self.spawn_enemy, repeat=self.current_wave * 5, autostart=True)
 
@@ -192,6 +187,7 @@ class TowerDefense():
 
     def run(self):
         while self.running:
+            self.clock.tick()
             self.handle_events()         
             self.move_enemies()
             self.update_towers()
