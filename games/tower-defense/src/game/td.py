@@ -8,11 +8,11 @@ from game.settings import *
 # TODO: add different types of enemy with different stats
 # TODO: add different types of tower
 
-# Task: refactoring
-# 1. organise the files to match our strucure - src/, main.py, settings.py, menu.py
-# 2. create the menu - same as every other game
-# 3. divide the code across a Menu class and a TowerDefense class
-# 4. create a handle_events() and draw_game()
+# Task: creating classes
+# class Enemy
+# class Tower
+# class Bullet ??
+# - replace lists with groups for the different sprites
 
 class TowerDefense():
     def __init__(self):
@@ -20,6 +20,7 @@ class TowerDefense():
         self.clock = pygame.time.Clock()
         self.building = True
         self.enemies = []
+        # self.enemy_sprites = pygame.group.enemy_sprites
         self.towers = []
         self.bullets = []
         self.spawn_queue = []
@@ -30,7 +31,6 @@ class TowerDefense():
         self.current_wave = 0
         self.spawn_delay = 60
         self.wave_complete = False
-        # fix bullets missing by making them slower and have them be homing
 
         self.way_points = [
             (0, WINDOW_HEIGHT / 1.1),
@@ -45,6 +45,16 @@ class TowerDefense():
             (WINDOW_WIDTH / 2, WINDOW_HEIGHT / 10),
             (WINDOW_WIDTH / 2, 0)
         ]
+
+    def draw_game(self):
+        screen.fill((0, 0, 0))
+        self.draw_map()
+        self.draw_enemies()
+        self.draw_tower()
+        self.draw_bullets()
+        self.draw_display()
+        self.draw_build_phase()
+        pygame.display.update()
 
     def draw_map(self):
         for i in range(len(self.way_points)-1):
@@ -190,22 +200,24 @@ class TowerDefense():
             self.enemies.append(self.spawn_queue.pop(0))
             self.spawn_timer = self.spawn_delay
 
+    def handle_events(self):
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                self.running = False
+            if event.type == pygame.MOUSEBUTTONDOWN and self.building:
+                mx, my = pygame.mouse.get_pos()
+                if WINDOW_WIDTH - 750 <= mx <= WINDOW_WIDTH - 250 and 20 <= my <= 120:
+                    self.building = False
+                    self.wave_complete = False
+                    self.start_wave(self.current_wave)
+                elif self.money >= self.cost:
+                    self.towers.append(self.spawn_tower(mx, my))
+                    self.money -= self.cost
+                    self.cost += 10
+
     def run(self):
         while self.running:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    self.running = False
-                if event.type == pygame.MOUSEBUTTONDOWN and self.building:
-                    mx, my = pygame.mouse.get_pos()
-                    if WINDOW_WIDTH - 750 <= mx <= WINDOW_WIDTH - 250 and 20 <= my <= 120:
-                        self.building = False
-                        self.wave_complete = False
-                        self.start_wave(self.current_wave)
-                    elif self.money >= self.cost:
-                        self.towers.append(self.spawn_tower(mx, my))
-                        self.money -= self.cost
-                        self.cost += 10
-            
+            self.handle_events()         
             self.move_enemies()
             self.update_towers()
             self.update_bullets()
@@ -215,11 +227,4 @@ class TowerDefense():
                 self.wave_complete = True
                 self.building = True
             
-            screen.fill((0, 0, 0))
-            self.draw_map()
-            self.draw_enemies()
-            self.draw_tower()
-            self.draw_bullets()
-            self.draw_display()
-            self.draw_build_phase()
-            pygame.display.update()
+            self.draw_game()
