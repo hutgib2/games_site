@@ -1,12 +1,5 @@
 import pygame
 
-# We want to have the option to run the timer a certain number of times
-# e.g. 5 times and then switch off
-
-# Think how we can make the time run a given number of times and then stop
-# HINT - repurpose the the repeat arg, to be the number of times to repeat
-# None == infinite 
-
 class Timer:
     def __init__(self, duration, func = None, repeat = 1, autostart = False):
         self.duration = duration

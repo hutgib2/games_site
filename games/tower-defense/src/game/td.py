@@ -1,6 +1,7 @@
 import math
 from game.settings import *
 from game.enemy import Enemy
+from game.tower import Tower
 from utils.timer import Timer
 
 # HOMEWORK
@@ -16,7 +17,7 @@ from utils.timer import Timer
 # TODO: add different types of tower
 
 # Task: creating classes
-# class Enemy
+# class Enemy (done)
 # class Tower
 # class Bullet ??
 # - replace lists with groups for the different sprites
@@ -27,7 +28,7 @@ class TowerDefense():
         self.clock = pygame.time.Clock()
         self.building = True
         self.enemy_sprites = pygame.sprite.Group()
-        self.towers = []
+        self.tower_sprites = pygame.sprite.Group()
         self.bullets = []
         self.spawn_queue = []
         self.cost = 100
@@ -56,7 +57,7 @@ class TowerDefense():
         screen.fill((0, 0, 0))
         self.draw_map()
         self.enemy_sprites.update()
-        self.draw_tower()
+        self.tower_sprites.update()
         self.draw_bullets()
         self.draw_display()
         self.draw_build_phase()
@@ -69,16 +70,9 @@ class TowerDefense():
     def spawn_enemy(self):
         Enemy([self.way_points[0][0], self.way_points[0][1]], self.current_wave*2, self.enemy_sprites)
 
-    def spawn_tower(self, x, y):
-        return {
-            'x': x,
-            'y': y, 
-            'range': WINDOW_WIDTH / 4,
-            'damage': 1,
-            'cooldown': 0,
-            'fire_rate': 16
-        }
-
+    def spawn_tower(self, pos):
+        Tower(pos, WINDOW_WIDTH / 4, 1, 0, 16, self.tower_sprites)
+        
     def move_enemies(self):
         # replace the indexing into a dict, with accessing the class attributes
         for enemy in self.enemy_sprites:
@@ -100,11 +94,6 @@ class TowerDefense():
                 enemy.pos[0] += (dx / dist) * enemy.speed
                 enemy.pos[1] += (dy / dist) * enemy.speed
 
-    def draw_tower(self):
-        for tower in self.towers[:]:
-            pygame.draw.rect(screen, (150, 150, 150), (tower['x']-32, tower['y']-32, 64, 64))
-            pygame.draw.circle(screen, (100, 100, 100), (tower['x'], tower['y']), tower['range'], 2)
-
     def draw_build_phase(self):
         if self.building:
             font = pygame.font.SysFont(None, 128)
@@ -117,7 +106,7 @@ class TowerDefense():
         # closest = None
         # closest_dist = tower['range']
         # for enemy in enemies:
-        #     dist = math.hypot(enemy['x'] - tower['x'], enemy['y'] - tower['y'])
+        #     dist = math.hypot(enemy['x'] - tower.pos[0], enemy['y'] - tower.pos[1])
         #     if dist < closest_dist:
         #         closest = enemy
         #         closest_dist = dist
@@ -125,26 +114,26 @@ class TowerDefense():
         furthest = None
         furthest_dist = -1
         for enemy in self.enemy_sprites:
-            dist = math.hypot(enemy.pos[0] - tower['x'], enemy.pos[1] - tower['y'])
-            if dist < tower['range']:
+            dist = math.hypot(enemy.pos[0] - tower.pos[0], enemy.pos[1] - tower.pos[1])
+            if dist < tower.range:
                 if enemy.target > furthest_dist:
                     furthest = enemy
                     furthest_dist = enemy.target
         return furthest
 
     def fire(self, tower, target):
-        dx = target.pos[0] - tower['x']
-        dy = target.pos[1] - tower['y']
+        dx = target.pos[0] - tower.pos[0]
+        dy = target.pos[1] - tower.pos[1]
         dist = math.hypot(dx, dy)
         self.bullets.append({
-            'x': tower['x'],
-            'y': tower['y'], 
+            'x': tower.pos[0],
+            'y': tower.pos[1], 
             'dx': dx / dist,
             'dy': dy / dist,
             'speed': 16,
-            'damage': tower['damage']   
+            'damage': tower.damage   
         })
-        tower['cooldown'] = tower['fire_rate']
+        tower.cooldown = tower.fire_rate
 
     def update_bullets(self):
         for bullet in self.bullets[:]:
@@ -165,9 +154,9 @@ class TowerDefense():
                     break
 
     def update_towers(self):
-        for tower in self.towers[:]:
-            if tower['cooldown'] > 0:
-                tower['cooldown'] -= 1
+        for tower in self.tower_sprites:
+            if tower.cooldown > 0:
+                tower.cooldown -= 1
                 continue
             target = self.get_target(tower)
             if target:
@@ -197,7 +186,7 @@ class TowerDefense():
                     self.wave_complete = False
                     self.start_wave()
                 elif self.money >= self.cost:
-                    self.towers.append(self.spawn_tower(mx, my))
+                    self.spawn_tower([mx, my])
                     self.money -= self.cost
                     self.cost += 10
 
