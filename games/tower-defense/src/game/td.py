@@ -11,18 +11,12 @@ from utils.async_clock import AsyncClock
 # find images for enemies, towers, bg image, map
 
 
-# TODO: reorganise the code into classes
+# TODO: reorganise the code into classes (done)
 # TODO: add images to game
 # TODO: show tower pos before placing
 # TODO: redo the map design
 # TODO: add different types of enemy with different stats
 # TODO: add different types of tower
-
-# Task: creating classes
-# class Enemy (done)
-# class Tower (done)
-# class Bullet ??
-# - replace lists with groups for the different sprites
 
 class TowerDefense():
     def __init__(self):
@@ -31,7 +25,6 @@ class TowerDefense():
         self.enemy_sprites = pygame.sprite.Group()
         self.tower_sprites = pygame.sprite.Group()
         self.bullet_sprites = pygame.sprite.Group()
-        self.bullets = []
         self.cost = 100
         self.spawn_timer = None
         self.money = 100
@@ -91,14 +84,6 @@ class TowerDefense():
             screen.blit(font.render(f'place tower: ${self.cost}', True, (255, 220, 0)), (33*WINDOW_WIDTH / 55, WINDOW_HEIGHT / 8))
 
     def get_target(self, tower):
-        # closest = None
-        # closest_dist = tower['range']
-        # for enemy in enemies:
-        #     dist = math.hypot(enemy['x'] - tower.pos[0], enemy['y'] - tower.pos[1])
-        #     if dist < closest_dist:
-        #         closest = enemy
-        #         closest_dist = dist
-        # return closest
         furthest = None
         furthest_dist = -1
         for enemy in self.enemy_sprites:
@@ -166,7 +151,7 @@ class TowerDefense():
     def draw_map(self):
         for i in range(len(self.way_points)-1):
             pygame.draw.line(screen, (0, 255, 255), self.way_points[i], self.way_points[i+1], 64)
-            
+
     def start_wave(self):
         self.spawn_timer = Timer(250, self.spawn_enemy, repeat=self.current_wave * 5, autostart=True)
 
